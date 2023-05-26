@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="app.js"></script>
+    <title>Wehrwolf Notizen</title>
+    <style>
+        #templates{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="datalists">
+        <datalist id="rolenames"></datalist>
+        <datalist id="playernames"></datalist>
+    </div>
+    <div id="content">
+        <input type="text" autocomplete="on" list="rolenames" placeholder="Rollenname" />
+        <input type="number" autocomplete="off" placeholder="Anzahl" />
+        <button onclick="addRole(this)">Hinzufügen</button>
+        <button onclick="doneWithRoles(this)">Weiter</button>
+        <p>Anzahl der Spieler: <span id="totalPlayerAmountIndicator">0</span></p>
+        <table border="1" id="roleOverview">
+            <thead>
+                <td>Name</td>
+                <td>N</td>
+                <td>Entfernen</td>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
