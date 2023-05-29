@@ -11,6 +11,12 @@
         #templates{
             display: none;
         }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
     </style>
 </head>
 
@@ -25,11 +31,11 @@
         <button onclick="addRole(this)">Hinzufügen</button>
         <button onclick="doneWithRoles(this)">Weiter</button>
         <p>Anzahl der Spieler: <span id="totalPlayerAmountIndicator">0</span></p>
-        <table border="1" id="roleOverview">
+        <table id="roleOverview">
             <thead>
-                <td>Name</td>
-                <td>N</td>
-                <td>Entfernen</td>
+                <th>Name</th>
+                <th>N</th>
+                <th>Entfernen</th>
             </thead>
             <tbody>
             </tbody>
