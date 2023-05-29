@@ -554,6 +554,7 @@ function firstNight(roleIndex){
 	}
 	catch (TypeError){
 		//Night is over
+		daytime();
 		return;
 	}
 		
@@ -818,6 +819,72 @@ function savePlayer(e){
 		playersInGame.push(new Player(entry.value, rolesInGame[roleIndex]));
 	}
 	drawNightSetup(form.forFirstNight, roleIndex + 1);
+}
+
+function daytime(){
+	content.innerHTML = daytimeTemplate;
+	var killProposals = [];
+	var loversCovered = false;
+	var pleasureGirlCovered = false;
+	for(var i = 0; i < attackedPlayers.length; i++){
+		var attackedPlayer = attackedPlayers[i];
+		var killProposal = null;
+		console.log("Attacked player: " + attackedPlayer.playerName);
+		for(var proposal of killProposals){
+			var proposedName = proposal.getElementsByClassName("victimName")[0];
+			if(proposedName.innerText == attackedPlayer.playerName) {
+				killProposal = proposal;
+				killProposal.getElementsByClassName("victimKiller")[0].innerText += " und " + attackedBy[i];
+			}
+		}
+		if(!killProposal){
+			killProposal = generateKillProposalListEntry(attackedPlayer, attackedBy[i]);
+			killProposals.push(killProposal);
+		}
+
+		if(pleasureGirlHost == attackedPlayer && !pleasureGirlCovered){
+			for(var player of playersInGame){
+				if(!player.role instanceof Pleasuregirl){
+					continue;
+				}
+				attackedPlayers.push(player);
+				attackedBy.push("Schlief bei " + attackedPlayer.playerName);
+				break;
+			}
+			pleasureGirlCovered = true;
+		}
+		if(attackedPlayer.inLove && !loversCovered){
+			for(var player of playersInGame){
+				if(!player.inLove || player == attackedPlayer){
+					continue;
+				}
+				attackedPlayers.push(player);
+				attackedBy.push("Verliebt in " + attackedPlayer.playerName);
+			}
+			loversCovered = true;
+		}
+	}
+	for(i in killProposals){
+		killProposals[i].id = "killProposal" + i;
+		killProposalUL.appendChild(killProposals[i]);
+	}
+	killProposalTemplate.remove();
+}
+
+function generateKillProposalListEntry(attackedPlayer, reason){
+	var output = killProposalTemplate.cloneNode(true);
+	output.getElementsByClassName("victimName")[0].innerText = attackedPlayer.playerName;
+	output.getElementsByClassName("victimKiller")[0].innerText = reason;
+	if(attackedPlayer.role){
+		output.getElementsByClassName("victimRole")[0].innerText = attackedPlayer.role.constructor.roleName;
+	}
+	
+	var protectionReasonIndex = protectedPlayers.indexOf(attackedPlayer);
+	if(protectionReasonIndex != -1){
+		output.getElementsByClassName("victimProtection")[0].innerText = protectionReasons[protectionReasonIndex];
+	}
+
+	return output;
 }
 
 function findPlayerByName(name, createIfNoMatch = true, role = null){
