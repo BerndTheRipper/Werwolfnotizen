@@ -122,7 +122,7 @@ class ToughGuy extends Role {
 class Bard extends Role {
 	static roleName = "Barde";
 	constructor(amount){
-		super(amount, 0, false);
+		super(amount, 1, false);
 	}
 }
 
@@ -304,7 +304,7 @@ function doneWithRoles(){
 		}
 	}
 	// alert("Bitte verteile nun die Karten.");
-	getBards();
+	drawNightSetup(true);
 }
 
 function removeRole(e){
@@ -325,28 +325,6 @@ function updatePlayerAmount(){
 		}
 	}
 	totalPlayerAmountIndicator.innerText = totalPlayers;
-}
-
-function getBards(){
-	var gameHasBard = false;
-	for(var role of rolesInGame){
-		if(role instanceof Bard){
-			gameHasBard = true;
-			//Draw Bard query
-			var stuffToAdd = "<p>Bitte gib hier die Namen der Barden ein.</p>";
-			stuffToAdd += "<form>";
-			for(var i = 0; i < role.amount; i++){
-				stuffToAdd += "<input type=\"text\" placeholder=\"Barde " + (i + 1) + "\" required><br>";
-			}
-			stuffToAdd += "<input type=\"submit\"></form>";
-			content.innerHTML = stuffToAdd;
-			document.getElementsByTagName("input")[0].focus();
-			document.getElementsByTagName("form")[0].addEventListener("submit", bardsEntered);
-			return;
-		}
-	}
-	drawNightSetup(true);
-	//Continue rest of game
 }
 
 function bardsEntered(e){
@@ -395,6 +373,9 @@ function firstNight(roleIndex){
 			roleSpecificIndicators.appendChild(createSkippingButton());
 			var form = roleSpecificIndicators.appendChild(getNameGivingForm(roleToWakeUp));
 			switch(rolesInGame[roleToWakeUp].constructor.roleName){
+				case "Barde":
+					document.getElementsByTagName("p")[0].innerText = "Bitte gib die Namen der Barden ein.";
+					form.onsubmit = savePlayer;
 				case "Freimaurer":
 				case "Harter Bursche":
 					//Take no additional action, just prevent default action
