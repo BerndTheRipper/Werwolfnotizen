@@ -364,16 +364,15 @@ function bardsEntered(e){
 	
 }
 
-function drawNightSetup(forFirstNight){
-	content.innerHTML = "";
-	content.innerHTML += "<p>Rolle zum Aufwecken: <span id=\"roleToWakeUpIndicator\"></span></p>";
+function drawNightSetup(forFirstNight, roleIndex = 0){
+	content.innerHTML = "<p>Rolle zum Aufwecken: <span id=\"roleToWakeUpIndicator\"></span></p>";
 	content.innerHTML += "<div id=\"roleSpecificIndicators\"></div>";
 	//content.innerHTML += "<button>Weiter</button>";
 	
 	if (forFirstNight)
-		firstNight(0);
+		firstNight(roleIndex);
 	else
-		otherNights(0);
+		otherNights(roleIndex);
 }
 
 function firstNight(roleIndex){
