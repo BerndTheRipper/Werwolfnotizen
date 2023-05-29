@@ -978,7 +978,7 @@ function createTestcase(){
 }
 
 function createTestcaseAllRoles(){
-	var button = document.getElementsByTagName("button")[0];
+	var button = document.querySelector("#content > button:nth-child(3)");
 	var rolename = document.querySelector("#content > input[type=text]:nth-child(1)");
 	var amount = document.querySelector("#content > input[type=number]:nth-child(2)");
 	for(i of Object.keys(roles)){
