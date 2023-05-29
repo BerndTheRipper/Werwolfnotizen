@@ -358,7 +358,7 @@ function bardsEntered(e){
 			}
 			console.log("hello");
 			e.preventDefault();
-			drawNightSetup(true);
+			drawNightSetup(true, parseInt(e.target.roleIndexOnSite.value) + 1);
 		}
 	}
 	
@@ -836,10 +836,7 @@ function savePlayer(e){
 		if(playerFound) continue;
 		playersInGame.push(new Player(entry.value, rolesInGame[roleIndex]));
 	}
-	if(form.forFirstNight)
-		firstNight(roleIndex + 1);
-	else
-		otherNights(roleIndex + 1);
+	drawNightSetup(form.forFirstNight, roleIndex + 1);
 }
 
 function findPlayerByName(name, createIfNoMatch = true, role = null){
