@@ -6,7 +6,28 @@ Possible additions:
 - improve test case creation
 - whitch who to heal connect nobody label to button
 */
-
+var daytimeTemplate = `<div id="daytimeTemplate">
+<p>Vorschläge zum töten:</p>
+<ul id="killProposalUL">
+	<li id="killProposalTemplate"><span class="victimName">Name</span> (Grund: <span
+			class="victimKiller">Mörder</span>, Rolle: <span class="victimRole">unbekannt</span>, Geschützt durch: <span class="victimProtection">Niemand</span> )</li>
+</ul>
+<button>Alle von der Liste</button>
+<table>
+	<thead>
+		<th>Name</th>
+		<th>Rolle</th>
+		<th>Töten</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Roland</td>
+			<td>unbekannt</td>
+			<td><button>Töten</button></td>
+		</tr>
+	</tbody>
+</table>
+</div>`;
 class Role {
 	//0 Not at all, 1: first night, 2: every night
 	calledAtNight;
