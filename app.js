@@ -15,31 +15,64 @@ var daytimeTemplate = `<div id="daytimeTemplate">
 <button>Alle von der Liste</button>
 <table>
 	<thead>
+		<th>N</th>
 		<th>Name</th>
 		<th>Rolle</th>
 		<th>Töten</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td>Roland</td>
+		<tr id="trTemplate">
+			<td>0</td>
 			<td>unbekannt</td>
-			<td><button>Töten</button></td>
+			<td>unbekannt</td>
+			<td><button style="width:100%;">Töten</button></td>
 		</tr>
 	</tbody>
 </table>
+<p>Rollen, deren Besitzer unbekannt ist </p>
+<ul id="lostRolesUL">
+	<li id="lostRoleTemplate"><span class="roleName">Keine</span> <span class="roleAmount"></span></li>
+</ul>
 </div>`;
 class Role {
 	//0 Not at all, 1: first night, 2: every night
 	calledAtNight;
 	amount;
+	#amountIdentified = 0;
 	evil;
 	//0 Can't, 1 once, 2 anytime morning, 3 anytime evening, 4 andy
 	canKill;
+	//The total amount of players obtained by adding up all roles that are in the game
+	static totalPlayersByRolesSum = 0;
 	constructor(amount, calledAtNight, evil, canKill = 0){
 		this.amount = amount;
 		this.calledAtNight = calledAtNight;
 		this.evil = evil;
 		this.canKill = canKill;
+	}
+	get amountIdentified(){
+		return this.#amountIdentified;
+	}
+	set amountIdentified(value){
+		try{
+			//TODO might add situation where role gets added to list
+			for(var child of lostRolesUL.children){
+				if(child.getElementsByClassName("roleName")[0].innerText != this.constructor.roleName){
+					continue;
+				}
+				if(value >= this.amount){
+					child.remove();
+					break;
+				}
+				child.getElementsByClassName("roleAmount")[0].innerText = "(" + this.amount - value + "x)";
+				break;
+			}
+		} catch (e){
+			if(!e instanceof ReferenceError)
+				throw e;
+		}
+		
+		this.#amountIdentified = value;
 	}
 }
 
@@ -200,12 +233,28 @@ class Mime extends Role {
 
 class Player{
 	playerName;
-	role;
+	#role;
 	inLove = false;
-	static totalPlayers;
+	static totalPlayersIdentified = 0;
 	constructor(playerName, role){
 		this.playerName = playerName;
 		this.role = role;
+		if(role != null){
+			role.amountIdentified++;
+		}
+		this.constructor.totalPlayers++;
+	}
+	get role(){
+		return this.#role;
+	}
+	set role(value){
+		if(this.#role != null){
+			this.#role.amountIdentified--;
+		}
+		this.#role = value;
+		if(value != null){
+			this.#role.amountIdentified++;
+		}
 	}
 }
 
@@ -256,6 +305,9 @@ var bannedByOldVettel;
 var pleasureGirlHost = null;
 
 var nightNumber = 1;
+
+var indexesMarkedForKill = [];
+var deadPlayers = [];
 
 //TODO test code, remove before calling it done
 var namelist = [];
@@ -325,6 +377,7 @@ function doneWithRoles(){
 		}
 	}
 	// alert("Bitte verteile nun die Karten.");
+	Role.totalPlayersByRolesSum = parseInt(totalPlayerAmountIndicator.innerText);
 	drawNightSetup(true);
 }
 
@@ -890,14 +943,63 @@ function daytime(){
 		killProposalUL.appendChild(killProposals[i]);
 	}
 	killProposalTemplate.remove();
+
+	var playerTableCounter = 1;
+	for(i in playersInGame){
+		var player = playersInGame[i];
+		var tr = trTemplate.cloneNode(true);
+		tr.id = "";
+		tr.children[0].innerText = playerTableCounter++;
+		tr.children[1].innerText = player.playerName;
+		if(player.role){
+			tr.children[2].innerText = player.role.constructor.roleName;
+		}
+		tr.children[3].children[0].setAttribute("playerIndex", i);
+		tr.children[3].children[0].onclick = markForKill;
+		document.getElementsByTagName("tbody")[0].appendChild(tr);
+	}
+	trTemplate.remove();
+
+	var lostRoleExists = false;
+	for(i in rolesInGame){
+		var role = rolesInGame[i];
+		if(role.amount <= role.amountIdentified){
+			continue;
+		}
+		lostRoleExists = true;
+		var li = lostRoleTemplate.cloneNode(true);
+		li.id="";
+		li.getElementsByClassName("roleName")[0].innerText = role.constructor.roleName;
+		li.getElementsByClassName("roleAmount")[0].innerText = "(" + (role.amount - role.amountIdentified) + "x)";
+		lostRolesUL.appendChild(li);
+	}
+	
+	if(lostRoleExists){
+		lostRoleTemplate.remove();
+	}
+}
+
+function markForKill(e){
+	var button = e.target;
+	var playerIndex = parseInt(button.getAttribute("playerIndex"));
+	if(indexesMarkedForKill.includes(playerIndex)){
+		indexesMarkedForKill = indexesMarkedForKill.filter(i => i != playerIndex);
+		button.innerText = "Töten";
+		return;
+	}
+	indexesMarkedForKill.push(playerIndex);
+	button.innerText = "Doch nicht töten";
 }
 
 function generateKillProposalListEntry(attackedPlayer, reason){
 	var output = killProposalTemplate.cloneNode(true);
-	output.getElementsByClassName("victimName")[0].innerText = attackedPlayer.playerName;
-	output.getElementsByClassName("victimKiller")[0].innerText = reason;
-	if(attackedPlayer.role){
-		output.getElementsByClassName("victimRole")[0].innerText = attackedPlayer.role.constructor.roleName;
+	if(attackedPlayer){
+		output.getElementsByClassName("victimName")[0].innerText = attackedPlayer.playerName;
+		output.getElementsByClassName("victimKiller")[0].innerText = reason;
+		if(attackedPlayer.role){
+			output.getElementsByClassName("victimRole")[0].innerText = attackedPlayer.role.constructor.roleName;
+		}
+		
 	}
 	
 	var protectionReasonIndex = protectedPlayers.indexOf(attackedPlayer);
