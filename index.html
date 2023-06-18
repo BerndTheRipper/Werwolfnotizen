@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="app.js"></script>
+    <!--<script src="app.js"></script>-->
     <title>Wehrwolf Notizen</title>
     <style>
         #templates{
@@ -26,22 +26,25 @@
         <datalist id="playernames"></datalist>
     </div>
     <div id="updateWarning"><b>Falls Du das hier siehst, rechne bitte mit mehr Fehlern als sonst, während ich hinter den Kulissen einen großen Umbau mache.</b></div>
-    <div id="content">
-        <input type="text" autocomplete="on" list="rolenames" placeholder="Rollenname" />
-        <input type="number" autocomplete="off" placeholder="Anzahl" />
-        <button onclick="addRole(this)">Hinzufügen</button>
-        <button onclick="doneWithRoles(this)">Weiter</button>
-        <p>Anzahl der Spieler: <span id="totalPlayerAmountIndicator">0</span></p>
-        <table id="roleOverview">
-            <thead>
-                <th>Name</th>
-                <th>N</th>
-                <th>Entfernen</th>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+    <div id="templates">
+        <div id="initialView">
+            <input type="text" autocomplete="on" list="rolenames" placeholder="Rollenname" />
+            <input type="number" autocomplete="off" placeholder="Anzahl" />
+            <button onclick="addRole(this)">+Hinzufügen</button>
+            <button onclick="doneWithRoles(this)">Weiter</button>
+            <p>Anzahl der Spieler: <span id="totalPlayerAmountIndicator">0</span></p>
+            <table id="roleOverview">
+                <thead>
+                    <th>Name</th>
+                    <th>N</th>
+                    <th>Entfernen</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <div id="view"></div>
 </body>
 
 </html>
