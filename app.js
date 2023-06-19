@@ -1,5 +1,14 @@
-var model = new Model();
+var model;
 
-var view = new Frontend(model);
+var frontend;
 
-var controller = new Controller(model, view);
+var controller;
+
+window.onload = ()=>{
+    model = new Model();
+
+    frontend = new Frontend(model);
+
+    controller = new Controller(model, frontend);
+    frontend.loadView(InitialView);
+}
