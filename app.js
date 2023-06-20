@@ -10,5 +10,5 @@ window.onload = ()=>{
     frontend = new Frontend(model);
 
     controller = new Controller(model, frontend);
-    frontend.loadView(InitialView);
+    frontend.loadView(InitialView, controller.eventHandlers[0]);
 }

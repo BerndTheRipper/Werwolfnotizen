@@ -12,8 +12,10 @@ class Frontend {
         this.viewElement = viewElement;
     }
 
-    loadView(view){
-        this.currentView = new view(model, this.viewElement);
+    // Event handlers takes in an array of event handlers. See the constructor
+    // to see which one goes where.
+    loadView(view, eventHandlers){
+        this.currentView = new view(model, this.viewElement, eventHandlers);
     }
 
     redraw(){
@@ -25,15 +27,25 @@ class Frontend {
 class View {
     model;
     viewElement;
-    constructor(model, viewElement){
+    eventHandlers;
+    constructor(model, viewElement, eventHandlers){
         if(!model instanceof Model){
             throw new TypeError("model parameter must be an instance of Model.");
         }
         if(!viewElement instanceof Element){
             throw new TypeError("viewElement parameter must be an instance of Element.");
         }
+        if(!eventHandlers instanceof Array){
+            throw new TypeError("eventHandlers parameter must be an instance of Array.");
+        }
+        for(var i in eventHandlers){
+            if(typeof eventHandlers[i] != "function"){
+                throw new TypeError("eventHandlers parameter must be an array of functions, but the element at index " + i + " is not.");
+            }
+        }
         this.model = model;
         this.viewElement = viewElement;
+        this.eventHandlers = eventHandlers;
         this.redraw();
     }
     redraw(){
@@ -50,10 +62,12 @@ class View {
 }
 
 class InitialView extends View{
-    constructor(model, viewElement){
-        super(model, viewElement);
+    constructor(model, viewElement, eventHandlers){
+        super(model, viewElement, eventHandlers);
         var htmlBase = document.getElementById("initialView").innerHTML;
         this.viewElement.innerHTML = htmlBase;
+        var form = this.viewElement.getElementsByTagName("form")[0];
+        form.onsubmit = eventHandlers[0];
     }
 
     //TODO add remove button
