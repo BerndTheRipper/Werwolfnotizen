@@ -39,15 +39,37 @@ class View {
     redraw(){
         throw new Error("The function redraw of the View class must be implemented.");
     }
+    _generateTableRows(amount){
+        var output = document.createElement("tr");
+        for(var i = 0; i < amount; i++){
+            var entry = document.createElement("td");
+            output.appendChild(entry);
+        }
+        return output;
+    }
 }
 
 class InitialView extends View{
     constructor(model, viewElement){
         super(model, viewElement);
-    }
-    redraw(){
         var htmlBase = document.getElementById("initialView").innerHTML;
         this.viewElement.innerHTML = htmlBase;
-        console.log(this.model);
+    }
+
+    //TODO add remove button
+    redraw(){
+        var element = this.viewElement;
+        for(var input of element.getElementsByTagName("input")){
+            if(input.type == "submit") continue;
+            input.value = "";
+        }
+        var roleData = this.model.getRoleData();
+        for(var i in roleData){
+            var tr = super._generateTableRows(3);
+            tr.children[0].innerText = roleData[i][0];
+            tr.children[1].innerText = roleData[i][1];
+            tr.children[2].innerText = "Remove button back soon.";
+            this.viewElement.getElementsByTagName("tbody")[0].appendChild(tr);
+        }
     }
 }
