@@ -49,6 +49,15 @@ class Model{
     constructor(){
         
     }
+
+    //TODO: Actually implement with role classes
+    addRole(roleName, amount){
+        this.roles.push([roleName, amount]);
+    }
+
+    getRoleData(){
+        return this.roles;
+    }
 }
 
 class KillProposal {
