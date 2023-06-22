@@ -109,7 +109,6 @@ class Rioter extends Role {
 	roleName = "Unruhestifterin";
 	constructor(amount){
 		super(amount, 2, false);
-		riot = 0;
 	}
 }
 
@@ -125,7 +124,6 @@ class ToughGuy extends Role {
 	roleName = "Harter Bursche";
 	constructor(amount){
 		super(amount, 1, false);
-		toughGuyAttacked = 0;
 	}
 }
 

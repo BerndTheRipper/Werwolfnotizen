@@ -68,8 +68,17 @@ class Model{
                 role.amount = amount;
                 return;
             }
+            var newRole = new roleClass(amount);
 
-            this.roles.push(new roleClass(amount));
+            if(newRole instanceof Rioter){
+                this.riot = 0;
+            } else if(newRole instanceof ToughGuy){
+                this.toughGuyAttacked = 0;
+            } else if(newRole instanceof Puppy){
+                this.pupKilled = 0;
+            }
+
+            this.roles.push(newRole);
             return;
         }
 
