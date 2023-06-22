@@ -18,7 +18,6 @@ class Controller {
     }
 
     //Event handlers for initial view:
-    //TODO: Input validation once roles are implemented
     addRoleEvent(e){
         e.preventDefault();
         try{
@@ -27,11 +26,11 @@ class Controller {
             controller.model.addRole(this.roleName.value, parseInt(this.roleAmount.value));
             controller.view.redraw();
         } catch(e){
-            // if(e instanceof ReferenceError){
-            //     alert(e.message);
-            // } else {
+            if(e instanceof ReferenceError){
+                alert(e.message);
+            } else {
                 throw e;
-            // }
+            }
         }
     }
 
