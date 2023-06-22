@@ -52,11 +52,36 @@ class Model{
 
     //TODO: Actually implement with role classes
     addRole(roleName, amount){
-        this.roles.push([roleName, amount]);
+        for(var iRoleName of Object.keys(Role.roleList)){
+            if(iRoleName != roleName){
+                continue;
+            }
+            
+            var roleClass = Role.roleList[roleName];
+
+            //See if there is already an entry for this role just update it
+            for(var role of this.roles){
+                if(!role instanceof roleClass){
+                    continue;
+                }
+
+                role.amount = amount;
+                return;
+            }
+
+            this.roles.push(new roleClass(amount));
+            return;
+        }
+
+        throw new ReferenceError("Ich kenne die Rolle " + roleName + " nicht.");
     }
 
     getRoleData(){
-        return this.roles;
+        var output = [];
+        for(var role of this.roles){
+            output.push([role.roleName, role.amount]);
+        }
+        return output;
     }
 }
 

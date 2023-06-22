@@ -21,7 +21,21 @@ class Controller {
     //TODO: Input validation once roles are implemented
     addRoleEvent(e){
         e.preventDefault();
-        controller.model.addRole(this.roleName.value, this.roleAmount.value);
-        controller.view.redraw();
+        try{
+            //This is an event handler for the form, to the this keyword refers to
+            //the form that triggered the event
+            controller.model.addRole(this.roleName.value, parseInt(this.roleAmount.value));
+            controller.view.redraw();
+        } catch(e){
+            // if(e instanceof ReferenceError){
+            //     alert(e.message);
+            // } else {
+                throw e;
+            // }
+        }
+    }
+
+    amountIdentifiedChanged(){
+        //Redraw if current view is daytime
     }
 }
