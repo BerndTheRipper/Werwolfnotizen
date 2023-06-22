@@ -3,7 +3,7 @@ class Controller {
     view;
     eventHandlers = [
         //Initial view event handlers
-        [this.addRoleEvent]
+        [this.addRoleEvent, this.removeRoleEvent]
     ];
     
     constructor(model, view){
@@ -32,6 +32,13 @@ class Controller {
                 throw e;
             }
         }
+    }
+
+    removeRoleEvent(e){
+        //                   button td element    tr element    td with name
+        var roleNameToRemove = this.parentElement.parentElement.children[0].innerText;
+        controller.model.removeRole(roleNameToRemove);
+        controller.view.redraw();
     }
 
     amountIdentifiedChanged(){

@@ -46,7 +46,6 @@ class View {
         this.model = model;
         this.viewElement = viewElement;
         this.eventHandlers = eventHandlers;
-        this.redraw();
     }
     redraw(){
         throw new Error("The function redraw of the View class must be implemented.");
@@ -68,6 +67,7 @@ class InitialView extends View{
         this.viewElement.innerHTML = htmlBase;
         var form = this.viewElement.getElementsByTagName("form")[0];
         form.onsubmit = eventHandlers[0];
+        this.redraw();
     }
 
     //TODO add remove button
@@ -77,12 +77,20 @@ class InitialView extends View{
             if(input.type == "submit") continue;
             input.value = "";
         }
+
+        this.viewElement.getElementsByTagName("tbody")[0].innerHTML = "";
         var roleData = this.model.getRoleData();
+        
         for(var i in roleData){
             var tr = super._generateTableRows(3);
             tr.children[0].innerText = roleData[i][0];
             tr.children[1].innerText = roleData[i][1];
-            tr.children[2].innerText = "Remove button back soon.";
+            
+            var removeButton = document.createElement("button");
+            removeButton.innerText = "Entfernen";
+            removeButton.onclick = this.eventHandlers[1];
+            tr.children[2].appendChild(removeButton);
+            
             this.viewElement.getElementsByTagName("tbody")[0].appendChild(tr);
         }
     }

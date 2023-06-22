@@ -76,6 +76,21 @@ class Model{
         throw new ReferenceError("Ich kenne die Rolle " + roleName + " nicht.");
     }
 
+    //Returns true if the role was found and removed
+    //Returns false if the role was never on the list
+    removeRole(roleName){
+        for(var i in this.roles){
+            if(this.roles[i].roleName != roleName){
+                console.log(roleName);
+                continue;
+            }
+
+            this.roles.splice(i, 1);
+            return true;
+        }
+        return false;
+    }
+
     getRoleData(){
         var output = [];
         for(var role of this.roles){
