@@ -61,7 +61,7 @@ class Model{
 
             //See if there is already an entry for this role just update it
             for(var role of this.roles){
-                if(!role instanceof roleClass){
+                if(!(role instanceof roleClass)){
                     continue;
                 }
 
@@ -104,6 +104,14 @@ class Model{
         var output = [];
         for(var role of this.roles){
             output.push([role.roleName, role.amount]);
+        }
+        return output;
+    }
+
+    getRoleNamesInGame(){
+        var output = [];
+        for(var role of this.roles){
+            output.push(role.roleName);
         }
         return output;
     }
