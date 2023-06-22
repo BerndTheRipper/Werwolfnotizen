@@ -11,4 +11,5 @@ window.onload = ()=>{
 
     controller = new Controller(model, frontend);
     frontend.loadView(InitialView, controller.eventHandlers[0]);
+    frontend.redoRoleNamesList();
 }

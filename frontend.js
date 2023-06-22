@@ -21,6 +21,21 @@ class Frontend {
     redraw(){
         this.currentView.redraw();
     }
+
+    redoRoleNamesList(){
+        var roleNamesInGame = model.getRoleNamesInGame();
+        var roleNameDataList = document.getElementById("rolenamesdatalist");
+        roleNameDataList.innerHTML = "";
+
+        for(var name of Object.keys(Role.roleList)){
+            if(roleNamesInGame.includes(name)){
+                continue;
+            }
+            var option = document.createElement("option");
+            option.value = name;
+            roleNameDataList.appendChild(option);
+        }
+    }
 }
 
 //A class to unite common traits of a view in
