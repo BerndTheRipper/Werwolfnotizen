@@ -85,7 +85,7 @@ class InitialView extends View{
         this.redraw();
     }
 
-    //TODO add remove button
+    
     redraw(){
         var element = this.viewElement;
         for(var input of element.getElementsByTagName("input")){

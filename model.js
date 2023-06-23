@@ -50,7 +50,7 @@ class Model{
         
     }
 
-    //TODO: Actually implement with role classes
+    
     addRole(roleName, amount){
         for(var iRoleName of Object.keys(Role.roleList)){
             if(iRoleName != roleName){
