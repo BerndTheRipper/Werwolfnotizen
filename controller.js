@@ -3,7 +3,7 @@ class Controller {
     view;
     eventHandlers = [
         //Initial view event handlers
-        [this.addRoleEvent, this.removeRoleEvent]
+        [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick]
     ];
     
     constructor(model, view){
@@ -40,6 +40,18 @@ class Controller {
         var roleNameToRemove = this.parentElement.parentElement.children[0].innerText;
         controller.model.removeRole(roleNameToRemove);
         controller.view.redoRoleNamesList();
+        controller.view.redraw();
+    }
+
+    moveUpRoleEvent(e){
+        var roleNameToMove = this.parentElement.parentElement.children[0].innerText;
+        controller.model.moveUpRole(roleNameToMove);
+        controller.view.redraw();
+    }
+
+    moveDownRoleEvent(e){
+        var roleNameToMove = this.parentElement.parentElement.children[0].innerText;
+        controller.model.moveDownRole(roleNameToMove);
         controller.view.redraw();
     }
 

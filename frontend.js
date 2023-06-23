@@ -97,14 +97,18 @@ class InitialView extends View{
         var roleData = this.model.getRoleData();
         
         for(var i in roleData){
-            var tr = super._generateTableRows(3);
+            var tr = super._generateTableRows(5);
             tr.children[0].innerText = roleData[i][0];
             tr.children[1].innerText = roleData[i][1];
             
-            var removeButton = document.createElement("button");
-            removeButton.innerText = "Entfernen";
-            removeButton.onclick = this.eventHandlers[1];
-            tr.children[2].appendChild(removeButton);
+            var buttonTexts = ["Entfernen", "Hoch", "Runter"];
+            for(var i = 0; i < 3; i++){
+                var moveButton = document.createElement("button");
+                moveButton.innerText = buttonTexts[i];
+                moveButton.onclick = this.eventHandlers[1 + i];
+                moveButton.style.width = "100%";
+                tr.children[2 + i].appendChild(moveButton);
+            }
             
             this.viewElement.getElementsByTagName("tbody")[0].appendChild(tr);
         }

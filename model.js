@@ -8,6 +8,7 @@ class Model{
     };
     //The roles that are in the game, listed in picking order
     roles = [];
+    #useDefaultRoleSorting = true;
     //The players that are in the game
     alivePlayers = [];
 
@@ -52,7 +53,8 @@ class Model{
 
     
     addRole(roleName, amount){
-        for(var iRoleName of Object.keys(Role.roleList)){
+        for(var i in Object.keys(Role.roleList)){
+            var iRoleName = Object.keys(Role.roleList)[i];
             if(iRoleName != roleName){
                 continue;
             }
@@ -78,7 +80,11 @@ class Model{
                 this.pupKilled = 0;
             }
 
-            this.roles.push(newRole);
+            if(this.useDefaultRoleSorting){
+                this.roles[i] = newRole;
+            } else {
+                this.roles.push(newRole);
+            }
             return;
         }
 
@@ -89,6 +95,7 @@ class Model{
     //Returns false if the role was never on the list
     removeRole(roleName){
         for(var i in this.roles){
+            if(this.roles[i] == null) continue;
             if(this.roles[i].roleName != roleName){
                 console.log(roleName);
                 continue;
@@ -100,9 +107,63 @@ class Model{
         return false;
     }
 
+    moveUpRole(roleName){
+        //Setting this will clean up any empty spaces
+        this.useDefaultRoleSorting = false;
+        
+        var roleIndex = this.getRoleIndexByName(roleName);        
+
+        //role is already on top of the list
+        if(roleIndex == 0){
+            return;
+        }
+
+
+        var temp = this.roles[roleIndex - 1];
+        this.roles[roleIndex - 1] = this.roles[roleIndex];
+        this.roles[roleIndex] = temp;
+    }
+
+    moveDownRole(roleName){
+        this.useDefaultRoleSorting = false;
+        
+        var roleIndex = this.getRoleIndexByName(roleName);        
+
+        //role is already on bottom of the list
+        if(roleIndex == this.roles.length - 1){
+            return;
+        }
+
+
+        var temp = this.roles[roleIndex + 1];
+        this.roles[roleIndex + 1] = this.roles[roleIndex];
+        this.roles[roleIndex] = temp;
+    }
+
+    getRoleIndexByName(roleName){
+        var output;
+
+        for(var i in this.roles){
+            if(this.roles[i] == null) continue;
+
+            if(this.roles[i].roleName == roleName){
+                output = i;
+                break;
+            }
+
+            //Search has reached the end of the list without a result
+            if(i == this.roles.length - 1){
+                throw new ReferenceError(roleName + " does not exist.");
+            }
+        }
+
+        return parseInt(output);
+    }
+
     getRoleData(){
         var output = [];
         for(var role of this.roles){
+            if(role == null) continue;
             output.push([role.roleName, role.amount]);
         }
         return output;
@@ -111,9 +172,40 @@ class Model{
     getRoleNamesInGame(){
         var output = [];
         for(var role of this.roles){
+            if(role == null) continue;
             output.push(role.roleName);
         }
         return output;
+    }
+
+    get useDefaultRoleSorting(){
+        return this.#useDefaultRoleSorting;
+    }
+
+    set useDefaultRoleSorting(value){
+        if(value == this.#useDefaultRoleSorting) return;
+        
+        this.#useDefaultRoleSorting = value;
+
+        if(value){
+            for(var i = 0; i < this.roles.length; i++){
+                var intendedIndex = Object.values(Role.roleList).indexOf(this.roles[i].constructor);
+
+                if(i == intendedIndex) continue;
+
+                var temp = this.roles[i];
+                this.roles[i] = this.roles[intendedIndex];
+                this.roles[intendedIndex] = temp;
+
+                if(this.roles[i] != null) i--;
+            }
+        } else {
+            for(var i = 0; i < this.roles.length; i++){
+                while(this.roles[i] == null){
+                    this.roles.splice(i, 1);
+                }
+            }
+        }
     }
 }
 
