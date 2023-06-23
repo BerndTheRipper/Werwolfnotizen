@@ -8,6 +8,7 @@ class Model{
     };
     //The roles that are in the game, listed in picking order
     roles = [];
+    playerAmountByRolesSum = 0;
     #useDefaultRoleSorting = true;
     //The players that are in the game
     alivePlayers = [];
@@ -67,7 +68,9 @@ class Model{
                     continue;
                 }
 
+                var amountDifference = amount - role.amount;
                 role.amount = amount;
+                this.playerAmountByRolesSum += amountDifference;
                 return;
             }
             var newRole = new roleClass(amount);
@@ -85,6 +88,8 @@ class Model{
             } else {
                 this.roles.push(newRole);
             }
+
+            this.playerAmountByRolesSum += amount;
             return;
         }
 
@@ -101,6 +106,7 @@ class Model{
                 continue;
             }
 
+            this.playerAmountByRolesSum -= this.roles[i].amount;
             this.roles.splice(i, 1);
             return true;
         }

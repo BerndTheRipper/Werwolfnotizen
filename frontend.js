@@ -119,5 +119,7 @@ class InitialView extends View{
 
         document.getElementById("defaultSortingCheckbox").checked = model.useDefaultRoleSorting;
         document.getElementById("defaultSortingCheckbox").onchange = this.eventHandlers[4];
+
+        this.viewElement.getElementsByClassName("totalPlayerAmountIndicator")[0].innerText = model.playerAmountByRolesSum;
     }
 }
