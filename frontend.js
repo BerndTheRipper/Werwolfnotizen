@@ -82,6 +82,10 @@ class InitialView extends View{
         this.viewElement.innerHTML = htmlBase;
         var form = this.viewElement.getElementsByTagName("form")[0];
         form.onsubmit = eventHandlers[0];
+
+        for(var input of viewElement.getElementsByTagName("input")){
+            if(input.type == "checkbox") input.id = input.getAttribute("tid");
+        }
         this.redraw();
     }
 
@@ -100,7 +104,7 @@ class InitialView extends View{
             var tr = super._generateTableRows(5);
             tr.children[0].innerText = roleData[i][0];
             tr.children[1].innerText = roleData[i][1];
-            
+
             var buttonTexts = ["Entfernen", "Hoch", "Runter"];
             for(var i = 0; i < 3; i++){
                 var moveButton = document.createElement("button");
@@ -109,8 +113,11 @@ class InitialView extends View{
                 moveButton.style.width = "100%";
                 tr.children[2 + i].appendChild(moveButton);
             }
-            
+
             this.viewElement.getElementsByTagName("tbody")[0].appendChild(tr);
         }
+
+        document.getElementById("defaultSortingCheckbox").checked = model.useDefaultRoleSorting;
+        document.getElementById("defaultSortingCheckbox").onchange = this.eventHandlers[4];
     }
 }

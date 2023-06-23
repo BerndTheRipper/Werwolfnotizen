@@ -55,6 +55,11 @@ class Controller {
         controller.view.redraw();
     }
 
+    checkboxOnClick(e){
+        controller.model.useDefaultRoleSorting = this.checked;
+        controller.view.redraw();
+    }
+
     amountIdentifiedChanged(){
         //Redraw if current view is daytime
     }
