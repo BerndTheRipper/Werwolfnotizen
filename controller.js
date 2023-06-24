@@ -1,9 +1,12 @@
 class Controller {
     model;
+    //TODO rename to frontend to avoid confusion
     view;
     eventHandlers = [
         //Initial view event handlers
-        [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick]
+        [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick, this.doneWithRoles],
+        //Night view
+        []
     ];
     
     constructor(model, view){
@@ -58,6 +61,11 @@ class Controller {
     checkboxOnClick(e){
         controller.model.useDefaultRoleSorting = this.checked;
         controller.view.redraw();
+    }
+
+    doneWithRoles(e){
+        controller.model.startFirstNight();
+        controller.view.loadView(NightView, controller.eventHandlers[1]);
     }
 
     amountIdentifiedChanged(){

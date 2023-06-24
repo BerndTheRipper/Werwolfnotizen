@@ -10,8 +10,9 @@ class Model{
     roles = [];
     playerAmountByRolesSum = 0;
     #useDefaultRoleSorting = true;
+    currentRoleToWakeUp = 0;
     //The players that are in the game
-    alivePlayers = [];
+    identifiedPlayers = [];
 
     //The protected players
     protectedPlayers = [];
@@ -182,6 +183,18 @@ class Model{
             output.push(role.roleName);
         }
         return output;
+    }
+
+    startFirstNight(){
+        //Doing this to get rid of null entries in this.roles
+        this.useDefaultRoleSorting = false;
+        for(this.currentRoleToWakeUp; !this.roles[this.currentRoleToWakeUp].calledAtNight; this.currentRoleToWakeUp++);
+        this.nightNumber = 1;
+    }
+
+    startNight(){
+        for(this.currentRoleToWakeUp; this.roles[this.currentRoleToWakeUp].calledAtNight == 2; this.currentRoleToWakeUp++);
+        this.nightNumber++;
     }
 
     get useDefaultRoleSorting(){

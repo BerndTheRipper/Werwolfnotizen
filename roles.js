@@ -7,6 +7,7 @@ class Role {
     evil;
     //0 Can't, 1 once, 2 anytime morning, 3 anytime evening, 4 andy
     canKill;
+	targetText = "Target Text placeholder";
     static totalPlayersByRolesSum = 0;
     
     //Gets filled at bottom of file

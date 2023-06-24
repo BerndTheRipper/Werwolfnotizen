@@ -37,7 +37,7 @@
                 <input type="number" autocomplete="off" name="roleAmount" placeholder="Anzahl" />
                 <input type="submit" value="Hinzufügen">
             </form>
-            <button onclick="doneWithRoles(this)">Weiter</button>
+            <button>Weiter</button>
             <p>Anzahl der Spieler: <span class="totalPlayerAmountIndicator">0</span></p>
             <input type="checkbox" tid="defaultSortingCheckbox">
             <label for="defaultSortingCheckbox">Standardsortierung</label><br>
@@ -52,6 +52,16 @@
                 <tbody>
                 </tbody>
             </table>
+        </div>
+        <div id="nightView">
+            <p>Rolle zum Aufwecken: <span class="roleToWakeUpIndicator"></span></p>
+            <div>
+                <form class="roleSpecificIndicators">
+                    <div class="identSection"></div>
+                    <div class="targetSection"></div>
+                    <input type="submit" value="Weiter">
+                </form>
+            </div>
         </div>
     </div>
     <div id="view"></div>
