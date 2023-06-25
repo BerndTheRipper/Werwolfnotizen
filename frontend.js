@@ -91,6 +91,7 @@ class View {
             var element = document.createElement("input");
             element.type = "text";
             element.placeholder = roleName + " " + (i + 1);
+            element.setAttribute("oldindex", "-1");
             output.push(element);
 
             output.push(document.createElement("br"));

@@ -14,6 +14,8 @@ class Model{
     //The players that are in the game
     identifiedPlayers = [];
 
+    //The targets (contains another array with first element being a player object and second element being the role that targets the player)
+    targets = []
     //The protected players
     protectedPlayers = [];
     //The reasons they were protected
@@ -197,6 +199,38 @@ class Model{
         this.nightNumber++;
     }
 
+    identifyPlayers(names, indexes, currentRole = this.roles[this.currentRoleToWakeUp]){
+        for(var i = 0; i < indexes.length; i++){
+            indexes[i] = parseInt(indexes[i]);
+        }
+
+        for(var i in names){
+            if(indexes[i] == -1){
+                this.addPlayer(names[i], currentRole);
+            } else {
+                this.identifiedPlayers[indexes[i]].playerName = names[i];
+                this.identifiedPlayers[indexes[i]].role = currentRole;
+            }
+        }
+    }
+
+    enterTarget(...names){
+        var currentRole = this.roles[this.currentRoleToWakeUp];
+        for(var name of names){
+            var playerFound = false;
+            
+            for(var player in this.identifiedPlayers){
+                if(player.playerName != name) continue;
+                playerFound = true;
+                this.targets.push([player, currentRole]);
+            }
+        }
+    }
+
+    addPlayer(name, role){
+        this.identifiedPlayers.push(new Player(name, role));
+    }
+
     get useDefaultRoleSorting(){
         return this.#useDefaultRoleSorting;
     }
@@ -227,6 +261,36 @@ class Model{
             }
         }
     }
+}
+
+//Copy/pasted from legacy codebase, has optimizations
+class Player{
+	playerName;
+	#role;
+	inLove = false;
+    dead = false;
+	static totalPlayersIdentified = 0;
+	constructor(playerName, role){
+		this.playerName = playerName;
+		this.role = role;
+		if(role != null){
+			role.amountIdentified++;
+		}
+		this.constructor.totalPlayers++;
+	}
+	get role(){
+		return this.#role;
+	}
+	set role(value){
+        if(this.#role == value) return;
+		if(this.#role != null){
+			this.#role.amountIdentified--;
+		}
+		this.#role = value;
+		if(value != null){
+			this.#role.amountIdentified++;
+		}
+	}
 }
 
 class KillProposal {

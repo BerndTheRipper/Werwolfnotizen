@@ -6,7 +6,7 @@ class Controller {
         //Initial view event handlers
         [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick, this.doneWithRoles],
         //Night view
-        []
+        [this.wakeUpNextRole]
     ];
     
     constructor(model, view){
@@ -70,8 +70,24 @@ class Controller {
 
     wakeUpNextRole(e){
         e.preventDefault();
+        var form = e.target;
+        var playerNames = [];
+        var oldIndexes = [];
+        var inputElements = form.querySelectorAll(".identSection>input");
+        for(var element of inputElements){
+            playerNames.push(element.value);
+            oldIndexes.push(element.getAttribute("oldindex"));
+        }
+
+        var targetElements = form.querySelectorAll(".targetSection>input");
+        var targetNames = [];
+
+        for(var element of targetElements){
+            targetNames.push(element.value);
+        }
+        
+        controller.model.identifyPlayers(playerNames, oldIndexes);
         controller.model.currentRoleToWakeUp++;
-        //TODO handle inputs
         controller.view.redraw();
     }
 
