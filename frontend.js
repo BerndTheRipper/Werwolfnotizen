@@ -92,6 +92,8 @@ class View {
             element.type = "text";
             element.placeholder = roleName + " " + (i + 1);
             output.push(element);
+
+            output.push(document.createElement("br"));
         }
 
         if(amount == 1){
@@ -109,6 +111,7 @@ class View {
             element.placeholder = targetText + " " + (i + 1);
             element.required = true;
             output.push(element);
+            output.push(document.createElement("br"));
         }
 
         if(amount == 1){
