@@ -68,6 +68,13 @@ class Controller {
         controller.view.loadView(NightView, controller.eventHandlers[1]);
     }
 
+    wakeUpNextRole(e){
+        e.preventDefault();
+        controller.model.currentRoleToWakeUp++;
+        //TODO handle inputs
+        controller.view.redraw();
+    }
+
     amountIdentifiedChanged(){
         //Redraw if current view is daytime
     }

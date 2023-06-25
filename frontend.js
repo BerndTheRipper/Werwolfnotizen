@@ -188,7 +188,7 @@ class NightView extends View{
         var formBase = document.getElementsByClassName("roleSpecificIndicators")[0].innerHTML;
 
         form.innerHTML = formBase;
-        //TODO assign event handler to next button
+        form.onsubmit = this.eventHandlers[0];
 
         var identSection = form.getElementsByClassName("identSection")[0];
         var targetSection = form.getElementsByClassName("targetSection")[0];
