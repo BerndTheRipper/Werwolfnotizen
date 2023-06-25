@@ -182,7 +182,7 @@ class NightView extends View{
     redraw(){
         var currentRole = this.model.roles[this.model.currentRoleToWakeUp];
         var form = this.viewElement.getElementsByClassName("roleSpecificIndicators")[0];
-        var formBase = document.getElementsByClassName("roleSpecificIndicators")[0];
+        var formBase = document.getElementsByClassName("roleSpecificIndicators")[0].innerHTML;
 
         form.innerHTML = formBase;
         //TODO assign event handler to next button
@@ -190,7 +190,6 @@ class NightView extends View{
         var identSection = form.getElementsByClassName("identSection")[0];
         var targetSection = form.getElementsByClassName("targetSection")[0];
 
-        form.innerHTML = "";
         this.viewElement.getElementsByClassName("roleToWakeUpIndicator")[0].innerText = currentRole.roleName;
         
         //Checks if rols is fake
@@ -199,6 +198,13 @@ class NightView extends View{
         } else {
             this.#addPlayerIdent(currentRole, identSection);
             switch(currentRole.roleName){
+                //Rollen, welche einfach nur identifiziert werden müssen
+                case "Barde":
+                case "Freimaurer":
+                case "Harter Bursche":
+                    //Für die wurde das nötige bereits gemacht, weshalb bei denen einfach nur
+                    //der default Case verhindert wird.
+                    break;
                 //Rollen, welche ein ziel haben und nichts anderes:
                 case "Wehrwolf":
                     //TODO implement pup killed
@@ -209,6 +215,7 @@ class NightView extends View{
                 case "Vampir":
                 case "Andy":
                 case "Alte Vettel":
+                    this.#addPlayerTarget(currentRole.targetText, targetSection);
                 case "Hexe":
                     //TODO implement healing and fence off from the above roles
                     if(currentRole.canPoison){
@@ -231,20 +238,18 @@ class NightView extends View{
                     alert("noch nicht implementiert");
             }
         }
-        
-        this.viewElement.getElementsByClassName("roleSpecificIndicators")[0].appendChild(this._generateSubmitButton());
     }
 
     #addPlayerIdent(currentRole, addTo){
         var nameInputFields = this._generatePlayerNameInput(currentRole);
-        for(inputField of nameInputFields){
-            addTo.appendChild(inpuptField);
+        for(var inputField of nameInputFields){
+            addTo.appendChild(inputField);
         }
     }
     #addPlayerTarget(targetText, addTo, amount = 1){
         var targetInputFields = this._generateTargetNameInput(targetText, amount);
-        for(inputField of targetInputFields){
-            addTo.appendChild(inpuptField);
+        for(var inputField of targetInputFields){
+            addTo.appendChild(inputField);
         }
     }
 
