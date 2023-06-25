@@ -208,6 +208,7 @@ class Model{
 
         if(value){
             for(var i = 0; i < this.roles.length; i++){
+                if(this.roles[i] == null) continue;
                 var intendedIndex = Object.values(Role.roleList).indexOf(this.roles[i].constructor);
 
                 if(i == intendedIndex) continue;
