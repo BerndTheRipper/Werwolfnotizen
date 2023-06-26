@@ -223,14 +223,18 @@ class Model{
     }
 
     addPlayer(name, role){
+        var output;
         for(var player of this.identifiedPlayers){
             if(player.playerName != name) {
                 continue;
             }
             player.role = role;
-            return;
+            output = player;
+            return output;
         }
+        output = new Player(name, role);
         this.identifiedPlayers.push(new Player(name, role));
+        return output;
     }
 
     get useDefaultRoleSorting(){
