@@ -83,7 +83,7 @@ class Controller {
         var targetNames = [];
 
         for(var element of targetElements){
-            targetNames.push(element.value);
+            controller.model.enterTarget(element.value);
         }
         
         controller.model.identifyPlayers(playerNames, oldIndexes);
