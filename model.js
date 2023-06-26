@@ -222,6 +222,17 @@ class Model{
         }
     }
 
+    findPlayerByName(name, addIfNone = true, role = null){
+        for(var player of this.identifiedPlayers){
+            if(player.playerName != name) continue;
+            return player;
+        }
+        if(addIfNone){
+            return this.addPlayer(name, null);
+        }
+        return null;
+    }
+
     addPlayer(name, role){
         var output;
         for(var player of this.identifiedPlayers){
