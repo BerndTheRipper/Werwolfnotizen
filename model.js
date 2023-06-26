@@ -212,13 +212,7 @@ class Model{
     enterTarget(...names){
         var currentRole = this.roles[this.currentRoleToWakeUp];
         for(var name of names){
-            var playerFound = false;
-            
-            for(var player in this.identifiedPlayers){
-                if(player.playerName != name) continue;
-                playerFound = true;
-                this.targets.push([player, currentRole]);
-            }
+            this.targets.push([this.findPlayerByName(name), currentRole]);
         }
     }
 
