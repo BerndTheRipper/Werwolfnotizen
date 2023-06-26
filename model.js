@@ -205,12 +205,7 @@ class Model{
         }
 
         for(var i in names){
-            if(indexes[i] == -1){
-                this.addPlayer(names[i], currentRole);
-            } else {
-                this.identifiedPlayers[indexes[i]].playerName = names[i];
-                this.identifiedPlayers[indexes[i]].role = currentRole;
-            }
+            this.addPlayer(names[i], currentRole);
         }
     }
 
@@ -228,6 +223,13 @@ class Model{
     }
 
     addPlayer(name, role){
+        for(var player of this.identifiedPlayers){
+            if(player.playerName != name) {
+                continue;
+            }
+            player.role = role;
+            return;
+        }
         this.identifiedPlayers.push(new Player(name, role));
     }
 
