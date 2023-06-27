@@ -246,7 +246,7 @@ class NightView extends View{
                 //TODO make it so she only gets woken up when she actually can cause a riot
                 case "Unruhestifterin":
                     //TODO add question if riot should be started
-                    radioButtons = this.#generateRadioButtons(["Unruhe", "Keine Unruhe"], "causeRiot", ["yes", "no"], 1);
+                    var radioButtons = this.#generateRadioButtons(["Unruhe", "Keine Unruhe"], "causeRiot", ["yes", "no"], 1);
                     
                     for(var element of radioButtons){
                         targetSection.appendChild(element);
@@ -291,6 +291,9 @@ class NightView extends View{
             label.innerText = labels[i];
             label.setAttribute("for", "radioElement" + values[i]);
             output.push(label);
+
+            output.push(document.createElement("br"));
         }
+        return output;
     }
 }

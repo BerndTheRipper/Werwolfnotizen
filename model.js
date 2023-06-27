@@ -245,9 +245,8 @@ class Model{
 
         if(output == null){
             output = new Player(name, role);            
+	        this.identifiedPlayers.push(output);
         }
-        
-        this.identifiedPlayers.push(output);
         
         return output;
     }
