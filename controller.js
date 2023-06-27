@@ -82,6 +82,11 @@ class Controller {
         var targetNames = [];
 
         for(var element of targetElements){
+            if(controller.model.currentRole instanceof Witch){
+                //TODO handle witch input when I get there
+                controller.model.enterTarget(element.value, true);
+                continue;
+            }
             controller.model.enterTarget(element.value);
         }
         

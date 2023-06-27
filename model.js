@@ -14,7 +14,7 @@ class Model{
     //The players that are in the game
     identifiedPlayers = [];
 
-    //The targets (contains another array with first element being a player object and second element being the role that targets the player)
+    //The targets (contains another array with first element being a player object and second element being the role that targets the player. If the role is witch, a third element indicates whether it is for healing or not)
     targets = []
     //The protected players
     protectedPlayers = [];
@@ -211,6 +211,11 @@ class Model{
 
     enterTarget(...names){
         var currentRole = this.roles[this.currentRoleToWakeUp];
+        if(currentRole instanceof Witch){
+            for(var i = 0; i < names.length; i += 2){
+                this.targets.push([this.findPlayerByName(names[i]), currentRole, names[i+1]]);
+            }
+        }
         for(var name of names){
             this.targets.push([this.findPlayerByName(name), currentRole]);
         }
