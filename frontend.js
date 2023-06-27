@@ -20,6 +20,11 @@ class Frontend {
 
     redraw(){
         this.currentView.redraw();
+        if(this.currentView instanceof InitialView){
+            this.redoRoleNamesList();
+        } else if(this.currentView instanceof NightView){
+            this.redoPlayerNamesList();
+        }
     }
 
     redoRoleNamesList(){
@@ -31,10 +36,21 @@ class Frontend {
             if(roleNamesInGame.includes(name)){
                 continue;
             }
-            var option = document.createElement("option");
-            option.value = name;
-            roleNameDataList.appendChild(option);
+            this.addOptionToDataList(roleNameDataList, name);
         }
+    }
+
+    redoPlayerNamesList(){
+        var datalist = document.getElementById("playernames");
+        for(var player of this.model.identifiedPlayers){
+            this.addOptionToDataList(datalist, player.playerName);
+        }
+    }
+
+    addOptionToDataList(datalist, value){
+        var option = document.createElement("option");
+        option.value = value;
+        datalist.appendChild(option);
     }
 }
 

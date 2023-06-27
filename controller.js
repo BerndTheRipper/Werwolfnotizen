@@ -28,7 +28,6 @@ class Controller {
             //the form that triggered the event
             controller.model.addRole(this.roleName.value, parseInt(this.roleAmount.value));
             controller.view.redraw();
-            controller.view.redoRoleNamesList();
         } catch(e){
             if(e instanceof ReferenceError){
                 alert(e.message);
