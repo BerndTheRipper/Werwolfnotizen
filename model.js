@@ -235,10 +235,15 @@ class Model{
             }
             player.role = role;
             output = player;
-            return output;
+            break;
         }
-        output = new Player(name, role);
+
+        if(output == null){
+            output = new Player(name, role);            
+        }
+        
         this.identifiedPlayers.push(output);
+        
         return output;
     }
 
