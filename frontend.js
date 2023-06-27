@@ -238,7 +238,23 @@ class NightView extends View{
                 case "Alte Vettel":
                     this.#addPlayerTarget(currentRole.targetText, targetSection);
                 case "Hexe":
-                    //TODO implement healing and fence off from the above roles
+                    //TODO Test this code
+                    if(currentRole.canHeal){
+                        var attackVictimLabels = ["Niemand"];
+                        var attackVictimNames = ["Niemand"];
+                        for(var target in this.model.targets){
+                            if(!(target[1] instanceof Werewolf) && !(target[1] instanceof Vampire) && !(target[1] instanceof ToughGuy)  && !(target[1] instanceof CrocodileAndy)){
+                                continue;
+                            }
+                            attackVictimLabels.push(target[0].playerName + "(Rolle: " + target[0].role.roleName + ", Angreifer: " + target[1].roleName);
+                            attackVictimNames.push(target[0].playerName);
+                        }
+                        var radioButtons = this.#generateRadioButtons(attackVictimLabels, "healTargets", attackVictimNames, 0);
+
+                        for(var element of radioButtons){
+                            targetSection.appendChild(element);
+                        }
+                    }
                     if(currentRole.canPoison){
                         this.#addPlayerTarget(currentRole.targetText, targetSection);
                     }
