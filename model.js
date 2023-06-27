@@ -238,7 +238,7 @@ class Model{
             return output;
         }
         output = new Player(name, role);
-        this.identifiedPlayers.push(new Player(name, role));
+        this.identifiedPlayers.push(output);
         return output;
     }
 
