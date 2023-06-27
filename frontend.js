@@ -127,6 +127,7 @@ class View {
             element.type = "text";
             element.placeholder = targetText + " " + (i + 1);
             element.required = true;
+            element.setAttribute("list", "playernames");
             output.push(element);
             output.push(document.createElement("br"));
         }
