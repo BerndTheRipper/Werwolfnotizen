@@ -42,6 +42,7 @@ class Frontend {
 
     redoPlayerNamesList(){
         var datalist = document.getElementById("playernames");
+        datalist.innerHTML = "";
         for(var player of this.model.identifiedPlayers){
             this.addOptionToDataList(datalist, player.playerName);
         }
@@ -126,7 +127,7 @@ class View {
             var element = document.createElement("input");
             element.type = "text";
             element.placeholder = targetText + " " + (i + 1);
-            element.required = true;
+            element.name = "target" + i;
             element.setAttribute("list", "playernames");
             output.push(element);
             output.push(document.createElement("br"));

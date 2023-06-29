@@ -74,20 +74,27 @@ class Controller {
         var oldIndexes = [];
         var inputElements = form.querySelectorAll(".identSection>input");
         for(var element of inputElements){
+            if(playerNames.value == "" || element.type != "text") continue;
             playerNames.push(element.value);
             oldIndexes.push(element.getAttribute("oldindex"));
         }
 
         var targetElements = form.querySelectorAll(".targetSection>input");
-        var targetNames = [];
-
-        for(var element of targetElements){
-            if(controller.model.currentRole instanceof Witch){
-                //TODO handle witch input when I get there
-                controller.model.enterTarget(element.value, true);
-                continue;
+        
+        if(controller.model.roles[controller.model.currentRoleToWakeUp] instanceof Witch){
+            //TODO handle witch input when I get there
+            //First checks if healTargets exists and then checks for the value
+            if(form.healTargets && form.healTargets.value != "Niemand"){
+                controller.model.enterTarget(form.healTargets.value, true);
             }
-            controller.model.enterTarget(element.value);
+            
+            if(form.target0 && form.target0.value != ""){
+                controller.model.enterTarget(form.target0.value, false);
+            }
+        } else {
+            for(var element of targetElements){
+                controller.model.enterTarget(element.value);
+            }
         }
         
         controller.model.identifyPlayers(playerNames, oldIndexes);

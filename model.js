@@ -215,6 +215,7 @@ class Model{
             for(var i = 0; i < names.length; i += 2){
                 this.targets.push([this.findPlayerByName(names[i]), currentRole, names[i+1]]);
             }
+            return;
         }
         for(var name of names){
             this.targets.push([this.findPlayerByName(name), currentRole]);
@@ -293,9 +294,6 @@ class Player{
 	constructor(playerName, role){
 		this.playerName = playerName;
 		this.role = role;
-		if(role != null){
-			role.amountIdentified++;
-		}
 		this.constructor.totalPlayers++;
 	}
 	get role(){
