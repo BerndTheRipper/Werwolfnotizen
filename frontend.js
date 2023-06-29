@@ -246,13 +246,13 @@ class NightView extends View{
                             if(!(target[1] instanceof Werewolf) && !(target[1] instanceof Vampire) && !(target[1] instanceof ToughGuy)  && !(target[1] instanceof CrocodileAndy)){
                                 continue;
                             }
-                            attackLabel = target[0].playerName + "(Rolle: ";
+                            var attackLabel = target[0].playerName + " (Rolle: ";
                             if(target[0].role == null){
                                 attackLabel += "Unbekannt";
                             } else {
                                 attackLabel += target[0].role.roleName;
                             }
-                            attacklabel += ", Angreifer: " + target[1].roleName;
+                            attackLabel += ", Angreifer: " + target[1].roleName + ")";
                             attackVictimLabels.push(attackLabel);
                             attackVictimNames.push(target[0].playerName);
                         }
