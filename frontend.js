@@ -238,8 +238,8 @@ class NightView extends View{
                 case "Andy":
                 case "Alte Vettel":
                     this.#addPlayerTarget(currentRole.targetText, targetSection);
+                    break;
                 case "Hexe":
-                    //TODO Test this code
                     if(currentRole.canHeal){
                         var attackVictimLabels = ["Niemand"];
                         var attackVictimNames = ["Niemand"];
@@ -267,9 +267,12 @@ class NightView extends View{
                         this.#addPlayerTarget(currentRole.targetText, targetSection);
                     }
                     break;
-                //TODO make it so she only gets woken up when she actually can cause a riot
                 case "Unruhestifterin":
                     //TODO add question if riot should be started
+                    if(this.model.riot == 2){
+                        targetSection.innerHTML = "Bereits für Unruhe gesorgt.";
+                        break;
+                    }
                     var radioButtons = this.#generateRadioButtons(["Unruhe", "Keine Unruhe"], "causeRiot", ["yes", "no"], 1);
                     
                     for(var element of radioButtons){
@@ -277,7 +280,13 @@ class NightView extends View{
                     }
                     break;
                 case "Seherin":
-                    //TODO Seherin implementieren.
+                    //TODO test code
+                    var list = [];
+                    for(var player of this.model.identifiedPlayers){
+                        if(!player.role || !player.role.evil) continue;
+                        list.push(player.name + " (Rolle: " + player.role.roleName + ")");
+                    }
+                    this.#generateUlFromArray(list, targetSection);
                     break;
                 default:
                     alert("noch nicht implementiert");
@@ -319,5 +328,13 @@ class NightView extends View{
             output.push(document.createElement("br"));
         }
         return output;
+    }
+
+    #generateUlFromArray(array, parent){
+        for(string of array){
+            var ul = document.createElement("ul");
+            ul.innerHTML = string;
+            parent.appendChild(ul);
+        }
     }
 }
