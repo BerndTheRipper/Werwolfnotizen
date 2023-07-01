@@ -235,7 +235,7 @@ class NightView extends View{
                 case "Leibwächter":
                 case "Freudenmädchen":
                 case "Vampir":
-                case "Andy":
+                case "Crocodile Andy":
                 case "Alte Vettel":
                     this.#addPlayerTarget(currentRole.targetText, targetSection);
                     break;
@@ -284,7 +284,7 @@ class NightView extends View{
                     var list = [];
                     for(var player of this.model.identifiedPlayers){
                         if(!player.role || !player.role.evil) continue;
-                        list.push(player.name + " (Rolle: " + player.role.roleName + ")");
+                        list.push(player.playerName + " (Rolle: " + player.role.roleName + ")");
                     }
                     this.#generateUlFromArray(list, targetSection);
                     break;
@@ -331,7 +331,7 @@ class NightView extends View{
     }
 
     #generateUlFromArray(array, parent){
-        for(string of array){
+        for(var string of array){
             var ul = document.createElement("ul");
             ul.innerHTML = string;
             parent.appendChild(ul);
