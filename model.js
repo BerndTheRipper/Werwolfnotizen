@@ -320,11 +320,60 @@ class Player{
 class KillProposal {
     // The player that is to be killed
     player;
-    // The reason for the kill. Described with a string like werewolf or lover
+    // The reason for the kill. Described with an array of strings like werewolf or lover
     // of x
-    killer;
+    #killers = [];
     // Is the player under someone's protection?
-    protector = null;
+    #protectors = [];
     // Protection valid
-    valid = true;
+    protectionHolds = false;
+    
+    constructor(player){
+        this.player = player;
+    }
+
+    getKillers(){
+        return this.#killers;
+    }
+
+    addKiller(killer){
+        if(killer instanceof Role){
+            this.#killers.push(killer.roleName);
+        } else {
+            this.#killers.push(killer);
+        }
+    }
+
+    getProtectors(){
+        return this.#protectors;
+    }
+
+    addProtector(protector){
+        if(!(this.#killers instanceof CrocodileAndy) && this.#killers instanceof Role && protector != null){
+            this.protectionHolds = true;
+        }
+
+        this.#protectors.push(protector);
+    }
+
+    isProtected(){
+        if(this.#protectors.length == 0) return false;
+        //If Andy or Hunter are among the attackers or the attacker is no role, no protection holds up
+        for(var killer of this.#killers){
+            if(killer instanceof CrocodileAndy || killer instanceof Hunter || !(killer instanceof Role)){
+                return false;
+            }
+        }
+
+        //If none of the previous checks ended the function, the player's protection is holding up.
+        return true;
+    }
+
+    acceptByDefault(){
+        for(var killer of this.#killers){
+            if(killer instanceof CrocodileAndy)
+                return false;
+        }
+        return !this.isProtected();
+    }
 }
