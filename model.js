@@ -41,6 +41,12 @@ class Model{
     // The player the pleasuregirl stays at
     pleasureGirlHost = null;
 
+    //Player that is blessed by the priest
+    blessedPlayer = null;
+
+    // The person the old Vettel banned
+    bannedByOldVettel = null;
+
     nightNumber = 0;
 
     // The players that die today. Will be populated after the night taking
@@ -256,6 +262,142 @@ class Model{
         }
         
         return output;
+    }
+
+    //TODO test this hunk
+    calculateKillProposalsFromTargets(){
+        this.processTargets();
+
+        this.calculatePermanentProtections();
+        
+        //Find protected players from the killProposals, handle lovers and pleasureGirlHost
+        var doneWithLovers = false;
+        for(var proposal of killProposals){
+            if(proposal.player == null) continue;
+
+            for(var i in this.protectedPlayers){
+                if(this.protectedPlayers[i] == proposal.player){
+                    proposal.addProtector(this.protectionReasons[i]);
+                }
+            }
+
+            if(proposal.player.inLove && !doneWithLovers){
+                for(var player of this.identifiedPlayers){
+                    if(!player.inLove || player == proposal.player){
+                        continue;
+                    }
+
+                    this.addKillerToProposal(player, "Verliebt in " + proposal.player.playerName);
+                    break;
+                }
+            }
+
+            if(proposal.player == this.pleasureGirlHost){
+                for(var player of this.identifiedPlayers){
+                    if(!(player instanceof Pleasuregirl)) continue;
+                    if(proposal.protectionHolds()) break;
+                    this.addKillerToProposal(player, "Freudenmädchen bei " + proposal.player.playerName);
+                    break;
+                }
+            }
+        }
+    }
+    
+    processTargets(){
+        for(var target of this.targets){
+            //Attacking targets
+            if(target[1] instanceof Werewolf || target[1] instanceof CrocodileAndy || target[1] instanceof Vampire || target[1] instanceof ToughGuy){
+                var killProposal = new KillProposal(target[0]);
+                killProposal.addKiller(target[1]);
+                this.killProposals.push(killProposal);
+            }
+            else if(target[1] instanceof Amor){
+                this.lovers.push(target[0]);
+                target[0].inLove = true;
+            }
+            else if(target[1] instanceof Priest){
+                if(target[0] instanceof Vampire){
+                    var killProposal = new KillProposal(target[0]);
+                    killProposal.addKiller(target[1]);
+                    this.killProposals.push(killProposal);
+                }
+                else{
+                    this.blessedPlayer = target[0];
+                }
+            }
+            else if(target[1] instanceof Guardian){
+                this.protectedPlayers.push(target[0]);
+                this.protectionReasons.push(target[1]);
+            }
+            else if(target[1] instanceof OldVettel){
+                this.bannedByOldVettel = target[0];
+                this.protectedPlayers.push(target[0]);
+                this.protectionReasons.push(target[1]);
+            }
+            else if(target[1] instanceof Pleasuregirl){
+                this.pleasureGirlHost = target[0];
+            }
+            else if(target[1] instanceof Witch){
+                if(target[2]){
+                    this.protectedPlayers.push(target[0]);
+                    this.protectionReasons.push(target[1]);
+                    target[1].canHeal = false;
+                }
+                else{
+                    var killProposal = new KillProposal(target[0]);
+                    killProposal.addKiller(target[1]);
+                    this.killProposals.push(killProposal);
+                    target[1].canPoison = false;
+                }
+            }
+        }
+    }
+    
+    calculatePermanentProtections() {
+        if (this.blessedPlayer != null) {
+            this.protectedPlayers.push(blessedPlayer);
+            var priestIndex = 0;
+            //Find the index of the priest
+            for (; !(this.roles[priestIndex] instanceof Priest) && priestIndex < this.roles.length; priestIndex++);
+
+            this.protectionReasons.push(this.roles[priestIndex]);
+        }
+
+        for (var player of this.identifiedPlayers) {
+            if (!(player.role instanceof Pleasuregirl)) {
+                continue;
+            }
+
+            this.protectedPlayers.push(player);
+            this.protectionReasons.push(player.role);
+        }
+    }
+
+    //TODO add hunter target proposals
+
+    addKillerToProposal(player, killer, ignoreLovers = false){
+        if(player != null){
+            if(player.inLove && !ignoreLovers){
+                for(var lover of this.identifiedPlayers){
+                    if(!lover.inLove || lover == player) continue;
+                    this.addKillerToProposal(lover, "Verliebt in " + player.playerName, true);
+                    break;
+                }
+            }
+
+            for(var proposal of this.killProposals){
+                if(proposal.player == player){
+                    proposal.addKiller(killer);
+                    return;
+                }                
+            }
+            
+        }
+
+        var newProposal = new KillProposal(player);
+        newProposal.addKiller(killer);
+        this.killProposals.push(newProposal);
+        
     }
 
     get useDefaultRoleSorting(){

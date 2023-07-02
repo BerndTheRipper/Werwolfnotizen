@@ -100,6 +100,10 @@ class Controller {
         controller.model.identifyPlayers(playerNames, oldIndexes);
 
         controller.model.wakeUpNextRole();
+        if(controller.model.currentRoleToWakeUp >= controller.model.roles.length){
+            controller.model.calculateKillProposalsFromTargets();
+            
+        }
         controller.view.redraw();
     }
 
