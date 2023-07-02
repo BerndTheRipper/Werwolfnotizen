@@ -41,7 +41,7 @@ class Model{
     // The player the pleasuregirl stays at
     pleasureGirlHost = null;
 
-    nightNumber = 1;
+    nightNumber = 0;
 
     // The players that die today. Will be populated after the night taking
     // into account the protection status of the player
@@ -190,15 +190,21 @@ class Model{
     startFirstNight(){
         //Doing this to get rid of null entries in this.roles
         this.useDefaultRoleSorting = false;
-        for(this.currentRoleToWakeUp; !this.roles[this.currentRoleToWakeUp].calledAtNight; this.currentRoleToWakeUp++);
-        this.nightNumber = 1;
+        this.startNight();
     }
-
+    
     startNight(){
-        for(this.currentRoleToWakeUp; this.roles[this.currentRoleToWakeUp].calledAtNight == 2; this.currentRoleToWakeUp++);
+        this.currentRoleToWakeUp = 0;
+        this.wakeUpNextRole();
         this.nightNumber++;
     }
-
+    
+    wakeUpNextRole(){
+        var getsCalled = 1;
+        if(this.nightNumber != 1) getsCalled++;
+        for(this.currentRoleToWakeUp; !this.roles[this.currentRoleToWakeUp].calledAtNight >= getsCalled; this.currentRoleToWakeUp++);
+    }
+    
     identifyPlayers(names, indexes, currentRole = this.roles[this.currentRoleToWakeUp]){
         for(var i = 0; i < indexes.length; i++){
             indexes[i] = parseInt(indexes[i]);

@@ -98,7 +98,8 @@ class Controller {
         }
         
         controller.model.identifyPlayers(playerNames, oldIndexes);
-        controller.model.currentRoleToWakeUp++;
+
+        controller.model.wakeUpNextRole();
         controller.view.redraw();
     }
 
