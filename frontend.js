@@ -100,7 +100,7 @@ class View {
 
     //TODO add feature where pre-existing player-name-data is already shown
     //TODO turn the following two functions into wrappers
-    _generatePlayerNameInput(role){
+    _generatePlayerNameInputFromRole(role){
         var roleName = role.roleName;
         var amount = role.amount;
         var output = [];
@@ -138,6 +138,11 @@ class View {
         }
 
         return output;
+    }
+    
+    _generatePlayerNameInput(){
+        var output = document.createElement("input");
+        
     }
 }
 
@@ -297,7 +302,7 @@ class NightView extends View{
     }
 
     #addPlayerIdent(currentRole, addTo){
-        var nameInputFields = this._generatePlayerNameInput(currentRole);
+        var nameInputFields = this._generatePlayerNameInputFromRole(currentRole);
         for(var inputField of nameInputFields){
             addTo.appendChild(inputField);
         }
@@ -338,5 +343,50 @@ class NightView extends View{
             ul.innerHTML = string;
             parent.appendChild(ul);
         }
+    }
+}
+
+class DayView extends View{
+    constructor(model, viewElement, eventHandlers){
+        super(model, viewElement, eventHandlers);
+        var htmlBase = document.getElementById("dayView").innerHTML;
+        this.viewElement.innerHTML = htmlBase;
+        //Set mayor name event handler
+        this.redraw();
+    }
+
+    redraw(){
+        var element = this.viewElement;
+        
+        //Mayor section:
+        var mayorSection = element.getElementsByClassName("mayorSection")[0];
+        if(this.model.mayor != null){
+            mayorSection.getElementsByClassName("mayorName")[0].value = this.model.mayor.playerName;
+            if(this.model.mayor.role != null){
+                mayorSection.getElementsByClassName("mayorName")[0].innerText = this.model.mayor.role.roleName;
+            }
+        }
+
+        //Kill proposals section
+        var killProposalSection = element.getElementsByClassName("killProposalSection")[0];
+        var killPoposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
+        killPoposalTbody.innerHTML = "";
+        for(var proposal of this.model.killProposals){
+            var tr = this._generateTableRows(7);
+            tr[0].innerHTML = this.#generateCheckbox(proposal.acceptByDefault(), false);
+            if(proposal.player == null){
+                this._generatePlayerNameInputFromRole
+            }
+            tr[1].innerText = proposal.player.playerName;
+        }
+    }
+
+    #generateCheckbox(checked, disabled, onchange = null){
+        var output = document.createElement("input");
+        output.type = "checkbox";
+        output.checked = checked;
+        output.disabled = disabled;
+        output.onchange = onchange;
+        return output;
     }
 }

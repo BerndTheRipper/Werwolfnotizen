@@ -44,6 +44,9 @@ class Model{
     //Player that is blessed by the priest
     blessedPlayer = null;
 
+    // The mayor that decides who dies in case of a draw
+    mayor = null;
+
     // The person the old Vettel banned
     bannedByOldVettel = null;
 
