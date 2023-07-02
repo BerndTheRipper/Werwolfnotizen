@@ -228,9 +228,11 @@ class NightView extends View{
                     //der default Case verhindert wird.
                     break;
                 //Rollen, welche ein ziel haben und nichts anderes:
+                case "Amor":
+                    this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+                    break;
                 case "Wehrwolf":
                     //TODO implement pup killed
-                case "Amor":
                 case "Priester":
                 case "Leibwächter":
                 case "Freudenmädchen":
