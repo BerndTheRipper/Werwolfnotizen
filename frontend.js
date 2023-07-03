@@ -198,6 +198,8 @@ class InitialView extends View{
         document.getElementById("defaultSortingCheckbox").onchange = this.eventHandlers[4];
 
         this.viewElement.getElementsByClassName("totalPlayerAmountIndicator")[0].innerText = model.playerAmountByRolesSum;
+        var form = this.viewElement.getElementsByTagName("form")[0];
+        form.roleName.focus();
     }
 }
 
@@ -303,6 +305,7 @@ class NightView extends View{
                     alert("noch nicht implementiert");
             }
         }
+        identSection.getElementsByTagName("input")[0].focus();
     }
 
     #addPlayerIdent(currentRole, addTo){
