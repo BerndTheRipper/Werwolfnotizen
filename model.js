@@ -477,24 +477,40 @@ class KillProposal {
         this.player = player;
     }
 
-    getKillers(){
-        return this.#killers;
+    getKillersAsString(){
+        var output = [];
+        for(var killer of this.#killers){
+            if(killer instanceof Role){
+                output.push(killer.roleName);
+                continue;
+            }
+            output.push(killer);
+        }
+        return output;
     }
 
     addKiller(killer){
-        if(killer instanceof Role){
-            this.#killers.push(killer.roleName);
-        } else {
-            this.#killers.push(killer);
-        }
+        this.#killers.push(killer);
     }
 
-    getProtectors(){
+    getProtectorsAsString(){
+        var output = [];
+        for(var protector of this.#protectors){
+            if(protector instanceof Role){
+                output.push(protector.roleName);
+                continue;
+            }
+            output.push(protector);
+        }
         return this.#protectors;
     }
 
     addProtector(protector){
-        if(!(this.#killers instanceof CrocodileAndy) && this.#killers instanceof Role && protector != null){
+        for(var killer of this.#killers){
+            if(killer instanceof CrocodileAndy || !(killer instanceof Role) || protector == null){
+                this.protectionHolds = false;
+                break;
+            }
             this.protectionHolds = true;
         }
 
