@@ -211,7 +211,9 @@ class Model{
     wakeUpNextRole(){
         var getsCalled = 1;
         if(this.nightNumber != 1) getsCalled++;
-        for(this.currentRoleToWakeUp; !this.roles[this.currentRoleToWakeUp].calledAtNight >= getsCalled; this.currentRoleToWakeUp++);
+        do{
+            this.currentRoleToWakeUp++;
+        } while(this.roles[this.currentRoleToWakeUp] != null && this.roles[this.currentRoleToWakeUp].calledAtNight < getsCalled);
     }
     
     identifyPlayers(names, indexes, currentRole = this.roles[this.currentRoleToWakeUp]){
