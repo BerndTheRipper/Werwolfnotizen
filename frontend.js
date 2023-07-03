@@ -378,13 +378,37 @@ class DayView extends View{
         var killProposalSection = element.getElementsByClassName("killProposalSection")[0];
         var killPoposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
         killPoposalTbody.innerHTML = "";
-        for(var proposal of this.model.killProposals){
+        for(var i in this.model.killProposals){
+            var proposal = this.model.killProposals[i];
             var tr = this._generateTableRows(7);
-            tr[0].innerHTML = this.#generateCheckbox(proposal.acceptByDefault(), false);
+            tr[0].innerHTML.appendChild(this.#generateCheckbox(proposal.acceptByDefault(), false));
             if(proposal.player == null){
-                this._generatePlayerNameInputFromRole
+                //TODO make role auto-update
+                var input = this._generatePlayerNameInput("poposal" + i, "Playername unset");
+                tr[1].innerHTML.appendChild(input);
+            } else {
+                tr[1].innerText = proposal.player.playerName;
             }
-            tr[1].innerText = proposal.player.playerName;
+
+            if(proposal.player.role == null){
+                tr[2].innerText = "Unbekannt";
+            }else{
+                tr[2].innerText = proposal.player.role.roleName;
+            }
+
+            for(var killer of proposal.getKillersAsString()){
+                tr[3].innerText += killer + "; ";
+            }
+
+            for(var protector of proposal.getProtectorsAsString()){
+                tr[4].innerText += protector;
+            }
+
+            var protectedCheckbox = this.#generateCheckbox(proposal.isProtected(), true);
+            tr[5].innerHTML.appendChild(protectedCheckbox);
+
+            var acceptCheckbox = this.#generateCheckbox(proposal.acceptByDefault(), false, null);
+            tr[6].innerHTML.appendChild(acceptCheckbox);
         }
     }
 
