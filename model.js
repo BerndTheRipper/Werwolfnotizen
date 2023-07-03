@@ -277,7 +277,7 @@ class Model{
         
         //Find protected players from the killProposals, handle lovers and pleasureGirlHost
         var doneWithLovers = false;
-        for(var proposal of killProposals){
+        for(var proposal of this.killProposals){
             if(proposal.player == null) continue;
 
             for(var i in this.protectedPlayers){
