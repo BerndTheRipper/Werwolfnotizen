@@ -140,9 +140,13 @@ class View {
         return output;
     }
     
-    _generatePlayerNameInput(){
+    _generatePlayerNameInput(name, placeholder){
         var output = document.createElement("input");
-        
+        output.type = "text";
+        output.name = name;
+        output.placeholder = placeholder;
+        output.setAttribute("list", "playernames");
+        return output;
     }
 }
 
