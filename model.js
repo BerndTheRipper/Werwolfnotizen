@@ -312,9 +312,7 @@ class Model{
         for(var target of this.targets){
             //Attacking targets
             if(target[1] instanceof Werewolf || target[1] instanceof CrocodileAndy || target[1] instanceof Vampire || target[1] instanceof ToughGuy){
-                var killProposal = new KillProposal(target[0]);
-                killProposal.addKiller(target[1]);
-                this.killProposals.push(killProposal);
+                this.addKillerToProposal(target[0], target[1]);
             }
             else if(target[1] instanceof Amor){
                 this.lovers.push(target[0]);
@@ -322,9 +320,7 @@ class Model{
             }
             else if(target[1] instanceof Priest){
                 if(target[0] instanceof Vampire){
-                    var killProposal = new KillProposal(target[0]);
-                    killProposal.addKiller(target[1]);
-                    this.killProposals.push(killProposal);
+                    this.addKillerToProposal(target[0], target[1]);
                 }
                 else{
                     this.blessedPlayer = target[0];
@@ -349,9 +345,7 @@ class Model{
                     target[1].canHeal = false;
                 }
                 else{
-                    var killProposal = new KillProposal(target[0]);
-                    killProposal.addKiller(target[1]);
-                    this.killProposals.push(killProposal);
+                    this.addKillerToProposal(target[0], target[1]);
                     target[1].canPoison = false;
                 }
             }
