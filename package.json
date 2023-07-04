@@ -1,0 +1,14 @@
+{
+  "name": "wehrwolfnotizen",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest-puppeteer": "^9.0.0"
+  },
+  "dependencies": {
+    "jest": "^29.6.0"
+  }
+}
