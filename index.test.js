@@ -5,9 +5,10 @@ const timeout = 5000;
 
 //This code exists merely so I can have intellisense while refering to globalThis.__BROWSER_GLOBAL__
 //It makes the types be set to puppeteer.Browser and puppeteer.Page
-// var browser = await puppeteer.launch({headless:"new"});
-// var page = await browser.newPage();
-var browser = globalThis.__BROWSER_GLOBAL__;
+var browser = await puppeteer.launch({headless:"new"});
+var page = await browser.newPage();
+// var browser = globalThis.__BROWSER_GLOBAL__;
+// var page;
 
 beforeAll(async () => {
     page = await browser.newPage();
