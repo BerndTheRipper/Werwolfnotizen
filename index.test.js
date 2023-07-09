@@ -15,37 +15,109 @@ beforeAll(async () => {
     await page.goto('http://localhost:8000');
 }, timeout);
 
-describe(
-    'Initial View loading properly',
-    () => {
+var roleNamesFromObject;
+var roleNamesFromDatalist;
+var roleNamesInGame;
+describe("Role Datalist", ()=>{
+    test("Role datalist + model role list matches object from role file without duplicates", async () => {
+        roleNamesFromObject = await page.evaluate(() => Object.keys(Role.roleList));
+        await redoRolesDatalist();
+        await redoRolesInGame();
+        alreadySeen = [];
         
-        it('should load without error', async () => {
+        for(var role of roleNamesFromDatalist){
+            expect(alreadySeen).not.toContain(role);
+            expect(roleNamesFromObject).toContain(role);
+            alreadySeen.push(role);
+        }
+
+        for(var role of roleNamesInGame){
+            expect(alreadySeen).not.toContain(role);
+            expect(roleNamesFromObject).toContain(role);
+            alreadySeen.push(role);
+        }
+
+        for(var role of roleNamesFromObject){
+            expect(alreadySeen).toContain(role);
+        }
+    });
+});
+
+describe(
+    'Initial View functioning properly',
+    () => {
+        test('Adding roles', async () => {
+            roleNamesFromObject = await page.evaluate(() => Object.keys(Role.roleList));
+            var nonMatchName = "afkljeasg";
+            expect(roleNamesFromObject).not.toContain(nonMatchName);
             
-            const text = await page.evaluate(() => document.body.textContent);
+            await addAllRolesOnce();
+            
+            const gameModel = await page.evaluate(() => model);
+            var totalPlayers = 0;
+
+            for(var i = 1; i <= gameModel.roles.length; i++){
+                var nameTd = await page.evaluate((i) => document.querySelector(`#roleOverview > tbody > tr:nth-child(${i}) > td`).innerText, i);
+                var amountTd = await page.evaluate((i) => document.querySelector(`#roleOverview > tbody > tr:nth-child(${i}) > td:nth-child(2)`).innerText, i);
+                expect(nameTd).toBe(gameModel.roles[i-1].roleName);
+                expect(parseInt(amountTd)).toBe(gameModel.roles[i-1].amount);
+                totalPlayers += gameModel.roles[i-1].amount;
+            }
+
             const roleInputElement = await page.waitForSelector("#view > form > input[type=text]:nth-child(1)");
             const amountInputElement = await page.waitForSelector("#view > form > input[type=number]:nth-child(2)");
-            const testResults = await page.evaluate(() => {
-                let output = [];
-                
-                let view = document.querySelector("#view");
-                output.push(view.querySelector("input").autocomplete == "off");
+            
 
-                return output;
-            });
-            const model = await page.evaluate(()=> model);
-            page.click(roleInputElement);
-            page.type(roleInputElement, "Barde");
+        }, timeout);
+        
+        test.todo("Removing roles");
 
-            page.click(amountInputElement);
-            page.type(amountInputElement, "2");
-            // page.keyboard.press("Enter");
-            // page.click(inputElement, {clickCount: 1});
-            // console.log(inputElement.placeholder);
-            expect(typeof text).not.toBe('function');
-            for(var i = 0; i < testResults.length; i++){
-                expect(testResults[i]).not.toBe(false);
-            }
-        });
+        test.todo("Changing role order");
+
+        test.todo("Disabling default sorting");
+
+        test.todo("Enabling default sorting with holes in final list");
+
+        test.todo("Enabling default sorting without holes in final list");
+
+        test.todo("Testing player counter");
     },
     timeout,
 );
+
+async function redoRolesDatalist(){
+    roleNamesFromDatalist = await page.evaluate(() => {
+        var output = [];
+        var datalist = document.querySelector("#rolenamesdatalist");
+        for(var child of datalist.children){
+            output.push(child.value);
+        }
+        return output;
+    });
+}
+
+async function redoRolesInGame(){
+    roleNamesInGame = await page.evaluate(() => {
+        var output = [];
+        for(var role of model.roles){
+            output.push(role.roleName);
+        }
+        return output;
+    })
+}
+
+async function addAllRolesOnce(){
+    const roleInputElement = await page.waitForSelector("#view > form > input[type=text]:nth-child(1)");
+    const amountInputElement = await page.waitForSelector("#view > form > input[type=number]:nth-child(2)");
+    await redoRolesDatalist();
+    for(var name of roleNamesFromDatalist){
+        await roleInputElement.click();
+        await roleInputElement.type(name, {delay:0});
+        
+        await amountInputElement.click();
+        await amountInputElement.type("1");
+        
+        await page.keyboard.press("Enter");
+        
+    }
+}
