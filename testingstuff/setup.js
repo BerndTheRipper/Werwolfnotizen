@@ -7,7 +7,8 @@ const fs = require("fs/promises");
 const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 
 module.exports = async function () {
-    var file = await fs.open("./index.test.js", "r+");
+    console.log("setup");
+    var file = await fs.open("./testingstuff/index.test.js", "r");
     var lines = "";
     for await (const line of file.readLines({autoClose:true})){
         if(line.startsWith("var browser = await") || line.startsWith("var page = await")){
@@ -21,7 +22,7 @@ module.exports = async function () {
         }
     }
 
-    file = await fs.open("./index.test.js", "w")
+    file = await fs.open("./testingstuff/index.test.js", "w")
     await file.truncate(0);
     await file.writeFile(lines);
     await file.close();

@@ -1,5 +1,5 @@
 module.exports = {
-    globalSetup: './setup.js',
-    globalTeardown: './teardown.js',
-    testEnvironment: './puppeteer_environment.js',
+    globalSetup: './testingstuff/setup.js',
+    globalTeardown: './testingstuff/teardown.js',
+    testEnvironment: './testingstuff/puppeteer_environment.js',
 };
