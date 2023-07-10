@@ -7,7 +7,6 @@ const fs = require("fs/promises");
 const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 
 module.exports = async function () {
-    console.log("setup");
     var file = await fs.open("./testingstuff/index.test.js", "r");
     var lines = "";
     for await (const line of file.readLines({autoClose:true})){
