@@ -534,3 +534,7 @@ class KillProposal {
         return !this.isProtected();
     }
 }
+
+module.exports.Model = Model;
+module.exports.Player = Player;
+module.exports.KillProposal = KillProposal;
