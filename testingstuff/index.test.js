@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const {Model, Player, KillProposal} = require("./../public/model");
 
 
 const timeout = 5000;
@@ -84,6 +85,90 @@ describe(
     },
     timeout,
 );
+
+describe("Model functioning propoerly", () => {
+    describe("addRole function", ()=>{
+        test.todo("Adding role");
+    
+        test.todo("Adding role with unknown role name");
+    
+        test.todo("Adding role with wrong amount");
+    
+        test.todo("Adding roles with activatable abilities resets counter");
+    
+        test.todo("playerAmountByRolesSum adding up properly");
+
+        test.todo("passing no argument to function");
+    });
+
+    describe("removeRole function", () => {
+        test.todo("removing a role");
+
+        test.todo("passing existing role that is not in the game to function");
+
+        test.todo("passing non-existing role to function");
+
+        test.todo("passing no argument to function");
+    });
+    
+    describe("getRoleIndexByName", () => {
+        test.todo("getting role indexes for each role");
+
+        test.todo("passing role name that's not ingame");
+
+        test.todo("passing completely invalid role name");
+        
+        test.todo("passing completely invalid type");
+
+        test.todo("passing no argument to function");
+
+        test.todo("passing no argument to function");
+    });
+
+    describe("moveUpRole function", () => {
+        test.todo("moving up a role");
+
+        test.todo("passing role thats not ingame");
+
+        test.todo("passing rolename thats unknown to the game");
+
+        test.todo("passing role that's already on top of the list");
+
+        test.todo("passing invalid argument to rolename");
+
+        test.todo("passing no argument to function");
+    });    
+    
+    describe("moveDownRole function", () => {
+        test.todo("moving down a role");
+
+        test.todo("passing role thats not ingame");
+
+        test.todo("passing rolename thats unknown to the game");
+
+        test.todo("passing role that's already on bottom of the list");
+
+        test.todo("passing invalid argument to rolename");
+
+        test.todo("passing no argument to function");
+    });
+
+    describe("getRoleData function", () => {
+        test.todo("returns proper list leaving out nulls");
+    });
+
+    describe("getRoleNamesInGame function", () => {
+        test.todo("get proper list of names leaving out nulls");
+    });
+
+    describe("startFirstNight and startNight", () => {
+        test.todo("starting first night");
+
+        test.todo("starting nth night");
+
+
+    })
+});
 
 async function redoRolesDatalist(){
     roleNamesFromDatalist = await page.evaluate(() => {
