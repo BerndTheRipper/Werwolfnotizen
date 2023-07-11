@@ -2,14 +2,14 @@ const puppeteer = require('puppeteer');
 const {Model, Player, KillProposal} = require("./../public/model");
 
 
-const timeout = 5000;
+const timeout = 50000;
 
 //This code exists merely so I can have intellisense while refering to globalThis.__BROWSER_GLOBAL__
 //It makes the types be set to puppeteer.Browser and puppeteer.Page
-var browser = await puppeteer.launch({headless:"new"});
-var page = await browser.newPage();
-// var browser = globalThis.__BROWSER_GLOBAL__;
-// var page;
+// var browser = await puppeteer.launch({headless:"new"});
+// var page = await browser.newPage();
+var browser = globalThis.__BROWSER_GLOBAL__;
+var page;
 
 beforeAll(async () => {
     page = await browser.newPage();
@@ -165,9 +165,69 @@ describe("Model functioning propoerly", () => {
         test.todo("starting first night");
 
         test.todo("starting nth night");
+    });
 
+    describe("wakeUpNextRole", () => {
+        describe("first night", () => {
+            test.todo("calling with no wakeup gaps");
+    
+            test.todo("calling with first night wakeup gaps");
 
-    })
+            test.todo("Calling with null gaps");
+
+            test.todo("calling with invalid role objects");
+        });
+
+        describe("other nights", () => {
+            test.todo("calling with no wakeup gaps");
+    
+            test.todo("calling with first night wakeup gaps");
+
+            test.todo("Calling with null gaps");
+
+            test.todo("calling with invalid role objects");
+        });
+    });
+
+    describe("identifyPlayers", () => {
+        test.todo("identifying valid list of players");
+
+        test.todo("renaming valid list of players and indexes");
+
+        test.todo("identifying single player");
+
+        test.todo("currentRole default detected properly");
+
+        test.todo("currentRole as alternative detected properly");
+    });
+
+    describe("enterTarget", () => {
+        test.todo("entering one name");
+
+        test.todo("entering multiple names");
+
+        test.todo("entering unknown name");
+
+        test.todo("entering multiple unknown name");
+
+        test.todo("sneaking in invalid type");
+    });
+
+    describe("findPlayerByName", () => {
+        test.todo("find a correctly entered player");
+
+        test.todo("not find incorrectly entered player without adding");
+
+        test.todo("not find incorrectly entered player with adding");
+
+        test.todo("find correctly entered player with adding role");
+
+        test.todo("not find incorrectly entered player with adding and role");
+
+        test.todo("not find incorrectly entered player without adding but entering role");
+    });
+
+    
 });
 
 async function redoRolesDatalist(){
