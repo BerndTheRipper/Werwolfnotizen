@@ -413,6 +413,36 @@ class DayView extends View{
 
             killProposalTbody.appendChild(tr);
         }
+
+        var playerListSection = element.querySelector(".playersInGame");
+        var playerListTbody = playerListSection.querySelector("tbody");
+        playerListTbody.innerHTML = "";
+
+        for(var player of this.model.identifiedPlayers){
+            var tr = this._generateTableRows(3);
+            var trChildren = tr.children;
+
+            trChildren[0].innerText = player.playerName;
+            
+            if(player.role == null){
+                //TODO role selector
+                trChildren[1].innerText = "unbekannt";
+            }
+            else {
+                trChildren[1].innerText = player.role.roleName;
+            }
+
+            var killPlayerButton = this.#generateButton("Töten");
+
+            for(var proposal of this.model.killProposals){
+                if(proposal.player != player) continue;
+                killPlayerButton.disabled = true;
+            }
+
+            trChildren[2].appendChild(killPlayerButton);
+
+            playerListTbody.appendChild(tr);
+        }
     }
 
     #generateCheckbox(checked, disabled, onchange = null){
@@ -421,6 +451,15 @@ class DayView extends View{
         output.checked = checked;
         output.disabled = disabled;
         output.onchange = onchange;
+        return output;
+    }
+
+    #generateButton(text, onclick = null, disabled = false){
+        var output = document.createElement("button");
+        output.innerText = text;
+        output.onclick = onclick;
+        output.disabled = disabled;
+
         return output;
     }
 }
