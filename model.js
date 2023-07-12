@@ -213,7 +213,10 @@ class Model{
         if(this.nightNumber != 1) getsCalled++;
         do{
             this.currentRoleToWakeUp++;
-        } while(this.roles[this.currentRoleToWakeUp] != null && this.roles[this.currentRoleToWakeUp].calledAtNight < getsCalled);
+            if(this.currentRoleToWakeUp >= this.roles.length){
+                throw new RangeError("Finished with the roles");
+            }
+        } while(this.roles[this.currentRoleToWakeUp] == null || this.roles[this.currentRoleToWakeUp].calledAtNight < getsCalled);
     }
     
     identifyPlayers(names, indexes, currentRole = this.roles[this.currentRoleToWakeUp]){

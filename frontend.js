@@ -22,7 +22,7 @@ class Frontend {
         this.currentView.redraw();
         if(this.currentView instanceof InitialView){
             this.redoRoleNamesList();
-        } else if(this.currentView instanceof NightView){
+        } else if(this.currentView instanceof NightView || this.currentView instanceof DayView){
             this.redoPlayerNamesList();
         }
     }
@@ -376,39 +376,42 @@ class DayView extends View{
 
         //Kill proposals section
         var killProposalSection = element.getElementsByClassName("killProposalSection")[0];
-        var killPoposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
-        killPoposalTbody.innerHTML = "";
+        var killProposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
+        killProposalTbody.innerHTML = "";
         for(var i in this.model.killProposals){
             var proposal = this.model.killProposals[i];
             var tr = this._generateTableRows(7);
-            tr[0].innerHTML.appendChild(this.#generateCheckbox(proposal.acceptByDefault(), false));
+            var trChildren = tr.children;
+            trChildren[0].appendChild(this.#generateCheckbox(proposal.acceptByDefault(), false));
             if(proposal.player == null){
                 //TODO make role auto-update
                 var input = this._generatePlayerNameInput("poposal" + i, "Playername unset");
-                tr[1].innerHTML.appendChild(input);
+                trChildren[1].appendChild(input);
             } else {
-                tr[1].innerText = proposal.player.playerName;
+                trChildren[1].innerText = proposal.player.playerName;
             }
 
             if(proposal.player.role == null){
-                tr[2].innerText = "Unbekannt";
+                trChildren[2].innerText = "Unbekannt";
             }else{
-                tr[2].innerText = proposal.player.role.roleName;
+                trChildren[2].innerText = proposal.player.role.roleName;
             }
 
             for(var killer of proposal.getKillersAsString()){
-                tr[3].innerText += killer + "; ";
+                trChildren[3].innerText += killer + "; ";
             }
 
             for(var protector of proposal.getProtectorsAsString()){
-                tr[4].innerText += protector;
+                trChildren[4].innerText += protector;
             }
 
             var protectedCheckbox = this.#generateCheckbox(proposal.isProtected(), true);
-            tr[5].innerHTML.appendChild(protectedCheckbox);
+            trChildren[5].appendChild(protectedCheckbox);
 
-            var acceptCheckbox = this.#generateCheckbox(proposal.acceptByDefault(), false, null);
-            tr[6].innerHTML.appendChild(acceptCheckbox);
+            var acceptCheckbox = this.#generateCheckbox(proposal.acceptByDefault(), true, null);
+            trChildren[6].appendChild(acceptCheckbox);
+
+            killProposalTbody.appendChild(tr);
         }
     }
 
