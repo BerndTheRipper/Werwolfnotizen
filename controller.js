@@ -6,7 +6,9 @@ class Controller {
         //Initial view event handlers
         [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick, this.doneWithRoles],
         //Night view
-        [this.wakeUpNextRole]
+        [this.wakeUpNextRole],
+        //Day view
+        []
     ];
     
     constructor(model, view){
@@ -99,10 +101,19 @@ class Controller {
         
         controller.model.identifyPlayers(playerNames, oldIndexes);
 
-        controller.model.wakeUpNextRole();
+        try{
+            controller.model.wakeUpNextRole();
+        }
+        catch(e){
+            if(!(e instanceof RangeError)){
+                throw e;
+            }
+        }
+        
         if(controller.model.currentRoleToWakeUp >= controller.model.roles.length){
             controller.model.calculateKillProposalsFromTargets();
-            
+            controller.view.loadView(DayView, controller.eventHandlers[2]);
+            return;
         }
         controller.view.redraw();
     }
