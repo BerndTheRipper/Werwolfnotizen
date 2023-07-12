@@ -203,9 +203,9 @@ class Model{
     }
     
     startNight(){
-        this.currentRoleToWakeUp = 0;
-        this.wakeUpNextRole();
+        this.currentRoleToWakeUp = -1;
         this.nightNumber++;
+        this.wakeUpNextRole();
     }
     
     wakeUpNextRole(){
