@@ -70,7 +70,7 @@ class Pleasuregirl extends Role {
 }
 
 class Werewolf extends Role {
-	roleName = "Wehrwolf";
+	roleName = "Werwolf";
 	constructor(amount){
 		super(amount, 2, true, 2);
 	}
@@ -195,7 +195,7 @@ Role.roleList = {
     "Leibwächter": Guardian,
     "Alte Vettel": OldVettel,
     "Freudenmädchen": Pleasuregirl,
-    "Wehrwolf": Werewolf,
+    "Werwolf": Werewolf,
     "Wolfsjunges": Puppy,
     "Vampir": Vampire,
     "Crocodile Andy": CrocodileAndy,
