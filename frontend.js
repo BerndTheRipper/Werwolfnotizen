@@ -304,8 +304,8 @@ class NightView extends View{
                 default:
                     alert("noch nicht implementiert");
             }
+            identSection.getElementsByTagName("input")[0].focus();
         }
-        identSection.getElementsByTagName("input")[0].focus();
     }
 
     #addPlayerIdent(currentRole, addTo){
