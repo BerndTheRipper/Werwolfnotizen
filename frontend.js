@@ -402,7 +402,7 @@ class DayView extends View{
             }
 
             for(var protector of proposal.getProtectorsAsString()){
-                trChildren[4].innerText += protector;
+                trChildren[4].innerText += protector + "; ";
             }
 
             var protectedCheckbox = this.#generateCheckbox(proposal.isProtected(), true);

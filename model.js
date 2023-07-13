@@ -114,12 +114,12 @@ class Model{
         for(var i in this.roles){
             if(this.roles[i] == null) continue;
             if(this.roles[i].roleName != roleName){
-                console.log(roleName);
                 continue;
             }
 
             this.playerAmountByRolesSum -= this.roles[i].amount;
-            this.roles.splice(i, 1);
+            // this.roles.splice(i, 1);
+            this.roles[i] = null;
             return true;
         }
         return false;
@@ -357,7 +357,7 @@ class Model{
     
     calculatePermanentProtections() {
         if (this.blessedPlayer != null) {
-            this.protectedPlayers.push(blessedPlayer);
+            this.protectedPlayers.push(this.blessedPlayer);
             var priestIndex = 0;
             //Find the index of the priest
             for (; !(this.roles[priestIndex] instanceof Priest) && priestIndex < this.roles.length; priestIndex++);
@@ -501,7 +501,7 @@ class KillProposal {
             }
             output.push(protector);
         }
-        return this.#protectors;
+        return output;
     }
 
     addProtector(protector){
