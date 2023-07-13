@@ -242,7 +242,7 @@ class NightView extends View{
                 case "Amor":
                     this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
                     break;
-                case "Wehrwolf":
+                case "Werwolf":
                     //TODO implement pup killed
                 case "Priester":
                 case "Leibwächter":
