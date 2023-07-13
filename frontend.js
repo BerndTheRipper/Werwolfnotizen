@@ -414,6 +414,37 @@ class DayView extends View{
             killProposalTbody.appendChild(tr);
         }
 
+        //protected players section
+        var protectedPlayerSection = element.querySelector(".playersInGame");
+        var protectedPlayerTbody = protectedPlayerSection.querySelector("tbody");
+        protectedPlayerTbody.innerHTML = "";
+        var playersWithProtection = [];
+
+        //Finding players that have protection;
+        for(var i in this.model.protectedPlayers){
+            var player = this.model.protectedPlayers[i];
+            var protectedPlayersIndex;
+            var tr;
+            if(!playersWithProtection.includes(player)){
+                protectedPlayersIndex = playersWithProtection.length;
+                playersWithProtection.push(player);
+                tr = this._generateTableRows(3);
+
+                tr.children[0].innerText = player.playerName;
+                tr.children[1].innerText = player.role == null ? "unbekannt" : player.role.name;
+
+                protectedPlayerTbody.appendChild(tr);
+            }
+            else {
+                protectedPlayersIndex = playersWithProtection.indexOf(player);
+                tr = protectedPlayerTbody.children[protectedPlayersIndex];
+            }
+            
+            
+            tr.children[2].innerText += this.model.protectionReasons[i] instanceof Role ? this.model.protectionReasons[i].roleName : this.model.protectionReasons[i];
+        }
+
+        //Player overview section
         var playerListSection = element.querySelector(".playersInGame");
         var playerListTbody = playerListSection.querySelector("tbody");
         playerListTbody.innerHTML = "";
