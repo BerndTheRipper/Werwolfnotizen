@@ -187,8 +187,6 @@ class Mime extends Role {
 }
 
 Role.roleList = {
-    "Barde": Bard,
-    "Freimaurer": Constructor,
     "Harter Bursche": ToughGuy,
     "Amor": Amor,
     "Priester": Priest,
@@ -202,6 +200,8 @@ Role.roleList = {
     "Hexe": Witch,
     "Unruhestifterin": Rioter,
     "Seherin": Seer,
+    "Barde": Bard,
+    "Freimaurer": Constructor,
     "Idiot": Idiot,
     "Hinterwäldler": Dumbass,
     "Aussätzige": Leper,
