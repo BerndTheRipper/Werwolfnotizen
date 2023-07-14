@@ -296,6 +296,7 @@ class Model{
                     }
 
                     this.addKillerToProposal(player, "Verliebt in " + proposal.player.playerName);
+                    doneWithLovers = true;
                     break;
                 }
             }
@@ -377,28 +378,23 @@ class Model{
 
     //TODO add hunter target proposals
 
-    addKillerToProposal(player, killer, ignoreLovers = false){
+    addKillerToProposal(player, killer){
+        var proposal;
+        
+        
         if(player != null){
-            if(player.inLove && !ignoreLovers){
-                for(var lover of this.identifiedPlayers){
-                    if(!lover.inLove || lover == player) continue;
-                    this.addKillerToProposal(lover, "Verliebt in " + player.playerName, true);
-                    break;
-                }
+            for(var proposalEntry of this.killProposals){
+                if(proposalEntry.player != player) continue;
+                proposal = proposalEntry;
             }
-
-            for(var proposal of this.killProposals){
-                if(proposal.player == player){
-                    proposal.addKiller(killer);
-                    return;
-                }                
-            }
-            
+        }
+        
+        if(proposal == null){
+            proposal = new KillProposal(player);
+            this.killProposals.push(proposal);
         }
 
-        var newProposal = new KillProposal(player);
-        newProposal.addKiller(killer);
-        this.killProposals.push(newProposal);
+        proposal.addKiller(killer);
         
     }
 
