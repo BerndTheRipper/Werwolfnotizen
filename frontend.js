@@ -415,7 +415,7 @@ class DayView extends View{
         }
 
         //protected players section
-        var protectedPlayerSection = element.querySelector(".playersInGame");
+        var protectedPlayerSection = element.querySelector(".protectedPlayersSection");
         var protectedPlayerTbody = protectedPlayerSection.querySelector("tbody");
         protectedPlayerTbody.innerHTML = "";
         var playersWithProtection = [];
