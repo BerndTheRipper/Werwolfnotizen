@@ -431,7 +431,7 @@ class DayView extends View{
                 tr = this._generateTableRows(3);
 
                 tr.children[0].innerText = player.playerName;
-                tr.children[1].innerText = player.role == null ? "unbekannt" : player.role.name;
+                tr.children[1].innerText = player.role == null ? "unbekannt" : player.role.roleName;
 
                 protectedPlayerTbody.appendChild(tr);
             }
