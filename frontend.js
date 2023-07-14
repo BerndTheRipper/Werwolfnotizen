@@ -496,13 +496,21 @@ class DayView extends View{
 }
 
 function oneofeach(){
+    enterRoles(Object.keys(Role.roleList));
+}
+
+function aplwvbb(){
+    enterRoles(["Amor", "Priester", "Leibwächter", "Werwolf", "Vampir", "Barde"], [,,,,,2]);
+}
+
+function enterRoles(roleNames, roleAmounts = []){
     var inputField = document.querySelector("#view > form > input[type=text]:nth-child(1)");
     var amountField = document.querySelector("#view > form > input[type=number]:nth-child(2)");
     var submitButton = document.querySelector("#view > form > input[type=submit]:nth-child(3)");
 
-    for(var roleName of Object.keys(Role.roleList)){
-        inputField.value = roleName;
-        amountField.value = "1";
+    for(var i in roleNames){
+        inputField.value = roleNames[i];
+        amountField.value = roleAmounts[i] == null ? "1" : roleAmounts[i];
         submitButton.click();
     }
 }
