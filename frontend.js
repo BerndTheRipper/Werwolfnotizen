@@ -441,7 +441,7 @@ class DayView extends View{
             }
             
             
-            tr.children[2].innerText += this.model.protectionReasons[i] instanceof Role ? this.model.protectionReasons[i].roleName : this.model.protectionReasons[i];
+            tr.children[2].innerText += (this.model.protectionReasons[i] instanceof Role ? this.model.protectionReasons[i].roleName : this.model.protectionReasons[i]) + "; ";
         }
 
         //Player overview section
