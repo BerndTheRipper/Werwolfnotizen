@@ -280,7 +280,17 @@ class Model{
         
         //Find protected players from the killProposals, handle lovers and pleasureGirlHost
         var doneWithLovers = false;
+        var hunterTargetsNeeded = 0;
+        var hunterTargetsFound = 0;
+        //The instance of the hunter role that is used in game, for the killProposalReason
+        var hunterInstance;
         for(var proposal of this.killProposals){
+            for(var killer of proposal.getKillers()){
+                if(!(killer instanceof Hunter)) continue;
+                hunterTargetsFound++;
+                break;
+            }
+
             if(proposal.player == null) continue;
 
             for(var i in this.protectedPlayers){
@@ -309,6 +319,15 @@ class Model{
                     break;
                 }
             }
+
+            if(proposal.player.role instanceof Hunter){
+                hunterInstance = proposal.player.role;
+                if(!proposal.protectionHolds()) hunterTargetsNeeded++;
+            }
+        }
+
+        for(var i = 0; i < hunterTargetsNeeded - hunterTargetsFound; i++){
+            this.addKillerToProposal(null, hunterInstance);
         }
     }
     
