@@ -272,8 +272,13 @@ class Model{
         return output;
     }
 
-    //TODO test this hunk
     calculateKillProposalsFromTargets(){
+        this.protectedPlayers = [];
+        this.protectionReasons = [];
+        this.attackedPlayers = [];
+        this.attackers = [];
+        this.killProposals = [];
+
         this.processTargets();
 
         this.calculatePermanentProtections();
@@ -313,7 +318,7 @@ class Model{
 
             if(proposal.player == this.pleasureGirlHost){
                 for(var player of this.identifiedPlayers){
-                    if(!(player instanceof Pleasuregirl)) continue;
+                    if(!(player.role instanceof Pleasuregirl)) continue;
                     if(proposal.protectionHolds()) break;
                     this.addKillerToProposal(player, "Freudenmädchen bei " + proposal.player.playerName);
                     break;
@@ -489,6 +494,10 @@ class KillProposal {
     
     constructor(player){
         this.player = player;
+    }
+
+    getKillers(){
+        return this.#killers;
     }
 
     getKillersAsString(){
