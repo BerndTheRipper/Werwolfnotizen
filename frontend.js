@@ -281,7 +281,6 @@ class NightView extends View{
                     }
                     break;
                 case "Unruhestifterin":
-                    //TODO add question if riot should be started
                     if(this.model.riot == 2){
                         targetSection.innerHTML = "Bereits für Unruhe gesorgt.";
                         break;
