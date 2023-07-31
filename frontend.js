@@ -292,7 +292,6 @@ class NightView extends View{
                     }
                     break;
                 case "Seherin":
-                    //TODO test code
                     var list = [];
                     for(var player of this.model.identifiedPlayers){
                         if(!player.role || !player.role.evil) continue;
@@ -344,11 +343,13 @@ class NightView extends View{
     }
 
     #generateUlFromArray(array, parent){
+        var ul = document.createElement("ul");
         for(var string of array){
-            var ul = document.createElement("ul");
-            ul.innerHTML = string;
-            parent.appendChild(ul);
+            var li = document.createElement("li");
+            li.innerHTML = string;
+            ul.appendChild(li);
         }
+        parent.appendChild(ul);
     }
 }
 
