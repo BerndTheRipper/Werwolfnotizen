@@ -148,6 +148,16 @@ class View {
         output.setAttribute("list", "playernames");
         return output;
     }
+
+    _generateUlFromArray(array, parent){
+        var ul = document.createElement("ul");
+        for(var string of array){
+            var li = document.createElement("li");
+            li.innerHTML = string;
+            ul.appendChild(li);
+        }
+        parent.appendChild(ul);
+    }
 }
 
 class InitialView extends View{
@@ -297,7 +307,7 @@ class NightView extends View{
                         if(!player.role || !player.role.evil) continue;
                         list.push(player.playerName + " (Rolle: " + player.role.roleName + ")");
                     }
-                    this.#generateUlFromArray(list, targetSection);
+                    super._generateUlFromArray(list, targetSection);
                     break;
                 default:
                     alert("noch nicht implementiert");
@@ -340,16 +350,6 @@ class NightView extends View{
             output.push(document.createElement("br"));
         }
         return output;
-    }
-
-    #generateUlFromArray(array, parent){
-        var ul = document.createElement("ul");
-        for(var string of array){
-            var li = document.createElement("li");
-            li.innerHTML = string;
-            ul.appendChild(li);
-        }
-        parent.appendChild(ul);
     }
 }
 
