@@ -8,7 +8,7 @@ class Controller {
         //Night view
         [this.wakeUpNextRole],
         //Day view
-        []
+        [this.newMayorUnfocus]
     ];
     
     constructor(model, view){
@@ -116,6 +116,16 @@ class Controller {
             return;
         }
         controller.view.redraw();
+    }
+
+    newMayorUnfocus(e){
+        var player = controller.model.findPlayerByName(e.target.value, false);
+        if(player != null && player.role != null){
+            e.target.nextElementSibling.innerText = player.role.roleName;
+        }
+        else {
+            e.target.nextElementSibling.innerText = "Unbekannt";
+        }
     }
 
     amountIdentifiedChanged(){

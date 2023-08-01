@@ -358,6 +358,7 @@ class DayView extends View{
         super(model, viewElement, eventHandlers);
         var htmlBase = document.getElementById("dayView").innerHTML;
         this.viewElement.innerHTML = htmlBase;
+        this.viewElement.querySelector(".newMayorName").addEventListener("focusout", this.eventHandlers[0]);
         //Set mayor name event handler
         this.redraw();
     }
@@ -368,7 +369,7 @@ class DayView extends View{
         //Mayor section:
         var mayorSection = element.getElementsByClassName("mayorSection")[0];
         if(this.model.mayor != null){
-            mayorSection.getElementsByClassName("mayorName")[0].value = this.model.mayor.playerName;
+            mayorSection.getElementsByClassName("mayorName")[0].innerText = this.model.mayor.playerName;
             if(this.model.mayor.role != null){
                 mayorSection.getElementsByClassName("mayorName")[0].innerText = this.model.mayor.role.roleName;
             }
