@@ -474,6 +474,18 @@ class DayView extends View{
 
             playerListTbody.appendChild(tr);
         }
+
+        //Unidentified roles section
+        var rolesListSection = element.querySelector(".unidentifiedRoles");
+        rolesListSection.innerHTML = document.querySelector(".unidentifiedRoles").innerHTML;
+        var stringsForList = [];
+
+        for(var role of this.model.roles){
+            if(role.amountIdentified == role.amount) continue;
+            stringsForList.push(role.roleName + ": " + (role.amount - role.amountIdentified));
+        }
+
+        super._generateUlFromArray(stringsForList, rolesListSection);
     }
 
     #generateCheckbox(checked, disabled, onchange = null){
