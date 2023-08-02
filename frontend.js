@@ -359,6 +359,7 @@ class DayView extends View{
         var htmlBase = document.getElementById("dayView").innerHTML;
         this.viewElement.innerHTML = htmlBase;
         this.viewElement.querySelector(".newMayorName").addEventListener("focusout", this.eventHandlers[0]);
+        this.viewElement.querySelector("form").addEventListener("submit", this.eventHandlers[1]);
         //Set mayor name event handler
         this.redraw();
     }
@@ -465,6 +466,7 @@ class DayView extends View{
             }
 
             var killPlayerButton = this.#generateButton("Töten");
+            killPlayerButton.classList.add("killButton");
 
             for(var proposal of this.model.killProposals){
                 if(proposal.player != player) continue;

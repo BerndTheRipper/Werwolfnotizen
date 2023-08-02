@@ -8,7 +8,7 @@ class Controller {
         //Night view
         [this.wakeUpNextRole],
         //Day view
-        [this.newMayorUnfocus]
+        [this.newMayorUnfocus, this.daytimeFormSubmitted]
     ];
     
     constructor(model, view){
@@ -125,6 +125,18 @@ class Controller {
         }
         else {
             e.target.nextElementSibling.innerText = "Unbekannt";
+        }
+    }
+
+    daytimeFormSubmitted(e){
+        e.preventDefault();
+
+        //Submitted through kill button
+        if(e.submitter.classList.contains("killButton")){
+            var playerName = e.submitter.parentElement.parentElement.querySelector("td").innerText;
+            var playerObject = controller.model.findPlayerByName(playerName, false);
+            controller.model.addKillerToProposal(playerObject, "Moderator");
+            controller.view.redraw();
         }
     }
 
