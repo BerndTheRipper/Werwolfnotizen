@@ -196,6 +196,16 @@ class Model{
         return output;
     }
 
+    //Returns a list of roles where not all players have been identified yet
+    getRolesWithoutPlayers(){
+        var output;
+        for(var role of this.roles){
+            if(role.amountIdentified == role.amount) continue;
+            output.push(role.roleName + ": " + (role.amount - role.amountIdentified));
+        }
+        return output;
+    }
+
     startFirstNight(){
         //Doing this to get rid of null entries in this.roles
         this.useDefaultRoleSorting = false;

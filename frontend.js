@@ -481,11 +481,11 @@ class DayView extends View{
         //Unidentified roles section
         var rolesListSection = element.querySelector(".unidentifiedRoles");
         rolesListSection.innerHTML = document.querySelector(".unidentifiedRoles").innerHTML;
+        var rolesWithoutPlayers = model.getRolesWithoutPlayers();
         var stringsForList = [];
 
-        for(var role of this.model.roles){
-            if(role.amountIdentified == role.amount) continue;
-            stringsForList.push(role.roleName + ": " + (role.amount - role.amountIdentified));
+        for(var role of rolesWithoutPlayers){
+            stringsForList.push(role.roleName);
         }
 
         super._generateUlFromArray(stringsForList, rolesListSection);
