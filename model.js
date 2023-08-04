@@ -197,8 +197,9 @@ class Model{
     }
 
     //Returns a list of roles where not all players have been identified yet
+    //TODO turn into multidimensional array
     getRolesWithoutPlayers(){
-        var output;
+        var output = [];
         for(var role of this.roles){
             if(role.amountIdentified == role.amount) continue;
             output.push(role.roleName + ": " + (role.amount - role.amountIdentified));

@@ -158,6 +158,18 @@ class View {
         }
         parent.appendChild(ul);
     }
+
+    _generateDropDownFromArray(array, parent){
+        var select = document.createElement("select");
+        for(var entry of array){
+            var optionElement = document.createElement("option");
+            optionElement.value = entry;
+            select.appendChild(optionElement);
+        }
+        
+        if(parent != null) parent.appendChild(select);
+        return select;
+    }
 }
 
 class InitialView extends View{
@@ -379,7 +391,14 @@ class DayView extends View{
         //Kill proposals section
         var killProposalSection = element.getElementsByClassName("killProposalSection")[0];
         var killProposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
+        var rolesWithoutPlayers = model.getRolesWithoutPlayers();
+        var rolesWithoutPlayersNames = [];
         killProposalTbody.innerHTML = "";
+
+        for(var role of rolesWithoutPlayers){
+            rolesWithoutPlayersNames.push(role.roleName);
+        }
+
         for(var i in this.model.killProposals){
             var proposal = this.model.killProposals[i];
             var tr = this._generateTableRows(7);
@@ -394,7 +413,7 @@ class DayView extends View{
             }
 
             if(proposal.player.role == null){
-                trChildren[2].innerText = "Unbekannt";
+                super._generateDropDownFromArray(rolesWithoutPlayersNames, trChildren[2]);
             }else{
                 trChildren[2].innerText = proposal.player.role.roleName;
             }
@@ -481,7 +500,6 @@ class DayView extends View{
         //Unidentified roles section
         var rolesListSection = element.querySelector(".unidentifiedRoles");
         rolesListSection.innerHTML = document.querySelector(".unidentifiedRoles").innerHTML;
-        var rolesWithoutPlayers = model.getRolesWithoutPlayers();
         var stringsForList = [];
 
         for(var role of rolesWithoutPlayers){
