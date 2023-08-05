@@ -253,7 +253,10 @@ class NightView extends View{
                     this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
                     break;
                 case "Werwolf":
-                    //TODO implement pup killed
+                    if(this.model.pupKilled == 1){
+                        this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+                    }
+                    //TODO implement getting pup name
                 case "Priester":
                 case "Leibwächter":
                 case "Freudenmädchen":
