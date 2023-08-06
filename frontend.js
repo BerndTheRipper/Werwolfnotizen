@@ -159,11 +159,14 @@ class View {
         parent.appendChild(ul);
     }
 
-    _generateDropDownFromArray(array, parent){
+    _generateDropDownFromArray(array, parent, defaultEntry = "Rolle"){
         var select = document.createElement("select");
+        array = [defaultEntry].concat(array);
+        
         for(var entry of array){
             var optionElement = document.createElement("option");
             optionElement.value = entry;
+            optionElement.innerText = entry
             select.appendChild(optionElement);
         }
         
@@ -416,7 +419,11 @@ class DayView extends View{
             }
 
             if(proposal.player.role == null){
-                super._generateDropDownFromArray(rolesWithoutPlayersNames, trChildren[2]);
+                var stringsForDropdown = [];
+                for(var role of rolesWithoutPlayers){
+                    stringsForDropdown.push(role.roleName);
+                }
+                super._generateDropDownFromArray(stringsForDropdown, trChildren[2]);
             }else{
                 trChildren[2].innerText = proposal.player.role.roleName;
             }
@@ -506,7 +513,7 @@ class DayView extends View{
         var stringsForList = [];
 
         for(var role of rolesWithoutPlayers){
-            stringsForList.push(role.roleName);
+            stringsForList.push(role.roleName + ": " + (role.amount - role.amountIdentified));
         }
 
         super._generateUlFromArray(stringsForList, rolesListSection);
