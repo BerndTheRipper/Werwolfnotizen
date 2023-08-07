@@ -8,7 +8,7 @@ class Controller {
         //Night view
         [this.wakeUpNextRole],
         //Day view
-        [this.newMayorUnfocus, this.daytimeFormSubmitted]
+        [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown]
     ];
     
     constructor(model, view){
@@ -137,6 +137,16 @@ class Controller {
             var playerObject = controller.model.findPlayerByName(playerName, false);
             controller.model.addKillerToProposal(playerObject, "Moderator");
             controller.view.redraw();
+        }
+    }
+
+    roleChangedThroughDropdown(e){
+        if(e.target.classList.contains("killProposalRoleSelector")){
+            var playerName = e.target.parentElement.previousElementSibling.innerText;
+            var player = controller.model.findPlayerByName(playerName, false);
+            var newRole = contorller.model.roles[controller.model.getRoleIndexByName(e.target.value)];
+            player.role = newRole;
+            controller.frontend.redraw();
         }
     }
 

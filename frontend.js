@@ -418,15 +418,22 @@ class DayView extends View{
                 trChildren[1].innerText = proposal.player.playerName;
             }
 
-            if(proposal.player.role == null){
-                var stringsForDropdown = [];
-                for(var role of rolesWithoutPlayers){
-                    stringsForDropdown.push(role.roleName);
-                }
-                super._generateDropDownFromArray(stringsForDropdown, trChildren[2]);
-            }else{
-                trChildren[2].innerText = proposal.player.role.roleName;
+
+            var stringsForDropdown = [];
+            for(var role of rolesWithoutPlayers){
+                stringsForDropdown.push(role.roleName);
             }
+            
+            var dropdownDefaultEntry = "Rolle";
+
+            if(proposal.player.role != null){
+                dropdownDefaultEntry = proposal.player.role.roleName;
+            }
+
+            var dropdown = super._generateDropDownFromArray(stringsForDropdown, trChildren[2], dropdownDefaultEntry);
+            dropdown.classList.add("killProposalRoleSelector");
+            dropdown.addEventListener("change", this.eventHandlers[2]);
+        
 
             for(var killer of proposal.getKillersAsString()){
                 trChildren[3].innerText += killer + "; ";
