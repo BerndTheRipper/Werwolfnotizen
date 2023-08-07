@@ -119,13 +119,7 @@ class Controller {
     }
 
     newMayorUnfocus(e){
-        var player = controller.model.findPlayerByName(e.target.value, false);
-        if(player != null && player.role != null){
-            e.target.nextElementSibling.innerText = player.role.roleName;
-        }
-        else {
-            e.target.nextElementSibling.innerText = "Unbekannt";
-        }
+        controller.view.redraw();
     }
 
     daytimeFormSubmitted(e){
@@ -141,12 +135,20 @@ class Controller {
     }
 
     roleChangedThroughDropdown(e){
-        if(e.target.classList.contains("killProposalRoleSelector")){
+        if(e.target.classList.contains("roleSelector")){
             var playerName = e.target.parentElement.previousElementSibling.innerText;
             var player = controller.model.findPlayerByName(playerName, false);
-            var newRole = contorller.model.roles[controller.model.getRoleIndexByName(e.target.value)];
+            var roleIndex = -1;
+
+            try{
+                roleIndex = controller.model.getRoleIndexByName(e.target.value);
+            } catch(e){
+                //Do nothing, just not crash
+            }
+
+            var newRole = controller.model.roles[roleIndex];
             player.role = newRole;
-            controller.frontend.redraw();
+            controller.view.redraw();
         }
     }
 

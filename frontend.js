@@ -394,6 +394,18 @@ class DayView extends View{
             }
         }
 
+        //New mayor section:
+        var newMayorName = mayorSection.querySelector(".newMayorName").value;
+        var newMayorPlayer = this.model.findPlayerByName(newMayorName, false);
+
+        var newMayorRole = "Unbekannt";
+
+        if(newMayorPlayer != null && newMayorPlayer.role != null){
+            newMayorRole = newMayorPlayer.role.roleName;
+        }
+
+        mayorSection.querySelector(".newMayorRole").innerText = newMayorRole;
+
         //Kill proposals section
         var killProposalSection = element.getElementsByClassName("killProposalSection")[0];
         var killProposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
@@ -424,14 +436,15 @@ class DayView extends View{
                 stringsForDropdown.push(role.roleName);
             }
             
-            var dropdownDefaultEntry = "Rolle";
+            var dropdownDefaultEntry = "Unbekannt";
 
             if(proposal.player.role != null){
+                stringsForDropdown.push(dropdownDefaultEntry);
                 dropdownDefaultEntry = proposal.player.role.roleName;
             }
 
             var dropdown = super._generateDropDownFromArray(stringsForDropdown, trChildren[2], dropdownDefaultEntry);
-            dropdown.classList.add("killProposalRoleSelector");
+            dropdown.classList.add("roleSelector");
             dropdown.addEventListener("change", this.eventHandlers[2]);
         
 
