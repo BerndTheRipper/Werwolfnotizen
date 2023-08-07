@@ -430,23 +430,7 @@ class DayView extends View{
                 trChildren[1].innerText = proposal.player.playerName;
             }
 
-
-            var stringsForDropdown = [];
-            for(var role of rolesWithoutPlayers){
-                stringsForDropdown.push(role.roleName);
-            }
-            
-            var dropdownDefaultEntry = "Unbekannt";
-
-            if(proposal.player.role != null){
-                stringsForDropdown.push(dropdownDefaultEntry);
-                dropdownDefaultEntry = proposal.player.role.roleName;
-            }
-
-            var dropdown = super._generateDropDownFromArray(stringsForDropdown, trChildren[2], dropdownDefaultEntry);
-            dropdown.classList.add("roleSelector");
-            dropdown.addEventListener("change", this.eventHandlers[2]);
-        
+            this.#generateRoleSelector(rolesWithoutPlayers, proposal.player, trChildren[2], this.eventHandlers[2]);
 
             for(var killer of proposal.getKillersAsString()){
                 trChildren[3].innerText += killer + "; ";
@@ -555,6 +539,24 @@ class DayView extends View{
         output.disabled = disabled;
 
         return output;
+    }
+
+    #generateRoleSelector(leftoverRoles, player, parentObject, eventHandler){
+        var stringsForDropdown = [];
+        for(var role of leftoverRoles){
+            stringsForDropdown.push(role.roleName);
+        }
+        
+        var dropdownDefaultEntry = "Unbekannt";
+
+        if(player.role != null){
+            stringsForDropdown.push(dropdownDefaultEntry);
+            dropdownDefaultEntry = player.role.roleName;
+        }
+
+        var dropdown = super._generateDropDownFromArray(stringsForDropdown, parentObject, dropdownDefaultEntry);
+        dropdown.classList.add("roleSelector");
+        dropdown.addEventListener("change", eventHandler);
     }
 }
 
