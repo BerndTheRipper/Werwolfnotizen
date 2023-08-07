@@ -490,13 +490,7 @@ class DayView extends View{
 
             trChildren[0].innerText = player.playerName;
             
-            if(player.role == null){
-                //TODO role selector
-                trChildren[1].innerText = "unbekannt";
-            }
-            else {
-                trChildren[1].innerText = player.role.roleName;
-            }
+            this.#generateRoleSelector(rolesWithoutPlayers, player, trChildren[1], this.eventHandlers[2]);
 
             var killPlayerButton = this.#generateButton("Töten");
             killPlayerButton.classList.add("killButton");
