@@ -41,10 +41,15 @@ class Frontend {
     }
 
     redoPlayerNamesList(){
-        var datalist = document.getElementById("playernames");
-        datalist.innerHTML = "";
+        var playerDatalist = document.getElementById("playernames");
+        var rolelessPlayerDatalist = document.getElementById("rolelessPlayers");
+        playerDatalist.innerHTML = "";
         for(var player of this.model.identifiedPlayers){
-            this.addOptionToDataList(datalist, player.playerName);
+            this.addOptionToDataList(playerDatalist, player.playerName);
+
+            if(player.role == null){
+                this.addOptionToDataList(rolelessPlayerDatalist, player.playerName);
+            }
         }
     }
 
@@ -103,12 +108,28 @@ class View {
     _generatePlayerNameInputFromRole(role){
         var roleName = role.roleName;
         var amount = role.amount;
+        var playersWithRoleIndexes = [];
         var output = [];
+
+        if(role.amountIdentified > 0){
+            for(var index in this.model.identifiedPlayers){
+                var player = this.model.identifiedPlayers[index];
+
+                if(player.role != role) continue;
+
+                playersWithRoleIndexes.push(index);
+
+                if(playersWithRoleIndexes.length == role.amountIdentified) break;
+            }
+
+            if(playersWithRoleIndexes.length != role.amountIdentified){
+                console.warn("playersWithRole.length different from role.amountIdentified");
+            }
+        }
+
         for(var i = 0; i < amount; i++){
-            var element = document.createElement("input");
-            element.type = "text";
+            var element = this._generatePlayerNameInput(playersWithRoleIndexes[i], false, true);
             element.placeholder = roleName + " " + (i + 1);
-            element.setAttribute("oldindex", "-1");
             output.push(element);
 
             output.push(document.createElement("br"));
@@ -124,11 +145,9 @@ class View {
     _generateTargetNameInput(targetText, amount){
         var output = [];
         for(var i = 0; i < amount; i++){
-            var element = document.createElement("input");
-            element.type = "text";
+            var element = this._generatePlayerNameInput(null, true);
             element.placeholder = targetText + " " + (i + 1);
             element.name = "target" + i;
-            element.setAttribute("list", "playernames");
             output.push(element);
             output.push(document.createElement("br"));
         }
@@ -140,13 +159,35 @@ class View {
         return output;
     }
     
-    _generatePlayerNameInput(name, placeholder){
+    _generatePlayerSelectInput(name, placeholder){
         var output = document.createElement("input");
         output.type = "text";
         output.name = name;
         output.placeholder = placeholder;
         output.setAttribute("list", "playernames");
         return output;
+    }
+
+    _generatePlayerNameInput(index, existingPlayersPossible = false, rolelessPlayersPossible = false){
+        var output = document.createElement("input");
+        output.type = "text";
+
+        if(index == null) index = "-1";
+        output.setAttribute("oldIndex", index);
+
+        var playerName = "";
+
+        if(this.model.identifiedPlayers[index] != null){
+            playerName = this.model.identifiedPlayers[index].playerName;
+        }
+
+        output.value = playerName;
+
+        if(existingPlayersPossible){
+            output.setAttribute("list", "playernames");
+        } else if(rolelessPlayersPossible){
+            output.setAttribute("lsit", "rolelessPlayers");
+        }
     }
 
     _generateUlFromArray(array, parent){
@@ -424,7 +465,7 @@ class DayView extends View{
             trChildren[0].appendChild(this.#generateCheckbox(proposal.acceptByDefault(), false));
             if(proposal.player == null){
                 //TODO make role auto-update
-                var input = this._generatePlayerNameInput("poposal" + i, "Playername unset");
+                var input = this._generatePlayerSelectInput("poposal" + i, "Playername unset");
                 trChildren[1].appendChild(input);
             } else {
                 trChildren[1].innerText = proposal.player.playerName;
