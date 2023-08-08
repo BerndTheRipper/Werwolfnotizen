@@ -188,6 +188,8 @@ class View {
         } else if(rolelessPlayersPossible){
             output.setAttribute("lsit", "rolelessPlayers");
         }
+
+        return output;
     }
 
     _generateUlFromArray(array, parent){
