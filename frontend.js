@@ -165,6 +165,7 @@ class View {
         output.name = name;
         output.placeholder = placeholder;
         output.setAttribute("list", "playernames");
+        output.autocomplete = "off";
         return output;
     }
 
@@ -186,9 +187,10 @@ class View {
         if(existingPlayersPossible){
             output.setAttribute("list", "playernames");
         } else if(rolelessPlayersPossible){
-            output.setAttribute("lsit", "rolelessPlayers");
+            output.setAttribute("list", "rolelessPlayers");
         }
 
+        output.autocomplete = "off";
         return output;
     }
 
