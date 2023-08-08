@@ -128,8 +128,10 @@ class View {
         }
 
         for(var i = 0; i < amount; i++){
-            var element = this._generatePlayerNameInput(playersWithRoleIndexes[i], false, true);
+            var element = this._generatePlayerNameInput(playersWithRoleIndexes[i], role, false, true);
             element.placeholder = roleName + " " + (i + 1);
+
+            element.addEventListener("focusout", this.eventHandlers[1]);
             output.push(element);
 
             output.push(document.createElement("br"));
@@ -169,7 +171,7 @@ class View {
         return output;
     }
 
-    _generatePlayerNameInput(index, existingPlayersPossible = false, rolelessPlayersPossible = false){
+    _generatePlayerNameInput(index, role = null, existingPlayersPossible = false, rolelessPlayersPossible = false){
         var output = document.createElement("input");
         output.type = "text";
 
@@ -188,6 +190,10 @@ class View {
             output.setAttribute("list", "playernames");
         } else if(rolelessPlayersPossible){
             output.setAttribute("list", "rolelessPlayers");
+        }
+
+        if(role != null){
+            output.setAttribute("role", role.roleName);
         }
 
         output.autocomplete = "off";
@@ -279,10 +285,10 @@ class NightView extends View{
         var htmlBase = document.getElementById("nightView").innerHTML;
         this.viewElement.innerHTML = htmlBase;
 
-        this.redraw();
+        this.redraw(true);
     }
 
-    redraw(){
+    redraw(firstDraw = false){
         var currentRole = this.model.roles[this.model.currentRoleToWakeUp];
         var form = this.viewElement.getElementsByClassName("roleSpecificIndicators")[0];
         var formBase = document.getElementsByClassName("roleSpecificIndicators")[0].innerHTML;
@@ -375,7 +381,9 @@ class NightView extends View{
                 default:
                     alert("noch nicht implementiert");
             }
-            identSection.getElementsByTagName("input")[0].focus();
+            if(firstDraw){
+                identSection.getElementsByTagName("input")[0].focus();
+            }
         }
     }
 

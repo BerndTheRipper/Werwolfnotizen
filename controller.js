@@ -6,7 +6,7 @@ class Controller {
         //Initial view event handlers
         [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick, this.doneWithRoles],
         //Night view
-        [this.wakeUpNextRole],
+        [this.wakeUpNextRole, this.roleIdentifyInputUnfocused],
         //Day view
         [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown]
     ];
@@ -150,6 +150,29 @@ class Controller {
             player.role = newRole;
             controller.view.redraw();
         }
+    }
+
+    roleIdentifyInputUnfocused(e){
+        var inputElement = e.target;
+        var oldIndex = parseInt(inputElement.getAttribute("oldIndex"));
+
+        if(oldIndex == -1){
+            var roleOfPlayer;
+
+            if(inputElement.getAttribute("role") != null){
+                var roleIndex = controller.model.getRoleIndexByName(inputElement.getAttribute("role"));
+                roleOfPlayer = controller.model.roles[roleIndex];
+            }
+
+            controller.model.addPlayer(inputElement.value, roleOfPlayer);
+        } else if(inputElement.value == ""){
+            controller.model.identifiedPlayers[oldIndex].role = null;
+            controller.model.identifiedPlayers.splice(oldIndex, 1);
+        } else {
+            controller.model.identifiedPlayers[oldIndex].playerName = inputElement.value;
+        }
+
+        controller.view.redraw();
     }
 
     amountIdentifiedChanged(){
