@@ -6,7 +6,7 @@ class Controller {
         //Initial view event handlers
         [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick, this.doneWithRoles],
         //Night view
-        [this.wakeUpNextRole, this.roleIdentifyInputUnfocused],
+        [this.wakeUpNextRole, this.playerIdentifyInputUnfocused],
         //Day view
         [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown]
     ];
@@ -152,7 +152,7 @@ class Controller {
         }
     }
 
-    roleIdentifyInputUnfocused(e){
+    playerIdentifyInputUnfocused(e){
         var inputElement = e.target;
         var oldIndex = parseInt(inputElement.getAttribute("oldIndex"));
 

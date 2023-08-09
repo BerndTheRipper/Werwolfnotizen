@@ -44,6 +44,7 @@ class Frontend {
         var playerDatalist = document.getElementById("playernames");
         var rolelessPlayerDatalist = document.getElementById("rolelessPlayers");
         playerDatalist.innerHTML = "";
+        rolelessPlayerDatalist.innerHTML = "";
         for(var player of this.model.identifiedPlayers){
             this.addOptionToDataList(playerDatalist, player.playerName);
 
