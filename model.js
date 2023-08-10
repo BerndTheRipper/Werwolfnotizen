@@ -264,6 +264,20 @@ class Model{
         return null;
     }
 
+    findPlayerIndexByName(name, addIfNone = true, role = null){
+        for(var index in this.identifiedPlayers){
+            var player = this.identifiedPlayers[index];
+            if(player.playerName != name) continue;
+            return index;
+        }
+        if(addIfNone) {
+            var output = this.findPlayerIndexByName(this.addPlayer(name, role).playerName, false);
+            if(output == null) throw new Error("Player creation failed.");
+            return output;
+        }
+        return null;
+    }
+
     addPlayer(name, role){
         var output;
         for(var player of this.identifiedPlayers){

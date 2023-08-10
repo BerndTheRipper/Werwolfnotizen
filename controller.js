@@ -164,15 +164,18 @@ class Controller {
                 roleOfPlayer = controller.model.roles[roleIndex];
             }
 
-            controller.model.addPlayer(inputElement.value, roleOfPlayer);
+            var index = controller.model.findPlayerByName(inputElement.value, true, roleOfPlayer);
+            inputElement.setAttribute("oldIndex", index);
+            
         } else if(inputElement.value == ""){
             controller.model.identifiedPlayers[oldIndex].role = null;
             controller.model.identifiedPlayers.splice(oldIndex, 1);
+            inputElement.removeAttribute("oldIndex");
         } else {
             controller.model.identifiedPlayers[oldIndex].playerName = inputElement.value;
         }
 
-        controller.view.redraw();
+        if(controller.view.currentView instanceof DayView) controller.view.redraw();
     }
 
     amountIdentifiedChanged(){
