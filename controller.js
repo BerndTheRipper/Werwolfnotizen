@@ -156,7 +156,7 @@ class Controller {
         var inputElement = e.target;
         var oldIndex = parseInt(inputElement.getAttribute("oldIndex"));
 
-        if(oldIndex == -1){
+        if(oldIndex == -1 && inputElement.value != ""){
             var roleOfPlayer;
 
             if(inputElement.getAttribute("role") != null){
@@ -164,14 +164,14 @@ class Controller {
                 roleOfPlayer = controller.model.roles[roleIndex];
             }
 
-            var index = controller.model.findPlayerByName(inputElement.value, true, roleOfPlayer);
+            var index = controller.model.findPlayerIndexByName(inputElement.value, true, roleOfPlayer);
             inputElement.setAttribute("oldIndex", index);
             
-        } else if(inputElement.value == ""){
+        } else if(oldIndex != -1 && inputElement.value == ""){
             controller.model.identifiedPlayers[oldIndex].role = null;
             controller.model.identifiedPlayers.splice(oldIndex, 1);
             inputElement.removeAttribute("oldIndex");
-        } else {
+        } else if(oldIndex != -1 && inputElement.value != ""){
             controller.model.identifiedPlayers[oldIndex].playerName = inputElement.value;
         }
 
