@@ -74,12 +74,6 @@ class Controller {
         var form = e.target;
         var playerNames = [];
         var oldIndexes = [];
-        var inputElements = form.querySelectorAll(".identSection>input");
-        for(var element of inputElements){
-            if(playerNames.value == "" || element.type != "text") continue;
-            playerNames.push(element.value);
-            oldIndexes.push(element.getAttribute("oldindex"));
-        }
 
         var targetElements = form.querySelectorAll(".targetSection>input");
         
@@ -156,6 +150,7 @@ class Controller {
         var inputElement = e.target;
         var oldIndex = parseInt(inputElement.getAttribute("oldIndex"));
 
+        // If there was nothing in the list and a new name gets entered
         if(oldIndex == -1 && inputElement.value != ""){
             var roleOfPlayer;
 
@@ -166,12 +161,11 @@ class Controller {
 
             var index = controller.model.findPlayerIndexByName(inputElement.value, true, roleOfPlayer);
             inputElement.setAttribute("oldIndex", index);
+            inputElement.required = true;
+            inputElement.placeholder = "Erforderlich";
             
-        } else if(oldIndex != -1 && inputElement.value == ""){
-            controller.model.identifiedPlayers[oldIndex].role = null;
-            controller.model.identifiedPlayers.splice(oldIndex, 1);
-            inputElement.removeAttribute("oldIndex");
-        } else if(oldIndex != -1 && inputElement.value != ""){
+        // There is a player on the list but the name got changed
+        }else if(oldIndex != -1 && inputElement.value != ""){
             controller.model.identifiedPlayers[oldIndex].playerName = inputElement.value;
         }
 

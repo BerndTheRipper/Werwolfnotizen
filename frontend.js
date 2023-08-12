@@ -391,6 +391,7 @@ class NightView extends View{
     #addPlayerIdent(currentRole, addTo){
         var nameInputFields = this._generatePlayerNameInputFromRole(currentRole);
         for(var inputField of nameInputFields){
+            inputField.required = inputField.getAttribute("oldIndex") != "-1";
             addTo.appendChild(inputField);
         }
     }
