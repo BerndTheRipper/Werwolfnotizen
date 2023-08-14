@@ -539,11 +539,18 @@ class DayView extends View{
         var playerListTbody = playerListSection.querySelector("tbody");
         playerListTbody.innerHTML = "";
 
-        for(var player of this.model.identifiedPlayers){
+        for(var i in this.model.identifiedPlayers){
+            var player = this.model.identifiedPlayers[i];
+
             var tr = this._generateTableRows(3);
             var trChildren = tr.children;
 
-            trChildren[0].innerText = player.playerName;
+            // TODO test this
+            var inputElement = this._generatePlayerNameInput(i);
+            inputElement.placeholder = "Spieler " + i;
+            inputElement.required = true;
+            trChildren[0].appendChild(inputElement);
+            
             
             this.#generateRoleSelector(rolesWithoutPlayers, player, trChildren[1], this.eventHandlers[2]);
 
