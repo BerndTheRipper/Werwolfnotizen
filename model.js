@@ -268,6 +268,7 @@ class Model{
         for(var index in this.identifiedPlayers){
             var player = this.identifiedPlayers[index];
             if(player.playerName != name) continue;
+            if(role != null && player.role != role) player.role = role;
             return index;
         }
         if(addIfNone) {

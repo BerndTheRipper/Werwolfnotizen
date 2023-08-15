@@ -549,6 +549,7 @@ class DayView extends View{
             var inputElement = this._generatePlayerNameInput(i);
             inputElement.placeholder = "Spieler " + i;
             inputElement.required = true;
+            inputElement.addEventListener("focusout", this.eventHandlers[3]);
             trChildren[0].appendChild(inputElement);
             
             

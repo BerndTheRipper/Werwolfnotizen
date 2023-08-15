@@ -8,7 +8,7 @@ class Controller {
         //Night view
         [this.wakeUpNextRole, this.playerIdentifyInputUnfocused],
         //Day view
-        [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown]
+        [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown, this.playerIdentifyInputUnfocused]
     ];
     
     constructor(model, view){
@@ -130,7 +130,7 @@ class Controller {
 
     roleChangedThroughDropdown(e){
         if(e.target.classList.contains("roleSelector")){
-            var playerName = e.target.parentElement.previousElementSibling.innerText;
+            var playerName = e.target.parentElement.parentElement.querySelector("input").value;
             var player = controller.model.findPlayerByName(playerName, false);
             var roleIndex = -1;
 
