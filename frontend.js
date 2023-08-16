@@ -513,6 +513,7 @@ class DayView extends View{
         //Finding players that have protection;
         for(var i in this.model.protectedPlayers){
             var player = this.model.protectedPlayers[i];
+            var playerIndex = this.model.identifiedPlayers.indexOf(player);
             var protectedPlayersIndex;
             var tr;
             if(!playersWithProtection.includes(player)){
@@ -520,7 +521,12 @@ class DayView extends View{
                 playersWithProtection.push(player);
                 tr = this._generateTableRows(3);
 
-                tr.children[0].innerText = player.playerName;
+                var inputElement = this._generatePlayerNameInput(playerIndex);
+                inputElement.placeholder = "Spieler " + i;
+                inputElement.required = true;
+                inputElement.addEventListener("focusout", this.eventHandlers[3]);
+                tr.children[0].appendChild(inputElement);
+
                 tr.children[1].innerText = player.role == null ? "unbekannt" : player.role.roleName;
 
                 protectedPlayerTbody.appendChild(tr);
@@ -545,7 +551,7 @@ class DayView extends View{
             var tr = this._generateTableRows(3);
             var trChildren = tr.children;
 
-            // TODO test this
+            
             var inputElement = this._generatePlayerNameInput(i);
             inputElement.placeholder = "Spieler " + i;
             inputElement.required = true;
