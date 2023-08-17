@@ -605,16 +605,17 @@ class DayView extends View{
     }
 
     #generateRoleSelector(leftoverRoles, player, parentObject, eventHandler){
-        var stringsForDropdown = [];
-        for(var role of leftoverRoles){
-            stringsForDropdown.push(role.roleName);
-        }
-        
         var dropdownDefaultEntry = "Unbekannt";
+        var stringsForDropdown = [];
 
         if(player.role != null){
             stringsForDropdown.push(dropdownDefaultEntry);
             dropdownDefaultEntry = player.role.roleName;
+        }
+        
+        for(var role of leftoverRoles){
+            if(role.roleName == dropdownDefaultEntry) continue;
+            stringsForDropdown.push(role.roleName);
         }
 
         var dropdown = super._generateDropDownFromArray(stringsForDropdown, parentObject, dropdownDefaultEntry);
