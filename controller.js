@@ -149,7 +149,7 @@ class Controller {
     playerIdentifyInputUnfocused(e){
         var inputElement = e.target;
         var oldIndex = parseInt(inputElement.getAttribute("oldIndex"));
-
+    
         // If there was nothing in the list and a new name gets entered
         if(oldIndex == -1 && inputElement.value != ""){
             var roleOfPlayer;
@@ -165,8 +165,17 @@ class Controller {
             inputElement.placeholder = "Erforderlich";
             
         // There is a player on the list but the name got changed
-        }else if(oldIndex != -1 && inputElement.value != ""){
+        }else if(inputElement.value != ""){
+            for(var player of controller.model.identifiedPlayers){
+                if(player.playerName != inputElement.value) continue;
+                alert("Es gibt schon einen Spieler mit diesem Namen! Bitte wähle einen anderen Namen.");
+                inputElement.value = controller.model.identifiedPlayers[oldIndex].playerName;
+                return;
+            }
             controller.model.identifiedPlayers[oldIndex].playerName = inputElement.value;
+        } else {
+            alert("Dieses Feld muss einen Wert haben!");
+            inputElement.value = controller.model.identifiedPlayers[oldIndex].playerName;
         }
 
         if(controller.view.currentView instanceof DayView) controller.view.redraw();
