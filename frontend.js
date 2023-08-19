@@ -587,6 +587,18 @@ class DayView extends View{
         }
 
         super._generateUlFromArray(stringsForList, rolesListSection);
+
+        //Problems section
+        //Current problems that get listed:
+        //No mayor is set
+        // var showMayorWarning = this.model.mayor == null;
+
+        // if(!showMayorWarning){
+        //     for(var proposal of this.model.killProposals){
+        //         if(!proposal.accept)
+        //     }
+
+        // }
     }
 
     #generateCheckbox(checked, disabled, onchange = null){
