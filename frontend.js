@@ -433,6 +433,9 @@ class DayView extends View{
         this.viewElement.innerHTML = htmlBase;
         this.viewElement.querySelector(".newMayorName").addEventListener("focusout", this.eventHandlers[0]);
         this.viewElement.querySelector("form").addEventListener("submit", this.eventHandlers[1]);
+        for(var proposal of this.model.killProposals){
+            proposal.setProposalAcceptedToDefault();
+        }
         //Set mayor name event handler
         this.redraw();
     }
@@ -476,7 +479,7 @@ class DayView extends View{
             var proposal = this.model.killProposals[i];
             var tr = this._generateTableRows(7);
             var trChildren = tr.children;
-            trChildren[0].appendChild(this.#generateCheckbox(proposal.acceptByDefault(), false));
+            trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
             if(proposal.player == null){
                 //TODO make role auto-update
                 var input = this._generatePlayerSelectInput("poposal" + i, "Playername unset");

@@ -517,6 +517,8 @@ class KillProposal {
     #protectors = [];
     // Protection valid
     protectionHolds = false;
+    // Kill proposal is accepted
+    proposalAccepted = false;
     
     constructor(player){
         this.player = player;
@@ -579,6 +581,10 @@ class KillProposal {
         return true;
     }
 
+    setProposalAcceptedToDefault(){
+        this.proposalAccepted = acceptByDefault();
+    }
+    
     acceptByDefault(){
         for(var killer of this.#killers){
             if(killer instanceof CrocodileAndy)
