@@ -582,7 +582,7 @@ class KillProposal {
     }
 
     setProposalAcceptedToDefault(){
-        this.proposalAccepted = acceptByDefault();
+        this.proposalAccepted = this.acceptByDefault();
     }
     
     acceptByDefault(){
