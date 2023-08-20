@@ -8,7 +8,7 @@ class Controller {
         //Night view
         [this.wakeUpNextRole, this.playerIdentifyInputUnfocused],
         //Day view
-        [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown, this.playerIdentifyInputUnfocused]
+        [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown, this.playerIdentifyInputUnfocused, this.proposalAcceptanceChanged]
     ];
     
     constructor(model, view){
@@ -181,6 +181,23 @@ class Controller {
         if(controller.view.currentView instanceof DayView) controller.view.redraw();
     }
 
+    proposalAcceptanceChanged(e){
+        var checkbox = e.target;
+
+        var playerName = checkbox.parentElement.nextElementSibling.innerText;
+
+        //TODO make separate function
+        for(var proposal of controller.model.killProposals){
+            if(proposal.player.playerName != playerName) continue;
+
+            proposal.proposalAccepted = checkbox.checked;
+            break;
+        }
+
+        //TODO Check if this is really necessary
+        controller.view.redraw();
+    }
+    
     amountIdentifiedChanged(){
         //Redraw if current view is daytime
     }

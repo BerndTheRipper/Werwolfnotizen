@@ -479,7 +479,8 @@ class DayView extends View{
             var proposal = this.model.killProposals[i];
             var tr = this._generateTableRows(7);
             var trChildren = tr.children;
-            trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
+            var proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
+            proposalAcceptedCheckbox.addEventListener("change", this.eventHandlers[4]);
             if(proposal.player == null){
                 //TODO make role auto-update
                 var input = this._generatePlayerSelectInput("poposal" + i, "Playername unset");
