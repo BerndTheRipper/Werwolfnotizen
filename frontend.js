@@ -590,16 +590,42 @@ class DayView extends View{
         super._generateUlFromArray(stringsForList, rolesListSection);
 
         //Problems section
+        var problemsSection = element.querySelector(".problems");
+        problemsSection.innerHTML = document.querySelector(".problems").innerHTML;
+        var problemsUL = problemsSection.querySelector("listOfProblems");
+
         //Current problems that get listed:
-        //No mayor is set
-        // var showMayorWarning = this.model.mayor == null;
+        //No mayor is set or is getting killed tonight
+        var listOfWarningBooleans = [
+            // There is no mayor
+            // TODO add detection for mayor candidate
+            this.model.mayor == null,
+            // Mayor dies tonight
+            // TODO add detection for mayor candidate
+            false
+        ];
 
-        // if(!showMayorWarning){
-        //     for(var proposal of this.model.killProposals){
-        //         if(!proposal.accept)
-        //     }
+        var listOfWarnings = [
+            "Es gibt keinen Bürgermeister!",
+            "Der Bürgermeister stirbt heute Nacht und (TODO) hat noch keinen Nachfolger bestimmt"
+        ];
 
-        // }
+        for(var proposal of this.model.killProposals){
+            if(proposal.player != this.model.mayor) continue;
+            if(!proposal.proposalAccepted) break;
+            listOfWarningBooleans[1] = true;
+            break;
+        }
+
+        var listOfWarningsToShow = [];
+
+        for(var i in listOfWarningBooleans){
+            if(listOfWarningBooleans[i]){
+                listOfWarningsToShow.push(listOfWarnings[i]);
+            }
+        }
+        
+        this._generateUlFromArray(listOfWarningsToShow, problemsSection);
     }
 
     #generateCheckbox(checked, disabled, onchange = null){
