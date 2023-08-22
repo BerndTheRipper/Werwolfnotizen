@@ -113,6 +113,15 @@ class Controller {
     }
 
     newMayorUnfocus(e){
+        var inputElement = e.target;
+        var identifiedPlayer = controller.model.findPlayerByName(inputElement.value, false);
+        controller.model.nextMayor = identifiedPlayer;
+
+        if(identifiedPlayer == null){
+            alert("Diesen Spieler gibt es nicht. Bitte füge ihn in der Tabelle unten hinzu.");
+            inputElement.value = "";
+        }
+        
         controller.view.redraw();
     }
 

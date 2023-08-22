@@ -46,6 +46,7 @@ class Model{
 
     // The mayor that decides who dies in case of a draw
     mayor = null;
+    nextMayor = null;
 
     // The person the old Vettel banned
     bannedByOldVettel = null;
