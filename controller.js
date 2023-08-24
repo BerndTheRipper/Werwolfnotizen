@@ -75,6 +75,7 @@ class Controller {
         var playerNames = [];
         var oldIndexes = [];
 
+        var playerNameElements = form.querySelectorAll(".identSection>input");
         var targetElements = form.querySelectorAll(".targetSection>input");
         
         if(controller.model.roles[controller.model.currentRoleToWakeUp] instanceof Witch){
@@ -93,6 +94,10 @@ class Controller {
             }
         }
         
+        for(var input of playerNameElements){
+            playerNames.push(input.value);
+            oldIndexes.push(input.getAttribute("oldIndex"));
+        }
         controller.model.identifyPlayers(playerNames, oldIndexes);
 
         try{
