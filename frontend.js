@@ -483,7 +483,6 @@ class DayView extends View{
             var proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
             proposalAcceptedCheckbox.addEventListener("change", this.eventHandlers[4]);
             if(proposal.player == null){
-                //TODO make role auto-update
                 var input = this._generatePlayerSelectInput("poposal" + i, "Playername unset");
                 trChildren[1].appendChild(input);
             } else {
