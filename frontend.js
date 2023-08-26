@@ -601,20 +601,31 @@ class DayView extends View{
             // TODO add detection for mayor candidate
             this.model.mayor == null,
             // Mayor dies tonight
-            // TODO add detection for mayor candidate
+            false,
+            // New mayor dies tonight
             false
         ];
 
         var listOfWarnings = [
             "Es gibt keinen Bürgermeister!",
-            "Der Bürgermeister stirbt heute Nacht und (TODO) hat noch keinen Nachfolger bestimmt"
+            "Der Bürgermeister stirbt heute Nacht und hat noch keinen Nachfolger bestimmt",
+            "Der neue Bürgermeister stirbt heute Nacht!"
         ];
 
-        for(var proposal of this.model.killProposals){
-            if(proposal.player != this.model.mayor) continue;
-            if(!proposal.proposalAccepted) break;
-            listOfWarningBooleans[1] = true;
-            break;
+        if(!this.model.nextMayor){
+            for(var proposal of this.model.killProposals){
+                if(proposal.player != this.model.mayor) continue;
+                if(!proposal.proposalAccepted) break;
+                listOfWarningBooleans[1] = true;
+                break;
+            }
+        }else{
+            for(var proposal of this.model.killProposals){
+                if(proposal.player != this.model.nextMayor) continue;
+                if(!proposal.proposalAccepted) break;
+                listOfWarningBooleans[2] = true;
+                break;
+            }
         }
 
         var listOfWarningsToShow = [];
