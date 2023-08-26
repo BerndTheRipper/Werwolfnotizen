@@ -90,11 +90,13 @@ class Controller {
             }
         } else {
             for(var element of targetElements){
+                if(element.value == "") continue;
                 controller.model.enterTarget(element.value);
             }
         }
         
         for(var input of playerNameElements){
+            if(input.value == "") continue;
             playerNames.push(input.value);
             oldIndexes.push(input.getAttribute("oldIndex"));
         }
