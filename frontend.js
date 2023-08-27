@@ -599,7 +599,7 @@ class DayView extends View{
         var listOfWarningBooleans = [
             // There is no mayor
             // TODO add detection for mayor candidate
-            this.model.mayor == null,
+            this.model.mayor == null && this.model.nextMayor == null,
             // Mayor dies tonight
             false,
             // New mayor dies tonight
