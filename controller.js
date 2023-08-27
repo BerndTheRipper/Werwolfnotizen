@@ -182,8 +182,10 @@ class Controller {
             
         // There is a player on the list but the name got changed
         }else if(inputElement.value != ""){
-            for(var player of controller.model.identifiedPlayers){
+            for(var i in controller.model.identifiedPlayers){
+                var player = controller.model.identifiedPlayers[i];
                 if(player.playerName != inputElement.value) continue;
+                if(inputElement.getAttribute("oldIndex") == i) return;
                 alert("Es gibt schon einen Spieler mit diesem Namen! Bitte wähle einen anderen Namen.");
                 inputElement.value = controller.model.identifiedPlayers[oldIndex].playerName;
                 return;
