@@ -447,9 +447,9 @@ class DayView extends View{
         //Mayor section:
         var mayorSection = element.getElementsByClassName("mayorSection")[0];
         if(this.model.mayor != null){
-            mayorSection.getElementsByClassName("mayorName")[0].innerText = this.model.mayor.playerName;
+            mayorSection.querySelector(".mayorName").innerText = this.model.mayor.playerName;
             if(this.model.mayor.role != null){
-                mayorSection.getElementsByClassName("mayorName")[0].innerText = this.model.mayor.role.roleName;
+                mayorSection.querySelector(".mayorRole").innerText = this.model.mayor.role.roleName;
             }
         }
 
