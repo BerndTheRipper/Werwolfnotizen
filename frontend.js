@@ -685,6 +685,66 @@ function aplwvbb(){
     enterRoles(["Amor", "Priester", "Leibwächter", "Werwolf", "Vampir", "Barde"], [,,,,,2]);
 }
 
+function defaultDrama(){
+    document.querySelector("#view > button").click();
+
+    var viewElement = document.querySelector("#view");
+    
+    //Amor
+    var form = viewElement.querySelector("form");
+    var inputFields = form.querySelectorAll("input[type=text]");
+    var submitButton = form.querySelector("input[type=submit]");
+    inputFields[0].value = "a";
+    inputFields[1].value = "b1";
+    inputFields[2].value = "b2";
+    submitButton.click();
+
+    //Priester
+    form = viewElement.querySelector("form");
+    inputFields = form.querySelectorAll("input[type=text]");
+    submitButton = form.querySelector("input[type=submit]");
+
+    inputFields[0].value = "p";
+    inputFields[1].value = "b1";
+    submitButton.click();
+
+    //Leibwächter
+    form = viewElement.querySelector("form");
+    inputFields = form.querySelectorAll("input[type=text]");
+    submitButton = form.querySelector("input[type=submit]");
+
+    inputFields[0].value = "l";
+    inputFields[1].value = "b1";
+    submitButton.click();
+
+    //Werwolf
+    form = viewElement.querySelector("form");
+    inputFields = form.querySelectorAll("input[type=text]");
+    submitButton = form.querySelector("input[type=submit]");
+
+    inputFields[0].value = "w";
+    inputFields[1].value = "b2";
+    submitButton.click();
+
+    //Vampir
+    form = viewElement.querySelector("form");
+    inputFields = form.querySelectorAll("input[type=text]");
+    submitButton = form.querySelector("input[type=submit]");
+
+    inputFields[0].value = "v";
+    inputFields[1].value = "b2";
+    submitButton.click();
+
+    //Barden
+    form = viewElement.querySelector("form");
+    inputFields = form.querySelectorAll("input[type=text]");
+    submitButton = form.querySelector("input[type=submit]");
+
+    inputFields[0].value = "b1";
+    inputFields[1].value = "b2";
+    submitButton.click();
+}
+
 function enterRoles(roleNames, roleAmounts = []){
     var inputField = document.querySelector("#view > form > input[type=text]:nth-child(1)");
     var amountField = document.querySelector("#view > form > input[type=number]:nth-child(2)");
