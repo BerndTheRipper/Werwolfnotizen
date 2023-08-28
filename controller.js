@@ -4,11 +4,28 @@ class Controller {
     view;
     eventHandlers = [
         //Initial view event handlers
-        [this.addRoleEvent, this.removeRoleEvent, this.moveUpRoleEvent, this.moveDownRoleEvent, this.checkboxOnClick, this.doneWithRoles],
+        [
+            /*0*/ this.addRoleEvent,
+            /*1*/ this.removeRoleEvent,
+            /*2*/ this.moveUpRoleEvent,
+            /*3*/ this.moveDownRoleEvent,
+            /*4*/ this.checkboxOnClick,
+            /*5*/ this.doneWithRoles
+        ],
         //Night view
-        [this.wakeUpNextRole, this.playerIdentifyInputUnfocused],
+        [
+            /*0*/ this.wakeUpNextRole, 
+            /*1*/ this.playerIdentifyInputUnfocused
+        ],
         //Day view
-        [this.newMayorUnfocus, this.daytimeFormSubmitted, this.roleChangedThroughDropdown, this.playerIdentifyInputUnfocused, this.proposalAcceptanceChanged]
+        [
+            /*0*/ this.newMayorUnfocus,
+            /*1*/ this.daytimeFormSubmitted,
+            /*2*/ this.roleChangedThroughDropdown,
+            /*3*/ this.playerIdentifyInputUnfocused,
+            /*4*/ this.proposalAcceptanceChanged,
+            /*5*/ this.addingNewPlayer
+        ]
     ];
     
     constructor(model, view){
