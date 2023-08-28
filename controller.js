@@ -215,6 +215,11 @@ class Controller {
         //TODO Check if this is really necessary
         controller.view.redraw();
     }
+
+    addingNewPlayer(e){
+        controller.model.addPlayer("", null);
+        controller.view.redraw();
+    }
     
     amountIdentifiedChanged(){
         //Redraw if current view is daytime

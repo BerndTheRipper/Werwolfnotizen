@@ -578,6 +578,24 @@ class DayView extends View{
             playerListTbody.appendChild(tr);
         }
 
+        //Add player section
+        var playerButton = element.querySelector(".addPlayerButton");
+        var lockPlayerButton = false;
+
+        for(var player of this.model.identifiedPlayers){
+            if(player.playerName != "") continue;
+            lockPlayerButton = true;
+            break;
+        }
+
+        if(this.model.playerAmountByRolesSum == this.model.identifiedPlayers.length || lockPlayerButton){
+            playerButton.disabled = true;
+        }else{
+            playerButton.disabled = false;
+            playerButton.addEventListener("click", this.eventHandlers[5]);
+        }
+        
+
         //Unidentified roles section
         var rolesListSection = element.querySelector(".unidentifiedRoles");
         rolesListSection.innerHTML = document.querySelector(".unidentifiedRoles").innerHTML;
