@@ -24,7 +24,8 @@ class Controller {
             /*2*/ this.roleChangedThroughDropdown,
             /*3*/ this.playerIdentifyInputUnfocused,
             /*4*/ this.proposalAcceptanceChanged,
-            /*5*/ this.addingNewPlayer
+            /*5*/ this.addingNewPlayer,
+            /*6*/ this.killingNewPlayer
         ]
     ];
     
@@ -235,6 +236,12 @@ class Controller {
 
     addingNewPlayer(e){
         controller.model.addPlayer("", null);
+        controller.view.redraw();
+    }
+
+    killingNewPlayer(e){
+        var newPlayer = controller.model.addPlayer("", null);
+        controller.model.addKillerToProposal(newPlayer, "Moderator");
         controller.view.redraw();
     }
     

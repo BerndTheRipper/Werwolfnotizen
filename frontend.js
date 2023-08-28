@@ -482,6 +482,7 @@ class DayView extends View{
             var trChildren = tr.children;
             var proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
             proposalAcceptedCheckbox.addEventListener("change", this.eventHandlers[4]);
+            //TODO update this, nowadays we have player name inputs everywhere
             if(proposal.player == null){
                 var input = this._generatePlayerSelectInput("poposal" + i, "Playername unset");
                 trChildren[1].appendChild(input);
@@ -506,6 +507,23 @@ class DayView extends View{
             trChildren[6].appendChild(acceptCheckbox);
 
             killProposalTbody.appendChild(tr);
+        }
+
+        //Kill new player section
+        var killNewPlayerButton = element.querySelector(".killNewPlayerButton");
+        var lockKillPlayerButton = false;
+
+        for(var player of this.model.identifiedPlayers){
+            if(player.playerName != "") continue;
+            lockKillPlayerButton = true;
+            break;
+        }
+
+        if(this.model.playerAmountByRolesSum == this.model.identifiedPlayers.length || lockKillPlayerButton){
+            killNewPlayerButton.disabled = true;
+        }else{
+            killNewPlayerButton.disabled = false;
+            killNewPlayerButton.addEventListener("click", this.eventHandlers[6]);
         }
 
         //protected players section
