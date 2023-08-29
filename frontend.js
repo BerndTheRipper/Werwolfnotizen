@@ -482,13 +482,14 @@ class DayView extends View{
             var trChildren = tr.children;
             var proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
             proposalAcceptedCheckbox.addEventListener("change", this.eventHandlers[4]);
-            //TODO update this, nowadays we have player name inputs everywhere
-            if(proposal.player == null){
-                var input = this._generatePlayerSelectInput("poposal" + i, "Playername unset");
-                trChildren[1].appendChild(input);
-            } else {
-                trChildren[1].innerText = proposal.player.playerName;
-            }
+            
+            var playerIndex = this.model.findPlayerIndexByName(proposal.player.playerName, false);
+
+            var inputElement = this._generatePlayerNameInput(playerIndex);
+            inputElement.placeholder = "Spieler " + playerIndex;
+            inputElement.required = true;
+            inputElement.addEventListener("focusout", this.eventHandlers[3]);
+            trChildren[1].appendChild(inputElement);
 
             this.#generateRoleSelector(rolesWithoutPlayers, proposal.player, trChildren[2], this.eventHandlers[2]);
 

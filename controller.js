@@ -220,7 +220,7 @@ class Controller {
     proposalAcceptanceChanged(e){
         var checkbox = e.target;
 
-        var playerName = checkbox.parentElement.nextElementSibling.innerText;
+        var playerName = checkbox.parentElement.nextElementSibling.children[0].value;
 
         //TODO make separate function
         for(var proposal of controller.model.killProposals){
