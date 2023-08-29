@@ -209,7 +209,7 @@ class Controller {
                 return;
             }
             controller.model.identifiedPlayers[oldIndex].playerName = inputElement.value;
-        } else {
+        } else if(controller.model.identifiedPlayers[oldIndex].playerName != ""){
             alert("Dieses Feld muss einen Wert haben!");
             inputElement.value = controller.model.identifiedPlayers[oldIndex].playerName;
         }
