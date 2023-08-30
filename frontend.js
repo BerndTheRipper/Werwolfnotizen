@@ -631,7 +631,6 @@ class DayView extends View {
 		//Problems section
 		var problemsSection = element.querySelector(".problems");
 		problemsSection.innerHTML = document.querySelector(".problems").innerHTML;
-		var problemsUL = problemsSection.querySelector("listOfProblems");
 
 		//Current problems that get listed:
 		//No mayor is set or is getting killed tonight
@@ -642,13 +641,16 @@ class DayView extends View {
 			// Mayor dies tonight
 			false,
 			// New mayor dies tonight
+			false,
+			// There are players with no name
 			false
 		];
 
 		var listOfWarnings = [
 			"Es gibt keinen Bürgermeister!",
 			"Der Bürgermeister stirbt heute Nacht und hat noch keinen Nachfolger bestimmt",
-			"Der neue Bürgermeister stirbt heute Nacht!"
+			"Der neue Bürgermeister stirbt heute Nacht!",
+			"Es gibt Spieler ohne Namen."
 		];
 
 		if (!this.model.nextMayor) {
@@ -667,6 +669,12 @@ class DayView extends View {
 			}
 		}
 
+		for (var player of this.model.identifiedPlayers) {
+			if (player.playerName != "") continue;
+			listOfWarningBooleans[3] = true;
+			break;
+		}
+
 		var listOfWarningsToShow = [];
 
 		for (var i in listOfWarningBooleans) {
@@ -675,7 +683,8 @@ class DayView extends View {
 			}
 		}
 
-		this._generateUlFromArray(listOfWarningsToShow, problemsSection);
+		var problemsUL = this._generateUlFromArray(listOfWarningsToShow, problemsSection);
+		problemsUL.class = "listOfProblems";
 	}
 
 	#generateCheckbox(checked, disabled, onchange = null) {
