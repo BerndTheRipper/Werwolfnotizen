@@ -164,7 +164,7 @@ class Controller {
 
     roleChangedThroughDropdown(e){
         if(e.target.classList.contains("roleSelector")){
-            var playerName = e.target.parentElement.parentElement.querySelector("input").value;
+            var playerName = e.target.parentElement.parentElement.querySelector("input[type=text]").value;
             var player = controller.model.findPlayerByName(playerName, false);
             var roleIndex = -1;
 
