@@ -210,6 +210,8 @@ class View {
 			ul.appendChild(li);
 		}
 		parent.appendChild(ul);
+
+		return ul;
 	}
 
 	_generateDropDownFromArray(array, parent, defaultEntry = "Rolle") {
