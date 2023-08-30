@@ -2,124 +2,127 @@
 <html lang="de">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="roles.js"></script>
-    <script src="model.js"></script>
-    <script src="frontend.js"></script>
-    <script src="controller.js"></script>
-    <script src="app.js"></script>
-    <title>Werwolf Notizen</title>
-    <style>
-        #templates{
-            display: none;
-        }
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="roles.js"></script>
+	<script src="model.js"></script>
+	<script src="frontend.js"></script>
+	<script src="controller.js"></script>
+	<script src="app.js"></script>
+	<title>Werwolf Notizen</title>
+	<style>
+		#templates {
+			display: none;
+		}
 
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
-    </style>
+		table,
+		th,
+		td {
+			border: 1px solid black;
+		}
+	</style>
 </head>
 
 <body>
-    <div id="datalists">
-        <datalist id="rolenamesdatalist"></datalist>
-        <datalist id="playernames"></datalist>
-        <datalist id="rolelessPlayers"></datalist>
-    </div>
-    <div id="updateWarning"><b>Notiz an mich: Vergiss nicht, den Haken bei Disable Cache zu setzen!</b></div>
-    <div id="templates">
-        <div id="initialView">
-            <form>
-                <input type="text" autocomplete="off" list="rolenamesdatalist" name="roleName" placeholder="Rollenname" required/>
-                <input type="number" autocomplete="off" name="roleAmount" placeholder="Anzahl" required/>
-                <input type="submit" value="Hinzufügen">
-            </form>
-            <button>Weiter</button>
-            <p>Anzahl der Spieler: <span class="totalPlayerAmountIndicator">0</span></p>
-            <input type="checkbox" tid="defaultSortingCheckbox">
-            <label for="defaultSortingCheckbox">Standardsortierung</label><br>
-            <table id="roleOverview">
-                <thead>
-                    <th>Name</th>
-                    <th>N</th>
-                    <th>Entfernen</th>
-                    <th>Nach oben</th>
-                    <th>Nach unten</th>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <div id="nightView">
-            <p>Rolle zum Aufwecken: <span class="roleToWakeUpIndicator"></span></p>
-            <div>
-                <form class="roleSpecificIndicators">
-                    <div class="identSection"></div><br>
-                    <div class="targetSection"></div><br>
-                    <input type="submit" value="Weiter">
-                </form>
-            </div>
-        </div>
-        <div id="dayView">
-            <form>
-                <div class="mayorSection">
-                    Bürgermeister: <span class="mayorName">Keiner</span> (Rolle: <span class="mayorRole">Unbekannt</span>)<br>
-                    Neuer Bürgermeister: <input type="text" autocomplete="off" placeholder="Name des Bürgermeisters" list="playernames" class="newMayorName"> (Rolle: <span class="newMayorRole">Unbekannt</span>)
-                </div>
-                <div class="killProposalSection">
-                    Vorschläge zum Töten:<br>
-                    <table>
-                        <thead>
-                            <th>Wird angenommen</th>
-                            <th>Name</th>
-                            <th>Rolle</th>
-                            <th>Gründe</th>
-                            <th>Schützer</th>
-                            <th>Schutz wirkt (WIP)</th>
-                            <th>Empfehlung (WIP)</th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <button class="killNewPlayerButton">Ungelisteten Spieler töten</button>
-                </div>
-                <div class="protectedPlayersSection">
-                    Geschützte Spieler:<br>
-                    <table>
-                        <thead>
-                            <th>Name</th>
-                            <th>Rolle</th>
-                            <th>Beschützer</th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-                <div class="playersInGame">
-                    Spieler im Spiel:
-                    <table>
-                        <thead>
-                            <th>Name</th>
-                            <th>Rolle</th>
-                            <th>Töten</th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <button class="addPlayerButton">Add player</button>
-                </div>
-                <div class="unidentifiedRoles">
-                    Rollen ohne Spieler:
-                </div>
-                <div class="problems">
-                    Probleme:
-                    <ul class="listOfProblems"></ul>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="view"></div>
+	<div id="datalists">
+		<datalist id="rolenamesdatalist"></datalist>
+		<datalist id="playernames"></datalist>
+		<datalist id="rolelessPlayers"></datalist>
+	</div>
+	<div id="updateWarning"><b>Notiz an mich: Vergiss nicht, den Haken bei Disable Cache zu setzen!</b></div>
+	<div id="templates">
+		<div id="initialView">
+			<form>
+				<input type="text" autocomplete="off" list="rolenamesdatalist" name="roleName" placeholder="Rollenname"
+					required />
+				<input type="number" autocomplete="off" name="roleAmount" placeholder="Anzahl" required />
+				<input type="submit" value="Hinzufügen">
+			</form>
+			<button>Weiter</button>
+			<p>Anzahl der Spieler: <span class="totalPlayerAmountIndicator">0</span></p>
+			<input type="checkbox" tid="defaultSortingCheckbox">
+			<label for="defaultSortingCheckbox">Standardsortierung</label><br>
+			<table id="roleOverview">
+				<thead>
+					<th>Name</th>
+					<th>N</th>
+					<th>Entfernen</th>
+					<th>Nach oben</th>
+					<th>Nach unten</th>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div id="nightView">
+			<p>Rolle zum Aufwecken: <span class="roleToWakeUpIndicator"></span></p>
+			<div>
+				<form class="roleSpecificIndicators">
+					<div class="identSection"></div><br>
+					<div class="targetSection"></div><br>
+					<input type="submit" value="Weiter">
+				</form>
+			</div>
+		</div>
+		<div id="dayView">
+			<form>
+				<div class="mayorSection">
+					Bürgermeister: <span class="mayorName">Keiner</span> (Rolle: <span
+						class="mayorRole">Unbekannt</span>)<br>
+					Neuer Bürgermeister: <input type="text" autocomplete="off" placeholder="Name des Bürgermeisters"
+						list="playernames" class="newMayorName"> (Rolle: <span class="newMayorRole">Unbekannt</span>)
+				</div>
+				<div class="killProposalSection">
+					Vorschläge zum Töten:<br>
+					<table>
+						<thead>
+							<th>Wird angenommen</th>
+							<th>Name</th>
+							<th>Rolle</th>
+							<th>Gründe</th>
+							<th>Schützer</th>
+							<th>Schutz wirkt (WIP)</th>
+							<th>Empfehlung (WIP)</th>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<button class="killNewPlayerButton">Ungelisteten Spieler töten</button>
+				</div>
+				<div class="protectedPlayersSection">
+					Geschützte Spieler:<br>
+					<table>
+						<thead>
+							<th>Name</th>
+							<th>Rolle</th>
+							<th>Beschützer</th>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div class="playersInGame">
+					Spieler im Spiel:
+					<table>
+						<thead>
+							<th>Name</th>
+							<th>Rolle</th>
+							<th>Töten</th>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<button class="addPlayerButton">Add player</button>
+				</div>
+				<div class="unidentifiedRoles">
+					Rollen ohne Spieler:
+				</div>
+				<div class="problems">
+					Probleme:
+					<ul class="listOfProblems"></ul>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="view"></div>
 </body>
 
 </html>
