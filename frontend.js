@@ -552,7 +552,7 @@ class DayView extends View {
 				inputElement.addEventListener("focusout", this.eventHandlers[3]);
 				tr.children[0].appendChild(inputElement);
 
-				tr.children[1].innerText = player.role == null ? "unbekannt" : player.role.roleName;
+				this.#generateRoleSelector(rolesWithoutPlayers, player, tr.children[1], this.eventHandlers[2]);
 
 				protectedPlayerTbody.appendChild(tr);
 			}
