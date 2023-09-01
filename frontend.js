@@ -337,22 +337,37 @@ class NightView extends View {
 					break;
 				case "Hexe":
 					if (currentRole.canHeal) {
+						targetSection.innerText += "Wen heilen?";
+						targetSection.appendChild(document.createElement("br"));
+
 						var attackVictimLabels = ["Niemand"];
 						var attackVictimNames = ["Niemand"];
 						for (var target of this.model.targets) {
 							if (!(target[1] instanceof Werewolf) && !(target[1] instanceof Vampire) && !(target[1] instanceof ToughGuy) && !(target[1] instanceof CrocodileAndy)) {
 								continue;
 							}
+
+							var indexOfPlayerLabel = attackVictimNames.indexOf(target[0].playerName);
+							if (indexOfPlayerLabel != -1) {
+								attackVictimLabels[indexOfPlayerLabel] += " und " + target[1].roleName;
+								continue;
+							}
+
 							var attackLabel = target[0].playerName + " (Rolle: ";
 							if (target[0].role == null) {
 								attackLabel += "Unbekannt";
 							} else {
 								attackLabel += target[0].role.roleName;
 							}
-							attackLabel += ", Angreifer: " + target[1].roleName + ")";
+							attackLabel += ", Angreifer: " + target[1].roleName;
 							attackVictimLabels.push(attackLabel);
 							attackVictimNames.push(target[0].playerName);
 						}
+
+						for (var i = 1; i < attackVictimLabels.length; i++) {
+							attackVictimLabels[i] += ")";
+						}
+
 						var radioButtons = this.#generateRadioButtons(attackVictimLabels, "healTargets", attackVictimNames, 0);
 
 						for (var element of radioButtons) {
