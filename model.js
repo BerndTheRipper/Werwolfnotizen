@@ -123,7 +123,17 @@ class Model {
 			}
 
 			this.playerAmountByRolesSum -= this.roles[i].amount;
-			// this.roles.splice(i, 1);
+
+			if (this.roles[i] instanceof Rioter) {
+				this.riot = 2;
+			} else if (this.roles[i] instanceof ToughGuy) {
+				this.toughGuyAttacked = 2;
+			} else if (this.roles[i] instanceof Puppy) {
+				this.pupKilled = 2;
+			} else if (this.roles[i] instanceof Leper) {
+				this.leperKilled = 2;
+			}
+
 			this.roles[i] = null;
 			return true;
 		}
