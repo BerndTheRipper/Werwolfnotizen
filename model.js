@@ -34,6 +34,7 @@ class Model {
 	riot = 2;
 	toughGuyAttacked = 2;
 	pupKilled = 2;
+	leperKilled = 2; // Aussätzige
 
 	// The two people who are in love.
 	lovers = [];
@@ -94,6 +95,8 @@ class Model {
 				this.toughGuyAttacked = 0;
 			} else if (newRole instanceof Puppy) {
 				this.pupKilled = 0;
+			} else if (newRole instanceof Leper) {
+				this.leperKilled = 0;
 			}
 
 			if (this.useDefaultRoleSorting) {
