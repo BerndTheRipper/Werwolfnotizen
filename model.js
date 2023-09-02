@@ -37,6 +37,7 @@ class Model {
 	leperKilled = 2; // Aussätzige
 
 	// The two people who are in love.
+	// TODO test if this is really needed and insert into finishProposals if it is
 	lovers = [];
 
 	// The player the pleasuregirl stays at
@@ -451,6 +452,47 @@ class Model {
 
 		proposal.addKiller(killer);
 
+	}
+
+	finishProposals() {
+		for (var proposal of this.killProposals) {
+			if (!proposal.proposalAccepted) {
+				continue;
+			}
+
+			if (proposal.player.role == null) {
+				throw new Error(`The role of ${proposal.player.playerName} is not set.`);
+			}
+
+			if (proposal.player.role instanceof Rioter) {
+				this.riot = 1;
+			} else if (proposal.player.role instanceof ToughGuy && this.toughGuyAttacked == 0) {
+				this.toughGuyAttacked = 1;
+				return;
+			} else if (proposal.player.role instanceof Puppy) {
+				this.pupKilled = 1;
+			} else if (proposal.player.role instanceof Leper) {
+				this.leperKilled = 1;
+			}
+
+			proposal.player.role.amount--;
+			proposal.player.role = null;
+
+			if (this.pleasureGirlHost == proposal.player) {
+				this.pleasureGirlHost = null;
+			}
+			if (this.blessedPlayer == proposal.player) {
+				this.blessedPlayer = null;
+			}
+			if (this.bannedByOldVettel == proposal.player) {
+				this.bannedByOldVettel = null;
+			}
+
+			var playerIndex = this.findPlayerIndexByName(proposal.player.playerName);
+			this.identifiedPlayers.splice(playerIndex, 1);
+		}
+
+		this.killProposals = [];
 	}
 
 	get useDefaultRoleSorting() {
