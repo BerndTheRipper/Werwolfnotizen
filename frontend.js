@@ -658,14 +658,16 @@ class DayView extends View {
 			// New mayor dies tonight
 			false,
 			// There are players with no name
-			false
+			false,
+			//There are dying players without a role
 		];
 
 		var listOfWarnings = [
 			"Es gibt keinen Bürgermeister!",
 			"Der Bürgermeister stirbt heute Nacht und hat noch keinen Nachfolger bestimmt",
 			"Der neue Bürgermeister stirbt heute Nacht!",
-			"Es gibt Spieler ohne Namen."
+			"Es gibt Spieler ohne Namen.",
+			"Die Rolle von einem toten Spieler ist noch nicht bekannt."
 		];
 
 		if (!this.model.nextMayor) {
@@ -684,10 +686,11 @@ class DayView extends View {
 			}
 		}
 
-		for (var player of this.model.identifiedPlayers) {
-			if (player.playerName != "") continue;
-			listOfWarningBooleans[3] = true;
-			break;
+		var i = 0;
+		while (!listOfWarningBooleans[3] && !listOfWarningBooleans[4] && i < this.model.identifiedPlayers.length) {
+			if (this.model.identifiedPlayers[i].playerName == "") listOfWarningBooleans[3] = true;
+			if (this.model.identifiedPlayers[i].role == null) listOfWarningBooleans[4] = true;
+			i++;
 		}
 
 		var listOfWarningsToShow = [];
