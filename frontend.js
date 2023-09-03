@@ -660,6 +660,7 @@ class DayView extends View {
 			// There are players with no name
 			false,
 			//There are dying players without a role
+			false
 		];
 
 		var listOfWarnings = [
