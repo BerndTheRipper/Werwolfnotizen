@@ -142,7 +142,7 @@ class Controller {
 		var identifiedPlayer = controller.model.findPlayerByName(inputElement.value, false);
 		controller.model.nextMayor = identifiedPlayer;
 
-		if (identifiedPlayer == null) {
+		if (identifiedPlayer == null && inputElement.value != "Auswählen") {
 			alert("Diesen Spieler gibt es nicht. Bitte füge ihn in der Tabelle unten hinzu.");
 			inputElement.value = "";
 		}

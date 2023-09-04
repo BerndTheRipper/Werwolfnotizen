@@ -228,6 +228,13 @@ class View {
 		if (parent != null) parent.appendChild(select);
 		return select;
 	}
+
+	_addOptionToDataList(datalist, value) {
+		var option = document.createElement("option");
+		option.value = value;
+		datalist.appendChild(option);
+		return option;
+	}
 }
 
 class InitialView extends View {
@@ -449,7 +456,7 @@ class DayView extends View {
 		super(model, viewElement, eventHandlers);
 		var htmlBase = document.getElementById("dayView").innerHTML;
 		this.viewElement.innerHTML = htmlBase;
-		this.viewElement.querySelector(".newMayorName").addEventListener("focusout", this.eventHandlers[0]);
+		this.viewElement.querySelector(".newMayorName").addEventListener("change", this.eventHandlers[0]);
 		this.viewElement.querySelector("form").addEventListener("submit", this.eventHandlers[1]);
 		for (var proposal of this.model.killProposals) {
 			proposal.setProposalAcceptedToDefault();
@@ -471,6 +478,28 @@ class DayView extends View {
 		}
 
 		//New mayor section:
+		var nonDefaultNames = [];
+		var defaultName = "Auswählen";
+		mayorSection.querySelector(".newMayorName").innerHTML = "";
+
+		for (var player of this.model.identifiedPlayers) {
+			if (player == this.model.nextMayor) {
+				if (player.playerName) defaultName = player.playerName;
+				continue;
+			}
+
+			if (player.playerName) {
+				nonDefaultNames.push(player.playerName);
+			}
+		}
+
+		nonDefaultNames = [defaultName].concat(nonDefaultNames);
+
+		for (var name of nonDefaultNames) {
+			var optionElement = this._addOptionToDataList(mayorSection.querySelector(".newMayorName"), name);
+			optionElement.innerText = name;
+		}
+
 		var newMayorName = mayorSection.querySelector(".newMayorName").value;
 		var newMayorPlayer = this.model.findPlayerByName(newMayorName, false);
 
