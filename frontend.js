@@ -716,11 +716,16 @@ class DayView extends View {
 			}
 		}
 
-		var i = 0;
-		while (!listOfWarningBooleans[3] && !listOfWarningBooleans[4] && i < this.model.identifiedPlayers.length) {
-			if (this.model.identifiedPlayers[i].playerName == "") listOfWarningBooleans[3] = true;
-			if (this.model.identifiedPlayers[i].role == null) listOfWarningBooleans[4] = true;
-			i++;
+		for (var player of this.model.identifiedPlayers) {
+			if (player.playerName) continue;
+			listOfWarningBooleans[3] = true;
+			break;
+		}
+
+		for (var proposal of this.model.killProposals) {
+			if (proposal.player.role) continue;
+			listOfWarningBooleans[4] = true;
+			break;
 		}
 
 		var listOfWarningsToShow = [];
