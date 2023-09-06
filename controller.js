@@ -25,7 +25,8 @@ class Controller {
             /*3*/ this.playerIdentifyInputUnfocused,
             /*4*/ this.proposalAcceptanceChanged,
             /*5*/ this.addingNewPlayer,
-            /*6*/ this.killingNewPlayer
+            /*6*/ this.killingNewPlayer,
+				/*7*/ this.dayOver
 		]
 	];
 
@@ -243,6 +244,19 @@ class Controller {
 		var newPlayer = controller.model.addPlayer("", null);
 		controller.model.addKillerToProposal(newPlayer, "Moderator");
 		controller.view.redraw();
+	}
+
+	dayOver(e) {
+		var viewElement = window.view;
+		var ul = viewElement.querySelector(".problems > ul");
+		if (ul.children.length) {
+			alert("Bitte löse erst die Probleme!");
+			return;
+		}
+
+		controller.model.finishProposals();
+
+		controller.model.startNight();
 	}
 
 	amountIdentifiedChanged() {

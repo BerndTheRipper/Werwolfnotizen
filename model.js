@@ -229,6 +229,36 @@ class Model {
 	}
 
 	startNight() {
+		this.mayor = this.nextMayor;
+		this.nextMayor = null;
+		this.bannedByOldVettel = null;
+		this.pleasureGirlHost = null;
+
+
+		this.targets = [];
+		this.protectedPlayers = [];
+		this.protectionReasons = [];
+
+		this.attackedPlayers = [];
+		this.attackers = [];
+
+		if (this.toughGuyAttacked == 1) {
+			var toughGuy = null;
+
+			for (var player of this.identifiedPlayers) {
+				if (!(player.role instanceof ToughGuy)) continue;
+				toughGuy = player;
+				break;
+			}
+
+			var i = 0;
+
+			for (; !(this.roles[i] instanceof ToughGuy); i++);
+
+			this.currentRoleToWakeUp = i;
+			this.enterTarget(toughGuy.playerName);
+		}
+
 		this.currentRoleToWakeUp = -1;
 		this.nightNumber++;
 		this.wakeUpNextRole();
