@@ -507,8 +507,8 @@ class Model {
 			if (proposal.player.role instanceof Rioter) {
 				this.riot = 1;
 			} else if (proposal.player.role instanceof ToughGuy && this.toughGuyAttacked == 0) {
-				this.toughGuyAttacked = 1;
-				return;
+				this.toughGuyAttacked += 1;
+				if (this.toughGuyAttacked == 1) return;
 			} else if (proposal.player.role instanceof Puppy) {
 				this.pupKilled = 1;
 			} else if (proposal.player.role instanceof Leper) {
