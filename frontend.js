@@ -738,6 +738,8 @@ class DayView extends View {
 
 		var problemsUL = this._generateUlFromArray(listOfWarningsToShow, problemsSection);
 		problemsUL.class = "listOfProblems";
+
+		this.viewElement.querySelector(".submit > input[type=submit]").disabled = listOfWarningsToShow.length;
 	}
 
 	#generateCheckbox(checked, disabled, onchange = null) {

@@ -160,6 +160,8 @@ class Controller {
 			var playerObject = controller.model.findPlayerByName(playerName, false);
 			controller.model.addKillerToProposal(playerObject, "Moderator");
 			controller.view.redraw();
+		} else {
+			this.dayOver(e);
 		}
 	}
 
