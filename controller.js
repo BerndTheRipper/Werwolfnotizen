@@ -156,7 +156,7 @@ class Controller {
 
 		//Submitted through kill button
 		if (e.submitter.classList.contains("killButton")) {
-			var playerName = e.submitter.parentElement.parentElement.querySelector("td").innerText;
+			var playerName = e.submitter.parentElement.parentElement.querySelector("td > input").value;
 			var playerObject = controller.model.findPlayerByName(playerName, false);
 			controller.model.addKillerToProposal(playerObject, "Moderator");
 			controller.view.redraw();
