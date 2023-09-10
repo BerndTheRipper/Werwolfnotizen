@@ -161,7 +161,7 @@ class Controller {
 			controller.model.addKillerToProposal(playerObject, "Moderator");
 			controller.view.redraw();
 		} else {
-			this.dayOver(e);
+			controller.dayOver(e);
 		}
 	}
 
