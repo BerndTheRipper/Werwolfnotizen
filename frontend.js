@@ -317,7 +317,93 @@ class NightView extends View {
 			this.viewElement.getElementsByClassName("roleToWakeUpIndicator")[0].innerText += " (Fake)";
 		} else {
 			this.#addPlayerIdent(currentRole, identSection);
-			switch (currentRole.roleName) {
+
+			//On Bard, Constructor and ToughGuy nothing more happens
+			if (currentRole instanceof Amor) {
+				this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+			}
+			else if (currentRole instanceof Werewolf) {
+				this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+				//TODO getting pup name
+			}
+			else if (
+				currentRole instanceof Priest ||
+				currentRole instanceof Guardian ||
+				currentRole instanceof Pleasuregirl ||
+				currentRole instanceof Vampire ||
+				currentRole instanceof CrocodileAndy ||
+				currentRole instanceof OldVettel
+			) {
+				this.#addPlayerTarget(currentRole.targetText, targetSection);
+			}
+			else if (currentRole instanceof Witch) {
+				if (currentRole.canHeal) {
+					targetSection.innerText += "Wen heilen?";
+					targetSection.appendChild(document.createElement("br"));
+
+					var attackVictimLabels = ["Niemand"];
+					var attackVictimNames = ["Niemand"];
+					for (var target of this.model.targets) {
+						if (!(target[1] instanceof Werewolf) && !(target[1] instanceof Vampire) && !(target[1] instanceof ToughGuy) && !(target[1] instanceof CrocodileAndy)) {
+							continue;
+						}
+
+						var indexOfPlayerLabel = attackVictimNames.indexOf(target[0].playerName);
+						if (indexOfPlayerLabel != -1) {
+							attackVictimLabels[indexOfPlayerLabel] += " und " + target[1].roleName;
+							continue;
+						}
+
+						var attackLabel = target[0].playerName + " (Rolle: ";
+						if (target[0].role == null) {
+							attackLabel += "Unbekannt";
+						} else {
+							attackLabel += target[0].role.roleName;
+						}
+						attackLabel += ", Angreifer: " + target[1].roleName;
+						attackVictimLabels.push(attackLabel);
+						attackVictimNames.push(target[0].playerName);
+					}
+
+					for (var i = 1; i < attackVictimLabels.length; i++) {
+						attackVictimLabels[i] += ")";
+					}
+
+					var radioButtons = this.#generateRadioButtons(attackVictimLabels, "healTargets", attackVictimNames, 0);
+
+					for (var element of radioButtons) {
+						targetSection.appendChild(element);
+					}
+				}
+				if (currentRole.canPoison) {
+					this.#addPlayerTarget(currentRole.targetText, targetSection);
+				}
+			}
+			else if (currentRole instanceof Rioter) {
+				if (this.model.riot == 2) {
+					targetSection.innerHTML = "Bereits für Unruhe gesorgt.";
+					return;
+				}
+
+				var radioButtons = this.#generateRadioButtons(["Unruhe", "Keine Unruhe"], "causeRiot", ["yes", "no"], 1);
+
+				for (var element of radioButtons) {
+					targetSection.appendChild(element);
+				}
+			}
+			else if (currentRole instanceof Seer) {
+				var list = [];
+				for (var player of this.model.identifiedPlayers) {
+					if (!player.role || !player.role.evil) continue;
+					list.push(player.playerName + " (Rolle: " + player.role.roleName + ")");
+				}
+				super._generateUlFromArray(list, targetSection);
+			}
+			else {
+				alert("noch nicht implementiert");
+			}
+
+			/*switch (currentRole.roleName) {
 				//Rollen, welche einfach nur identifiziert werden müssen
 				case "Barde":
 				case "Freimaurer":
@@ -406,7 +492,8 @@ class NightView extends View {
 					break;
 				default:
 					alert("noch nicht implementiert");
-			}
+			}*/
+
 			if (firstDraw) {
 				identSection.getElementsByTagName("input")[0].focus();
 			}
