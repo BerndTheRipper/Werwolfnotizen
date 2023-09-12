@@ -401,8 +401,13 @@ class NightView extends View {
 				}
 				super._generateUlFromArray(list, targetSection);
 			}
+			else if (
+				currentRole instanceof Bard ||
+				currentRole instanceof Constructor ||
+				currentRole instanceof ToughGuy
+			) { /*prevent the else warning from showing, but actually do nothing*/ }
 			else {
-				alert("noch nicht implementiert");
+				alert(currentRole.roleName + " noch nicht implementiert");
 			}
 
 			/*switch (currentRole.roleName) {
