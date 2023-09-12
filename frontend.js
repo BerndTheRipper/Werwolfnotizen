@@ -323,7 +323,9 @@ class NightView extends View {
 				this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
 			}
 			else if (currentRole instanceof Werewolf) {
-				this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+				var targetAmount = 1;
+				targetAmount += this.model.pupKilled == 1;
+				this.#addPlayerTarget(currentRole.targetText, targetSection, targetAmount);
 				//TODO getting pup name
 			}
 			else if (
