@@ -259,6 +259,8 @@ class Controller {
 		controller.model.finishProposals();
 
 		controller.model.startNight();
+
+		controller.view.loadView(NightView, controller.eventHandlers[1]);
 	}
 
 	amountIdentifiedChanged() {
