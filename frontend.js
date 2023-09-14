@@ -326,6 +326,15 @@ class NightView extends View {
 				var targetAmount = 1;
 				targetAmount += this.model.pupKilled == 1;
 				this.#addPlayerTarget(currentRole.targetText, targetSection, targetAmount);
+				try {
+					var puppyRoleIndex = this.model.getRoleIndexByName("Wolfsjunges");
+					this.#addPlayerIdent(this.model.roles[puppyRoleIndex], identSection);
+				}
+				catch (e) {
+					if (!(e instanceof ReferenceError) || !e.message.endsWith(" does not exist.")) {
+						throw e;
+					}
+				}
 				//TODO getting pup name
 			}
 			else if (
