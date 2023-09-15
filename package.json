@@ -1,0 +1,23 @@
+{
+  "name": "werwolfnotizen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BerndTheRipper/Werwolfnotizen.git"
+  },
+  "author": "BerndTheRipper",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/BerndTheRipper/Werwolfnotizen/issues"
+  },
+  "homepage": "https://github.com/BerndTheRipper/Werwolfnotizen#readme",
+  "devDependencies": {
+    "cypress": "^13.2.0"
+  }
+}
