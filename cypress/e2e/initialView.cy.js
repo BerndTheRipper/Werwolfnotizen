@@ -25,7 +25,9 @@ describe('template spec', () => {
 		expect(stub.getCall(0)).to.be.calledWith("Ich kenne die Rolle " + roleName + " nicht.");
 	});
 
-	it("Does submit when trying known role with number");
+	it("Does submit when trying known role with number", () => {
+		roleInputRelatedTests("Hexe", "1", true);
+	});
 });
 
 function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null) {
@@ -52,7 +54,22 @@ function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null) {
 	}
 	//Expects success
 	else {
-		cy.document().find("#view > table > tbody > tr");
+		cy.get("#view").find("table > tbody > tr").then(list => {
+			var roleNameFromTable = list[0].children[0].innerText;
+			var roleAmountFromTable = list[0].children[1].innerText;
+
+			expect(list.length).to.be.equal(1);
+			expect(roleNameFromTable).to.be.equal(roleName);
+			expect(roleAmountFromTable).to.be.equal(roleAmount);
+		});
+
+		cy.get("#view").find("input[name=roleName]").then(element => {
+			expect(element[0].innerText).to.be.empty;
+		});
+
+		cy.get("#view").find("input[name=roleAmount]").then(element => {
+			expect(element[0].innerText).to.be.empty;
+		});
 	}
 }
 
