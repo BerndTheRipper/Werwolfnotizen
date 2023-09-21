@@ -579,6 +579,7 @@ class Player {
 		this.role = role;
 		this.constructor.totalPlayers++;
 	}
+
 	get role() {
 		return this.#role;
 	}
@@ -680,3 +681,7 @@ class KillProposal {
 		return !this.isProtected();
 	}
 }
+
+moduless.Model = Model;
+module.exports.Player = Player;
+module.exports.KillProposal = KillProposal;
