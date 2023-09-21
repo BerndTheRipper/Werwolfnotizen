@@ -579,7 +579,7 @@ class Player {
 		this.role = role;
 		this.constructor.totalPlayers++;
 	}
-
+  
 	get role() {
 		return this.#role;
 	}

@@ -1,6 +1,22 @@
 {
-    "typeAcquisition": {
-        "include": ["jest", "puppeteer"]
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"target": "ES2020",
+		"jsx": "react",
+		"strictNullChecks": true,
+		"strictFunctionTypes": true
+	},
+	// "exclude": [
+	// 	"node_modules",
+	// 	"**/node_modules/*"
+	// ],
+	// "include": [
+	// 	"./node_modules/cypress",
+	// 	"cypress/**/*.js"
+	// ]
+		"typeAcquisition": {
+		"include": ["jest", "puppeteer"]
     },
     "include": ["node_modules"]
 }
