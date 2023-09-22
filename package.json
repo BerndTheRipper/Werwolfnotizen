@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "jest:test": "jest"
+    "jest:test": "jest",
     "cypress:open": "cypress open"
   },
   "repository": {
@@ -17,7 +17,6 @@
     "url": "https://github.com/BerndTheRipper/Werwolfnotizen/issues"
   },
   "homepage": "https://github.com/BerndTheRipper/Werwolfnotizen#readme",
-
   "main": "app.js",
   "dependencies": {
     "@types/jest": "^29.5.2",

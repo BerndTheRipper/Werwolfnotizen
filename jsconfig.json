@@ -15,8 +15,13 @@
 	// 	"./node_modules/cypress",
 	// 	"cypress/**/*.js"
 	// ]
-		"typeAcquisition": {
-		"include": ["jest", "puppeteer"]
-    },
-    "include": ["node_modules"]
+	"typeAcquisition": {
+		"include": [
+			"jest",
+			"puppeteer"
+		]
+	},
+	"include": [
+		"node_modules"
+	]
 }

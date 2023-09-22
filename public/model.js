@@ -579,7 +579,7 @@ class Player {
 		this.role = role;
 		this.constructor.totalPlayers++;
 	}
-  
+
 	get role() {
 		return this.#role;
 	}
@@ -682,6 +682,6 @@ class KillProposal {
 	}
 }
 
-moduless.Model = Model;
+module.exports.Model = Model;
 module.exports.Player = Player;
 module.exports.KillProposal = KillProposal;
