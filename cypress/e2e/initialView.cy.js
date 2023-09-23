@@ -1,4 +1,4 @@
-import Model from "../../public/model.js"
+import { Model } from "../../public/model.js"
 
 describe('template spec', () => {
 	it('Doesn\'t submit when typing unknown role with no number', () => {
@@ -11,19 +11,6 @@ describe('template spec', () => {
 
 	it("Doesn't submit when trying unknown role with number.", () => {
 		roleInputRelatedTests("kldsghgdjfkg", "12", false);
-
-		// cy.visit("http://localhost:8000");
-		// var roleName = "kldsghgdjfkg";
-		// var roleAmount = "12";
-
-		// const stub = cy.stub();
-		// cy.on("window:alert", stub);
-
-		// enterThingsInRoleFields(roleName, roleAmount);
-
-		// cy.get("#view").find("input[type=submit]").click();
-
-		// expect(stub.getCall(0)).to.be.calledWith("Ich kenne die Rolle " + roleName + " nicht.");
 	});
 
 	it("Does submit when trying known role with number", () => {
@@ -40,13 +27,13 @@ function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null) {
 	enterThingsInRoleFields(roleName, roleAmount);
 
 	cy.get("#view").find("input[type=submit]").click();
-
+	cy.log("TODO: Replace these tests with a counter to see how if an alert box has been shown.");
+	//Expects failure because no amount was entered
 	if (expectedSuccess == null) {
 		expect(stub).to.not.called;
 	}
+	//Expects failure because role is unknown
 	else if (!expectedSuccess) {
-		cy.log("TODO: Replace these tests with a counter to see how if an alert box has been shown.");
-
 		cy.window().then(window => {
 			var document = window.document;
 

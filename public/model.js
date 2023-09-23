@@ -682,6 +682,11 @@ class KillProposal {
 	}
 }
 
-module.exports.Model = Model;
-module.exports.Player = Player;
-module.exports.KillProposal = KillProposal;
+try {
+	module.exports.Model = Model;
+	module.exports.Player = Player;
+	module.exports.KillProposal = KillProposal;
+}
+catch (e) {
+	if (!(e instanceof ReferenceError) || e.message != "module is not defined") throw e;
+}
