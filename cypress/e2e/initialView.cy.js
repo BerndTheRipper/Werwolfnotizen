@@ -1,6 +1,6 @@
 import { Model } from "../../public/model.js"
 
-describe('template spec', () => {
+describe('Entering roles', () => {
 	it('Doesn\'t submit when typing unknown role with no number', () => {
 		roleInputRelatedTests("Eine unbekannte Rolle");
 	});
@@ -18,11 +18,12 @@ describe('template spec', () => {
 	});
 });
 
+describe("Moving roles up and down", () => {
+
+});
+
 function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null) {
 	cy.visit("http://localhost:8000");
-
-	const stub = cy.stub();
-	cy.on("window:alert", stub);
 
 	enterThingsInRoleFields(roleName, roleAmount);
 
@@ -30,14 +31,22 @@ function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null) {
 	cy.log("TODO: Replace these tests with a counter to see how if an alert box has been shown.");
 	//Expects failure because no amount was entered
 	if (expectedSuccess == null) {
-		expect(stub).to.not.called;
+		cy.window().then(window => {
+			var document = window.document;
+			console.log(document.querySelector("#view > form > input[type=text]:nth-child(1)").value);
+			expect(document.querySelector("#view > form > input[type=text]:nth-child(1)").value).to.equal(roleName);
+			assert(document.querySelector("#view > table > tbody").children.length == 0)
+
+			expect(window.model.roles.length).to.equal(0);
+		})
 	}
 	//Expects failure because role is unknown
 	else if (!expectedSuccess) {
 		cy.window().then(window => {
 			var document = window.document;
 
-			assert(document.querySelector("#view > table > tbody").children.length == 0)
+			assert(document.querySelector("#view > form > input[type=text]:nth-child(1)").value == roleName);
+			assert(document.querySelector("#view > table > tbody").children.length == 0);
 
 			assert(window.model.roles.length == 0);
 		});
@@ -60,12 +69,21 @@ function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null) {
 		cy.get("#view").find("input[name=roleAmount]").then(element => {
 			expect(element[0].innerText).to.be.empty;
 		});
+
+		cy.window().then(window => {
+			for (var role of window.model.roles) {
+				if (role == null) continue;
+				cy.log("Expecting " + role.roleName + " to equal " + roleName);
+				expect(role.roleName).to.be.equal(roleName);
+				expect(role.amount).to.be.equal(parseInt(roleAmount));
+			}
+		});
 	}
 }
 
 function enterThingsInRoleFields(roleName, roleAmount) {
 	//roleName being a literal 0 is a valid input, so I can't just do if(roleName)
-	if (roleName != null && roleAmount != "") {
+	if (roleName != null && roleName != "") {
 		var role = cy.get("#view").find("input[name=roleName]");
 		role.type(roleName);
 	}
