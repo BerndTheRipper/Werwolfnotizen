@@ -18,12 +18,36 @@ describe('Entering roles', () => {
 	});
 });
 
-describe("Moving roles up and down", () => {
+describe("Removing roles and editing their order", () => {
+	it("Removes a role", () => {
+		cy.visit("http://localhost:8000");
+		var roleName = "Leibwächter";
+		//Make sure the role exists
+		roleInputRelatedTests(roleName, "1", true, false);
 
+		cy.get("#roleOverview > tbody > tr > td:nth-child(3) > button").click();
+
+		cy.window().then(window => {
+			var document = window.document;
+
+			expect(document.querySelector("#view > #roleOverview > tbody").children).to.be.empty;
+			for (var entry of window.model.roles) {
+				if (entry == null) continue;
+				expect(entry.roleName).to.not.equal(roleName);
+			}
+		});
+	})
 });
 
-function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null) {
-	cy.visit("http://localhost:8000");
+function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null, reloadPage = true) {
+	if (reloadPage) {
+		cy.visit("http://localhost:8000");
+	}
+	else {
+		cy.location().then(location => {
+			expect(location.href).to.equal("http://localhost:8000/");
+		});
+	}
 
 	enterThingsInRoleFields(roleName, roleAmount);
 
