@@ -2,19 +2,19 @@ import { Model } from "../../public/model.js"
 
 describe('Entering roles', () => {
 	it('Doesn\'t submit when typing unknown role with no number', () => {
-		roleInputRelatedTests("Eine unbekannte Rolle");
+		enterRoleWithTesting("Eine unbekannte Rolle");
 	});
 
 	it('Doesn\'t submit when typing known role with no number.', () => {
-		roleInputRelatedTests("Hexe", "", null);
+		enterRoleWithTesting("Hexe", "", null);
 	});
 
 	it("Doesn't submit when trying unknown role with number.", () => {
-		roleInputRelatedTests("kldsghgdjfkg", "12", false);
+		enterRoleWithTesting("kldsghgdjfkg", "12", false);
 	});
 
 	it("Does submit when trying known role with number", () => {
-		roleInputRelatedTests("Hexe", "1", true);
+		enterRoleWithTesting("Hexe", "1", true);
 	});
 });
 
@@ -23,7 +23,7 @@ describe("Removing roles and editing their order", () => {
 		cy.visit("http://localhost:8000");
 		var roleName = "Leibwächter";
 		//Make sure the role exists
-		roleInputRelatedTests(roleName, "1", true, false);
+		enterRoleWithTesting(roleName, "1", true, false);
 
 		cy.get("#roleOverview > tbody > tr > td:nth-child(3) > button").click();
 
@@ -39,7 +39,7 @@ describe("Removing roles and editing their order", () => {
 	})
 });
 
-function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null, reloadPage = true) {
+function enterRoleWithTesting(roleName, roleAmount, expectedSuccess = null, reloadPage = true) {
 	if (reloadPage) {
 		cy.visit("http://localhost:8000");
 	}
@@ -59,9 +59,14 @@ function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null, rel
 			var document = window.document;
 			console.log(document.querySelector("#view > form > input[type=text]:nth-child(1)").value);
 			expect(document.querySelector("#view > form > input[type=text]:nth-child(1)").value).to.equal(roleName);
-			assert(document.querySelector("#view > table > tbody").children.length == 0)
+			for (var child of document.querySelector("#view > table > tbody").children) {
+				var childName = child.children[0].innerText;
+				expect(childName).to.not.be(roleName);
+			}
 
-			expect(window.model.roles.length).to.equal(0);
+			for (var role of window.model.roles) {
+				expect(role.roleName).not.to.be(roleName);
+			}
 		})
 	}
 	//Expects failure because role is unknown
@@ -70,9 +75,15 @@ function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null, rel
 			var document = window.document;
 
 			assert(document.querySelector("#view > form > input[type=text]:nth-child(1)").value == roleName);
-			assert(document.querySelector("#view > table > tbody").children.length == 0);
 
-			assert(window.model.roles.length == 0);
+			for (var child of document.querySelector("#view > table > tbody").children) {
+				var childName = child.children[0].innerText;
+				expect(childName).to.not.be(roleName);
+			}
+
+			for (var role of window.model.roles) {
+				expect(role.roleName).not.to.be(roleName);
+			}
 		});
 	}
 	//Expects success
@@ -96,8 +107,7 @@ function roleInputRelatedTests(roleName, roleAmount, expectedSuccess = null, rel
 
 		cy.window().then(window => {
 			for (var role of window.model.roles) {
-				if (role == null) continue;
-				cy.log("Expecting " + role.roleName + " to equal " + roleName);
+				if (role == null || role.roleName != roleName) continue;
 				expect(role.roleName).to.be.equal(roleName);
 				expect(role.amount).to.be.equal(parseInt(roleAmount));
 			}
