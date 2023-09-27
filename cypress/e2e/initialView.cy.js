@@ -34,7 +34,13 @@ describe("Removing roles and editing their order", () => {
 				expect(entry.roleName).to.not.equal(roleName);
 			}
 		});
-	})
+	});
+
+	it("Moves up a role without any trouble", () => {
+		enterRoleWithTesting("Werwolf", "3", true, true);
+		enterRoleWithTesting("Freimaurer", "4", true, false);
+
+	});
 });
 
 function enterRoleWithTesting(roleName, roleAmount, expectedSuccess = null, reloadPage = true) {
@@ -86,13 +92,19 @@ function enterRoleWithTesting(roleName, roleAmount, expectedSuccess = null, relo
 	}
 	//Expects success
 	else {
-		cy.get("#view").find("table > tbody > tr").then(list => {
-			var roleNameFromTable = list[0].children[0].innerText;
-			var roleAmountFromTable = list[0].children[1].innerText;
+		var htmlNameList = [];
+		var htmlAmountList = [];
+		cy.get("#view").find("table > tbody").then(result => {
+			var tbody = result[0];
+			for (var i = 0; i < tbody.children.length; i++) {
+				var entry = tbody.children[i];
+				// console.log(tbody.children[i].children[0].innerText);
+				var roleNameFromTable = entry.children[0].innerText;
+				var roleAmountFromTable = entry.children[1].innerText;
 
-			expect(list.length).to.be.equal(1);
-			expect(roleNameFromTable).to.be.equal(roleName);
-			expect(roleAmountFromTable).to.be.equal(roleAmount);
+				htmlNameList.push(roleNameFromTable);
+				htmlAmountList.push(roleAmountFromTable);
+			}
 		});
 
 		cy.get("#view").find("input[name=roleName]").then(element => {
@@ -103,12 +115,19 @@ function enterRoleWithTesting(roleName, roleAmount, expectedSuccess = null, relo
 			expect(element[0].innerText).to.be.empty;
 		});
 
+		cy.log(htmlNameList);
+
+		expect(htmlNameList.length).to.equal(htmlAmountList.length);
 		cy.window().then(window => {
-			for (var role of window.model.roles) {
-				if (role == null || role.roleName != roleName) continue;
-				expect(role.roleName).to.be.equal(roleName);
-				expect(role.amount).to.be.equal(parseInt(roleAmount));
+			var iterations = 0;
+			var nonNullEntries = 0;
+			for (; iterations < window.model.roles.length; iterations++) {
+				if (window.model.roles[iterations] == null) continue;
+				expect(window.model.roles[iterations].roleName).to.equal(htmlNameList[nonNullEntries]);
+				expect(window.model.roles[iterations].amount).to.equal(parseInt(htmlAmountList[nonNullEntries]));
+				nonNullEntries++;
 			}
+			expect(nonNullEntries).to.equal(htmlNameList.length);
 		});
 	}
 }
