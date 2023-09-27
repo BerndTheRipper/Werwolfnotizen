@@ -1,5 +1,3 @@
-import { Model } from "../../public/model.js"
-
 describe('Entering roles', () => {
 	it('Doesn\'t submit when typing unknown role with no number', () => {
 		enterRoleWithTesting("Eine unbekannte Rolle");
