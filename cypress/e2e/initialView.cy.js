@@ -39,7 +39,16 @@ describe("Removing roles and editing their order", () => {
 	it("Moves up a role without any trouble", () => {
 		enterRoleWithTesting("Werwolf", "3", true, true);
 		enterRoleWithTesting("Freimaurer", "4", true, false);
+		enterRoleWithTesting("Barde", "2", true, false);
 
+		cy.window().then(window => {
+			var document = window.document;
+			var roleNameElement = document.querySelector("#roleOverview > tbody > tr:nth-child(2) > td:nth-child(1)");
+
+			expect(roleNameElement.innerText).to.equal("Barde");
+			expect(roleNameElement.nextElementSibling.innerText).to.equal("2");
+			expect(document.querySelector("#defaultSortingCheckbox")).to.be.checked;
+		});
 	});
 });
 
