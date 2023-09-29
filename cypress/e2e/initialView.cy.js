@@ -62,6 +62,8 @@ describe("Removing roles and editing their order", () => {
 			expect(window.model.roles[1].roleName).to.equal("Werwolf");
 			expect(window.model.roles[1].amount).to.equal(3);
 		});
+
+		viewMatchesModel();
 	});
 });
 
@@ -114,21 +116,6 @@ function enterRoleWithTesting(roleName, roleAmount, expectedSuccess = null, relo
 	}
 	//Expects success
 	else {
-		var htmlNameList = [];
-		var htmlAmountList = [];
-		cy.get("#view").find("table > tbody").then(result => {
-			var tbody = result[0];
-			for (var i = 0; i < tbody.children.length; i++) {
-				var entry = tbody.children[i];
-				// console.log(tbody.children[i].children[0].innerText);
-				var roleNameFromTable = entry.children[0].innerText;
-				var roleAmountFromTable = entry.children[1].innerText;
-
-				htmlNameList.push(roleNameFromTable);
-				htmlAmountList.push(roleAmountFromTable);
-			}
-		});
-
 		cy.get("#view").find("input[name=roleName]").then(element => {
 			expect(element[0].innerText).to.be.empty;
 		});
@@ -137,21 +124,41 @@ function enterRoleWithTesting(roleName, roleAmount, expectedSuccess = null, relo
 			expect(element[0].innerText).to.be.empty;
 		});
 
-		cy.log(htmlNameList);
-
-		expect(htmlNameList.length).to.equal(htmlAmountList.length);
-		cy.window().then(window => {
-			var iterations = 0;
-			var nonNullEntries = 0;
-			for (; iterations < window.model.roles.length; iterations++) {
-				if (window.model.roles[iterations] == null) continue;
-				expect(window.model.roles[iterations].roleName).to.equal(htmlNameList[nonNullEntries]);
-				expect(window.model.roles[iterations].amount).to.equal(parseInt(htmlAmountList[nonNullEntries]));
-				nonNullEntries++;
-			}
-			expect(nonNullEntries).to.equal(htmlNameList.length);
-		});
+		viewMatchesModel();
 	}
+}
+
+function viewMatchesModel() {
+	var htmlNameList = [];
+	var htmlAmountList = [];
+	cy.get("#view").find("table > tbody").then(result => {
+		var tbody = result[0];
+		for (var i = 0; i < tbody.children.length; i++) {
+			var entry = tbody.children[i];
+			// console.log(tbody.children[i].children[0].innerText);
+			var roleNameFromTable = entry.children[0].innerText;
+			var roleAmountFromTable = entry.children[1].innerText;
+
+			htmlNameList.push(roleNameFromTable);
+			htmlAmountList.push(roleAmountFromTable);
+		}
+	});
+
+	expect(htmlNameList.length).to.equal(htmlAmountList.length);
+	cy.window().then(window => {
+		var document = window.document;
+		var iterations = 0;
+		var nonNullEntries = 0;
+		for (; iterations < window.model.roles.length; iterations++) {
+			if (window.model.roles[iterations] == null) continue;
+			expect(window.model.roles[iterations].roleName).to.equal(htmlNameList[nonNullEntries]);
+			expect(window.model.roles[iterations].amount).to.equal(parseInt(htmlAmountList[nonNullEntries]));
+			nonNullEntries++;
+		}
+		expect(nonNullEntries).to.equal(htmlNameList.length);
+
+		expect(parseInt(document.querySelector("#view").querySelector(".totalPlayerAmountIndicator").innerText)).to.equal(window.model.playerAmountByRolesSum);
+	});
 }
 
 function enterThingsInRoleFields(roleName, roleAmount) {
