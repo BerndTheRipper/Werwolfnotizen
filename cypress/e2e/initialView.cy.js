@@ -37,10 +37,12 @@ describe("Removing roles and editing their order", () => {
 	});
 
 	it("Moves up a role without any trouble", () => {
+		//Enter the roles in the wrong order, actual order is Werwolf, Barde, Freimaurer
 		enterRoleWithTesting("Werwolf", "3", true, true);
 		enterRoleWithTesting("Freimaurer", "4", true, false);
 		enterRoleWithTesting("Barde", "2", true, false);
 
+		//Check if the bard has been sorted in correctly after he has been entered out of order
 		cy.window().then(window => {
 			var document = window.document;
 			var roleNameElement = document.querySelector("#roleOverview > tbody > tr:nth-child(2) > td:nth-child(1)");
@@ -50,8 +52,10 @@ describe("Removing roles and editing their order", () => {
 			expect(document.querySelector("#defaultSortingCheckbox")).to.be.checked;
 		});
 
+		//Move the bard in front of the werewolf
 		cy.get("#view").find("tbody > tr:nth-child(2) > td:nth-child(4) > button").click();
 
+		//Check if bard and werewolf are in the right place (bard first and then werewolf)
 		cy.window().then(window => {
 			var document = window.document;
 
@@ -69,6 +73,7 @@ describe("Removing roles and editing their order", () => {
 		enterRoleWithTesting("Freimaurer", "4", true, false);
 		enterRoleWithTesting("Barde", "2", true, false);
 
+		// Checking again just to be sure
 		cy.window().then(window => {
 			var document = window.document;
 			var roleNameElement = document.querySelector("#roleOverview > tbody > tr:nth-child(2) > td:nth-child(1)");
@@ -78,6 +83,7 @@ describe("Removing roles and editing their order", () => {
 			expect(document.querySelector("#defaultSortingCheckbox")).to.be.checked;
 		});
 
+		//Move down Freimaurer
 		cy.get("#view").find("tbody > tr:nth-child(3) > td:nth-child(4) > button").click();
 		cy.window().then(window => {
 			var document = window.document;
