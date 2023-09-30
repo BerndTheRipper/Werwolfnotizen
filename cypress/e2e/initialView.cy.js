@@ -64,6 +64,31 @@ describe("Removing roles and editing their order", () => {
 		});
 
 		viewMatchesModel();
+
+		enterRoleWithTesting("Werwolf", "3", true, true);
+		enterRoleWithTesting("Freimaurer", "4", true, false);
+		enterRoleWithTesting("Barde", "2", true, false);
+
+		cy.window().then(window => {
+			var document = window.document;
+			var roleNameElement = document.querySelector("#roleOverview > tbody > tr:nth-child(2) > td:nth-child(1)");
+
+			expect(roleNameElement.innerText).to.equal("Barde");
+			expect(roleNameElement.nextElementSibling.innerText).to.equal("2");
+			expect(document.querySelector("#defaultSortingCheckbox")).to.be.checked;
+		});
+
+		cy.get("#view").find("tbody > tr:nth-child(3) > td:nth-child(4) > button").click();
+		cy.window().then(window => {
+			var document = window.document;
+
+			expect(document.querySelector("#defaultSortingCheckbox")).to.not.be.checked;
+			expect(window.model.roles.length).to.equal(3);
+			expect(window.model.roles[1].roleName).to.equal("Freimaurer");
+			expect(window.model.roles[1].amount).to.equal(4);
+			expect(window.model.roles[2].roleName).to.equal("Barde");
+			expect(window.model.roles[2].amount).to.equal(2);
+		});
 	});
 });
 
