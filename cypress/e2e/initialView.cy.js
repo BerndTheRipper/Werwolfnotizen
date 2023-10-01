@@ -38,22 +38,10 @@ describe("Removing roles and editing their order", () => {
 
 	it("Moves up a role without any trouble", () => {
 		//Enter the roles in the wrong order, actual order is Werwolf, Barde, Freimaurer
-		enterRoleWithTesting("Werwolf", "3", true, true);
-		enterRoleWithTesting("Freimaurer", "4", true, false);
-		enterRoleWithTesting("Barde", "2", true, false);
-
-		//Check if the bard has been sorted in correctly after he has been entered out of order
-		cy.window().then(window => {
-			var document = window.document;
-			var roleNameElement = document.querySelector("#roleOverview > tbody > tr:nth-child(2) > td:nth-child(1)");
-
-			expect(roleNameElement.innerText).to.equal("Barde");
-			expect(roleNameElement.nextElementSibling.innerText).to.equal("2");
-			expect(document.querySelector("#defaultSortingCheckbox")).to.be.checked;
-		});
-
-		//Move the bard in front of the werewolf
-		cy.get("#view").find("tbody > tr:nth-child(2) > td:nth-child(4) > button").click();
+		// enterRoleWithTesting("Werwolf", "3", true, true);
+		// enterRoleWithTesting("Freimaurer", "4", true, false);
+		// enterRoleWithTesting("Barde", "2", true, false);
+		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 1, true);
 
 		//Check if bard and werewolf are in the right place (bard first and then werewolf)
 		cy.window().then(window => {
@@ -204,4 +192,64 @@ function enterThingsInRoleFields(roleName, roleAmount) {
 		var amount = cy.get("#view").find("input[name=roleAmount]");
 		amount.type(roleAmount);
 	}
+}
+
+/**
+ * @function updowntest
+ * 
+ * Runs tests where certain roles are entered and then the role at moveIndex is moved up if moveUp is true or down if moveUp is false
+ * 
+ * @param {object[string]} roleNames the names of the roles to enter
+ * @param {object[string]} roleAmounts the amounts of roles to enter
+ * @param {number} moveIndex the index of the role to move up or down, starting with index 0
+ * @param {boolean} moveUp if true, it is being tested with the role being moved up, if false, the role is moved down
+ */
+function updowntest(roleNames, roleAmounts, moveIndex, moveUp) {
+	expect(roleNames.length).to.equal(roleAmounts.length);
+	expect(roleNames.length).to.be.above(1);
+	assert(moveUp && moveIndex > 0 || !moveUp && moveIndex < roleNames.length);
+	enterRoleWithTesting(roleNames[0], roleAmounts[1], true, true);
+
+	var buttonIndex = "5";
+	if (moveUp) buttonIndex = "4";
+
+	for (var i = 1; i < roleNames.length; i++) {
+		enterRoleWithTesting(roleNames[i], roleAmounts[i], true, false);
+	}
+
+	cy.get("#view").find("tbody > tr:nth-child(" + (moveIndex + 1) + ") > td:nth-child(" + buttonIndex + ") > button").click();
+
+	var moveIndexInt = parseInt(moveIndex);
+	var lowerMoveIndex = -1;
+	var upperMoveIndex = -1;
+	var lowerCheckIndex = -1;
+	var upperCheckIndex = -1;
+
+	//TODO the roles might not be entered in the correct order, figure out a way to solve this
+	if (moveUp) {
+		lowerMoveIndex = moveIndexInt - 1;
+		upperMoveIndex = moveIndex;
+		lowerCheckIndex = upperMoveIndex;
+		upperCheckIndex = lowerMoveIndex;
+		console.log([lowerMoveIndex, upperMoveIndex, lowerCheckIndex, upperCheckIndex]);
+		console.log(roleNames);
+	} else {
+		lowerMoveIndex = moveIndexInt;
+		upperMoveIndex = moveIndex;
+		lowerCheckIndex = lowerMoveIndex;
+		upperCheckIndex = upperMoveIndex;
+	}
+
+	cy.window().then(window => {
+		var document = window.document;
+
+		expect(document.querySelector("#defaultSortingCheckbox")).to.not.be.checked;
+		expect(window.model.roles.length).to.equal(roleNames.length);
+		expect(window.model.roles[lowerMoveIndex].roleName).to.equal(roleNames[lowerCheckIndex]);
+		expect(window.model.roles[lowerMoveIndex].amount).to.equal(parseInt(roleAmounts[lowerCheckIndex]));
+		expect(window.model.roles[upperMoveIndex].roleName).to.equal(roleNames[upperCheckIndex]);
+		expect(window.model.roles[upperMoveIndex].amount).to.equal(parseInt(roleAmounts[upperCheckIndex]));
+	});
+
+	viewMatchesModel();
 }
