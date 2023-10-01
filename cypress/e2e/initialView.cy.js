@@ -83,7 +83,7 @@ describe("Removing roles and editing their order", () => {
 			expect(document.querySelector("#defaultSortingCheckbox")).to.be.checked;
 		});
 
-		//Move down Freimaurer
+		//Move up Freimaurer
 		cy.get("#view").find("tbody > tr:nth-child(3) > td:nth-child(4) > button").click();
 		cy.window().then(window => {
 			var document = window.document;
