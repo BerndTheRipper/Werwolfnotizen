@@ -37,44 +37,15 @@ describe("Removing roles and editing their order", () => {
 	});
 
 	it("Moves up a role without any trouble", () => {
-		//Enter the roles in the wrong order, actual order is Werwolf, Barde, Freimaurer
-		// enterRoleWithTesting("Werwolf", "3", true, true);
-		// enterRoleWithTesting("Freimaurer", "4", true, false);
-		// enterRoleWithTesting("Barde", "2", true, false);
 		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 1, true);
 
-		//Check if bard and werewolf are in the right place (bard first and then werewolf)
-		cy.window().then(window => {
-			var document = window.document;
-
-			expect(document.querySelector("#defaultSortingCheckbox")).to.not.be.checked;
-			expect(window.model.roles.length).to.equal(3);
-			expect(window.model.roles[0].roleName).to.equal("Barde");
-			expect(window.model.roles[0].amount).to.equal(2);
-			expect(window.model.roles[1].roleName).to.equal("Werwolf");
-			expect(window.model.roles[1].amount).to.equal(3);
-		});
-
-		viewMatchesModel();
-
-		//Enter the roles in the wrong order, actual order is Werwolf, Barde, Freimaurer
-		// enterRoleWithTesting("Werwolf", "3", true, true);
-		// enterRoleWithTesting("Freimaurer", "4", true, false);
-		// enterRoleWithTesting("Barde", "2", true, false);
 		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 2, true);
+	});
 
-		//Move up Freimaurer
-		// cy.get("#view").find("tbody > tr:nth-child(3) > td:nth-child(4) > button").click();
-		cy.window().then(window => {
-			var document = window.document;
+	it("moves down a role without any trouble", () => {
+		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 0, false);
 
-			expect(document.querySelector("#defaultSortingCheckbox")).to.not.be.checked;
-			expect(window.model.roles.length).to.equal(3);
-			expect(window.model.roles[1].roleName).to.equal("Freimaurer");
-			expect(window.model.roles[1].amount).to.equal(4);
-			expect(window.model.roles[2].roleName).to.equal("Barde");
-			expect(window.model.roles[2].amount).to.equal(2);
-		});
+		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 1, false);
 	});
 });
 
