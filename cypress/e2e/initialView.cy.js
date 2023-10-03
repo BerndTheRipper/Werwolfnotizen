@@ -199,7 +199,7 @@ function enterThingsInRoleFields(roleName, roleAmount) {
 function updowntest(roleNames, roleAmounts, moveIndex, moveUp) {
 	expect(roleNames.length).to.equal(roleAmounts.length);
 	expect(roleNames.length).to.be.above(1);
-	assert(moveUp && moveIndex > 0 || !moveUp && moveIndex < roleNames.length);
+	assert(moveUp && moveIndex > 0 || !moveUp && moveIndex < roleNames.length - 1);
 	enterRoleWithTesting(roleNames[0], roleAmounts[0], true, true);
 
 	var buttonIndex = "5";
@@ -228,28 +228,19 @@ function updowntest(roleNames, roleAmounts, moveIndex, moveUp) {
 	var lowerCheckIndex = -1;
 	var upperCheckIndex = -1;
 
-	//TODO the roles might not be entered in the correct order, figure out a way to solve this
 	if (moveUp) {
 		lowerMoveIndex = moveIndexInt - 1;
-		upperMoveIndex = moveIndex;
-		lowerCheckIndex = upperMoveIndex;
-		upperCheckIndex = lowerMoveIndex;
+		upperMoveIndex = moveIndexInt;
 	} else {
 		lowerMoveIndex = moveIndexInt;
 		upperMoveIndex = moveIndexInt + 1;
-		lowerCheckIndex = lowerMoveIndex;
-		upperCheckIndex = upperMoveIndex;
 	}
+	lowerCheckIndex = upperMoveIndex;
+	upperCheckIndex = lowerMoveIndex;
 
 
 	cy.window().then(window => {
 		var document = window.document;
-		if (moveIndex == 2) {
-			console.log(lowerMoveIndex);
-			console.log(upperMoveIndex);
-			console.log(lowerCheckIndex);
-			console.log(upperCheckIndex);
-		}
 
 		expect(document.querySelector("#defaultSortingCheckbox")).to.not.be.checked;
 		expect(window.model.roles.length).to.equal(roleNames.length);
