@@ -42,10 +42,35 @@ describe("Removing roles and editing their order", () => {
 		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 2, true);
 	});
 
-	it("moves down a role without any trouble", () => {
+	it("Moves down a role without any trouble", () => {
 		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 0, false);
 
 		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 1, false);
+	});
+
+	it("Returns everything to order properly", () => {
+		updowntest(["Werwolf", "Freimaurer", "Barde"], ["3", "4", "2"], 1, false);
+
+		cy.get("#defaultSortingCheckbox").click();
+
+		viewMatchesModel();
+
+		cy.window().then(window => {
+			var document = window.document;
+
+			expect(document.querySelector("#defaultSortingCheckbox")).to.be.checked;
+
+			expect(window.model.useDefaultRoleSorting).to.be.true;
+
+			var properOrder = ["Werwolf", "Barde", "Freimaurer"];
+			var properOrderIndex = 0;
+			for (var role of window.model.roles) {
+				if (role == null) continue;
+				expect(role.roleName).to.equal(properOrder[properOrderIndex]);
+				properOrderIndex++;
+			}
+			expect(properOrderIndex).to.equal(properOrder.length);
+		});
 	});
 });
 
