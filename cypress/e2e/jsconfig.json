@@ -1,7 +1,6 @@
 {
-	"extends": "../jsconfig.json",
+	// "extends": "../jsconfig.json",
 	"compilerOptions": {
-		"noEmit": true,
 		"types": [
 			"cypress"
 		]
