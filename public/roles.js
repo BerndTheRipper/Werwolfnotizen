@@ -209,3 +209,10 @@ Role.roleList = {
 	"Jäger": Hunter,
 	"Pantomime": Mime
 };
+
+try {
+	module.exports.Role = Role;
+}
+catch (e) {
+	if (!(e instanceof ReferenceError) || e.message != "module is not defined") throw e;
+}
