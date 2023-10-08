@@ -1,3 +1,15 @@
+try {
+	const { Role } = require("./roles");
+}
+catch (e) {
+	if (e instanceof SyntaxError || (e instanceof ReferenceError && e.message == "require is not defined")) {
+		console.warn("Syntax error on require function. If this is running in a browser, this message is safe to ignore.");
+		console.log(e);
+	} else {
+		throw e;
+	}
+}
+
 class Model {
 	// The different phases the game can be in.
 	phases = {
