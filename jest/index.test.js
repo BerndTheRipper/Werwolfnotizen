@@ -88,6 +88,11 @@ describe(
 
 describe("Model functioning propoerly", () => {
 	describe("addRole function", () => {
+		test("Adding role", () => {
+			var model = new Model();
+
+			expect(() => { model.addRole("Unknown role", 1) }).toThrow(ReferenceError);
+		});
 		test.todo("Adding role");
 
 		test.todo("Adding role with unknown role name");
