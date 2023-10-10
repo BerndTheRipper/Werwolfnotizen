@@ -211,7 +211,9 @@ Role.roleList = {
 };
 
 try {
-	module.exports.Role = Role;
+	module.exports.setAsGlobal = () => {
+		global.Role = Role;
+	}
 }
 catch (e) {
 	if (!(e instanceof ReferenceError) || e.message != "module is not defined") throw e;
