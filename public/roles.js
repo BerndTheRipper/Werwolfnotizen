@@ -213,6 +213,10 @@ Role.roleList = {
 try {
 	module.exports.setAsGlobal = () => {
 		global.Role = Role;
+
+		for (var role of Object.values(Role.roleList)) {
+			global[role.name] = role;
+		}
 	}
 }
 catch (e) {
