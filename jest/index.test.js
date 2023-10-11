@@ -88,18 +88,57 @@ describe(
 
 describe("Model functioning propoerly", () => {
 	describe("addRole function", () => {
-		test("Adding role", () => {
-			var model = new Model();
+		test.todo("Adding role (fragmented)");
 
-			expect(() => { model.addRole("Unknown role", 1) }).toThrow(ReferenceError);
+		test("Adding role with unknown role name", () => {
+			let model = new Model();
+
+			expect(() => { model.addRole("Unknown role", 1) }).toThrow("Ich kenne die Rolle Unknown role nicht.");
+			expect(model.roles.length).toBe(0);
+			expect(model.playerAmountByRolesSum).toBe(0);
 		});
-		test.todo("Adding role");
-
-		test.todo("Adding role with unknown role name");
 
 		test.todo("Adding role with wrong amount");
 
-		test.todo("Adding roles with activatable abilities resets counter");
+		describe("Adding roles with activatable abilities resets counter", () => {
+			let model = new Model();
+
+			test("adding the roles properly", () => {
+				expect(model.riot).toBe(2);
+				model.addRole("Unruhestifterin", 1);
+				expect(model.riot).toBe(0);
+
+				expect(model.toughGuyAttacked).toBe(2);
+				model.addRole("Harter Bursche", 1);
+				expect(model.toughGuyAttacked).toBe(0);
+
+				expect(model.pupKilled).toBe(2);
+				model.addRole("Wolfsjunges", 1);
+				expect(model.pupKilled).toBe(0);
+
+				expect(model.leperKilled).toBe(2);
+				model.addRole("Aussätzige", 1);
+				expect(model.leperKilled).toBe(0);
+			});
+
+			test("removing the roles properly", () => {
+				expect(model.riot).toBe(0);
+				model.removeRole("Unruhestifterin");
+				expect(model.riot).toBe(2);
+
+				expect(model.toughGuyAttacked).toBe(0);
+				model.removeRole("Harter Bursche");
+				expect(model.toughGuyAttacked).toBe(2);
+
+				expect(model.pupKilled).toBe(0);
+				model.removeRole("Wolfsjunges");
+				expect(model.pupKilled).toBe(2);
+
+				expect(model.leperKilled).toBe(0);
+				model.removeRole("Aussätzige");
+				expect(model.leperKilled).toBe(2);
+			});
+		});
 
 		test.todo("playerAmountByRolesSum adding up properly");
 
