@@ -6,10 +6,10 @@ const timeout = 50000;
 
 //This code exists merely so I can have intellisense while refering to globalThis.__BROWSER_GLOBAL__
 //It makes the types be set to puppeteer.Browser and puppeteer.Page
-// var browser = await puppeteer.launch({ headless: "new" });
-// var page = await browser.newPage();
-var browser = globalThis.__BROWSER_GLOBAL__;
-var page;
+var browser = await puppeteer.launch({ headless: "new" });
+var page = await browser.newPage();
+// var browser = globalThis.__BROWSER_GLOBAL__;
+// var page;
 
 beforeAll(async () => {
 	page = await browser.newPage();
@@ -140,7 +140,30 @@ describe("Model functioning propoerly", () => {
 			});
 		});
 
-		test.todo("playerAmountByRolesSum adding up properly");
+		test("playerAmountByRolesSum adding up properly", () => {
+			let model = new Model();
+
+			expect(model.playerAmountByRolesSum).toBe(0);
+
+			model.addRole("Werwolf", 3);
+			model.addRole("Hexe", 1);
+			model.addRole("Hinterwäldler", 1);
+
+			expect(model.playerAmountByRolesSum).toBe(5);
+
+			model.addRole("Freimaurer", 4);
+			model.addRole("Werwolf", 2);
+
+			expect(model.playerAmountByRolesSum).toBe(8);
+
+			model.removeRole("Hexe");
+
+			expect(model.playerAmountByRolesSum).toBe(7);
+
+			model.removeRole("Werwolf");
+
+			expect(model.playerAmountByRolesSum).toBe(5);
+		});
 
 		test.todo("passing no argument to function");
 	});
