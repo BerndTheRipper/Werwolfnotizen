@@ -7,6 +7,7 @@ class Role {
 	evil;
 	//0 Can't, 1 once, 2 anytime morning, 3 anytime evening, 4 andy
 	canKill;
+	onlyOneAllowed;
 	targetText = "Target Text placeholder";
 	static totalPlayersByRolesSum = 0;
 
@@ -36,6 +37,7 @@ class Role {
 //Roles that are called at night for their ability
 class Amor extends Role {
 	roleName = "Amor";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 1, false);
 	}
@@ -43,6 +45,7 @@ class Amor extends Role {
 
 class Priest extends Role {
 	roleName = "Priester";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 1, false);
 	}
@@ -50,6 +53,7 @@ class Priest extends Role {
 
 class Guardian extends Role {
 	roleName = "Leibwächter";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, false);
 	}
@@ -57,6 +61,7 @@ class Guardian extends Role {
 
 class OldVettel extends Role {
 	roleName = "Alte Vettel";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, false);
 	}
@@ -64,6 +69,7 @@ class OldVettel extends Role {
 
 class Pleasuregirl extends Role {
 	roleName = "Freudenmädchen";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, false);
 	}
@@ -71,6 +77,7 @@ class Pleasuregirl extends Role {
 
 class Werewolf extends Role {
 	roleName = "Werwolf";
+	static onlyOneAllowed = false;
 	constructor(amount) {
 		super(amount, 2, true, 2);
 	}
@@ -78,6 +85,7 @@ class Werewolf extends Role {
 
 class Puppy extends Werewolf {
 	roleName = "Wolfsjunges";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount);
 	}
@@ -85,6 +93,7 @@ class Puppy extends Werewolf {
 
 class Vampire extends Role {
 	roleName = "Vampir";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, true, 3);
 	}
@@ -92,6 +101,7 @@ class Vampire extends Role {
 
 class CrocodileAndy extends Role {
 	roleName = "Crocodile Andy";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, true, 4);
 	}
@@ -101,6 +111,7 @@ class Witch extends Role {
 	roleName = "Hexe";
 	canHeal = true;
 	canPoison = true;
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, false, 1);
 	}
@@ -108,6 +119,7 @@ class Witch extends Role {
 
 class Rioter extends Role {
 	roleName = "Unruhestifterin";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, false);
 	}
@@ -115,6 +127,7 @@ class Rioter extends Role {
 
 class Seer extends Role {
 	roleName = "Seherin";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 2, false);
 	}
@@ -123,6 +136,7 @@ class Seer extends Role {
 //Roles that may be called optionally
 class ToughGuy extends Role {
 	roleName = "Harter Bursche";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 1, false);
 	}
@@ -130,6 +144,7 @@ class ToughGuy extends Role {
 
 class Bard extends Role {
 	roleName = "Barde";
+	static onlyOneAllowed = false;
 	constructor(amount) {
 		super(amount, 1, false);
 	}
@@ -137,6 +152,7 @@ class Bard extends Role {
 
 class Constructor extends Role {
 	roleName = "Freimaurer";
+	static onlyOneAllowed = false;
 	constructor(amount) {
 		super(amount, 1, false);
 	}
@@ -144,6 +160,7 @@ class Constructor extends Role {
 
 class Idiot extends Role {
 	roleName = "Idiot";
+	static onlyOneAllowed = false;
 	constructor(amount) {
 		super(amount, 0, false);
 	}
@@ -152,6 +169,7 @@ class Idiot extends Role {
 //Hinterwäldler
 class Dumbass extends Role {
 	roleName = "Hinterwäldler";
+	static onlyOneAllowed = false;
 	constructor(amount) {
 		super(amount, 0, false);
 	}
@@ -160,6 +178,7 @@ class Dumbass extends Role {
 //Aussätzige
 class Leper extends Role {
 	roleName = "Aussätzige";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 0, false);
 	}
@@ -167,6 +186,7 @@ class Leper extends Role {
 
 class Prince extends Role {
 	roleName = "Prinz";
+	static onlyOneAllowed = true;
 	constructor(amount) {
 		super(amount, 0, false);
 	}
@@ -174,6 +194,7 @@ class Prince extends Role {
 
 class Hunter extends Role {
 	roleName = "Jäger";
+	static onlyOneAllowed = false;
 	constructor(amount) {
 		super(amount, 0, false);
 	}
@@ -181,6 +202,7 @@ class Hunter extends Role {
 
 class Mime extends Role {
 	roleName = "Pantomime";
+	static onlyOneAllowed = false;
 	constructor(amount) {
 		super(amount, 0, false);
 	}

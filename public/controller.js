@@ -50,8 +50,9 @@ class Controller {
 			controller.model.addRole(this.roleName.value, parseInt(this.roleAmount.value));
 			controller.view.redraw();
 		} catch (e) {
-			if (e instanceof ReferenceError) {
-				alert(e.message);
+			if (e instanceof ReferenceError || e instanceof RangeError) {
+				alert("Fehler: " + e.message);
+				console.log(e);
 			} else {
 				throw e;
 			}

@@ -81,6 +81,10 @@ class Model {
 
 			var roleClass = Role.roleList[roleName];
 
+			if (roleClass.onlyOneAllowed && amount > 1) {
+				throw new RangeError("Diese Rolle " + roleName + " darf es nur einmal geben.");
+			}
+
 			//See if there is already an entry for this role just update it
 			for (var role of this.roles) {
 				if (!(role instanceof roleClass)) {
