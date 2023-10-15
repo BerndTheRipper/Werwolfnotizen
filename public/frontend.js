@@ -315,39 +315,138 @@ class NightView extends View {
 		//Checks if rols is fake
 		if (!currentRole.amount) {
 			this.viewElement.getElementsByClassName("roleToWakeUpIndicator")[0].innerText += " (Fake)";
-		} else {
-			this.#addPlayerIdent(currentRole, identSection);
+			return;
+		}
 
-			//On Bard, Constructor and ToughGuy nothing more happens
-			if (currentRole instanceof Amor) {
-				this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+		this.#addPlayerIdent(currentRole, identSection);
+
+		//On Bard, Constructor and ToughGuy nothing more happens
+		if (currentRole instanceof Amor) {
+			this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+		}
+		else if (currentRole instanceof Werewolf) {
+			var targetAmount = 1;
+			targetAmount += this.model.pupKilled == 1;
+			this.#addPlayerTarget(currentRole.targetText, targetSection, targetAmount);
+			try {
+				var puppyRoleIndex = this.model.getRoleIndexByName("Wolfsjunges");
+				this.#addPlayerIdent(this.model.roles[puppyRoleIndex], identSection);
 			}
-			else if (currentRole instanceof Werewolf) {
-				var targetAmount = 1;
-				targetAmount += this.model.pupKilled == 1;
-				this.#addPlayerTarget(currentRole.targetText, targetSection, targetAmount);
-				try {
-					var puppyRoleIndex = this.model.getRoleIndexByName("Wolfsjunges");
-					this.#addPlayerIdent(this.model.roles[puppyRoleIndex], identSection);
+			catch (e) {
+				if (!(e instanceof ReferenceError) || !e.message.endsWith(" does not exist.")) {
+					throw e;
 				}
-				catch (e) {
-					if (!(e instanceof ReferenceError) || !e.message.endsWith(" does not exist.")) {
-						throw e;
+			}
+			//TODO getting pup name (or did I already?)
+		}
+		else if (
+			currentRole instanceof Priest ||
+			currentRole instanceof Guardian ||
+			currentRole instanceof Pleasuregirl ||
+			currentRole instanceof Vampire ||
+			currentRole instanceof CrocodileAndy ||
+			currentRole instanceof OldVettel
+		) {
+			this.#addPlayerTarget(currentRole.targetText, targetSection);
+		}
+		else if (currentRole instanceof Witch) {
+			if (currentRole.canHeal) {
+				targetSection.innerText += "Wen heilen?";
+				targetSection.appendChild(document.createElement("br"));
+
+				var attackVictimLabels = ["Niemand"];
+				var attackVictimNames = ["Niemand"];
+				for (var target of this.model.targets) {
+					if (!(target[1] instanceof Werewolf) && !(target[1] instanceof Vampire) && !(target[1] instanceof ToughGuy) && !(target[1] instanceof CrocodileAndy)) {
+						continue;
 					}
+
+					var indexOfPlayerLabel = attackVictimNames.indexOf(target[0].playerName);
+					if (indexOfPlayerLabel != -1) {
+						attackVictimLabels[indexOfPlayerLabel] += " und " + target[1].roleName;
+						continue;
+					}
+
+					var attackLabel = target[0].playerName + " (Rolle: ";
+					if (target[0].role == null) {
+						attackLabel += "Unbekannt";
+					} else {
+						attackLabel += target[0].role.roleName;
+					}
+					attackLabel += ", Angreifer: " + target[1].roleName;
+					attackVictimLabels.push(attackLabel);
+					attackVictimNames.push(target[0].playerName);
 				}
-				//TODO getting pup name
+
+				for (var i = 1; i < attackVictimLabels.length; i++) {
+					attackVictimLabels[i] += ")";
+				}
+
+				var radioButtons = this.#generateRadioButtons(attackVictimLabels, "healTargets", attackVictimNames, 0);
+
+				for (var element of radioButtons) {
+					targetSection.appendChild(element);
+				}
 			}
-			else if (
-				currentRole instanceof Priest ||
-				currentRole instanceof Guardian ||
-				currentRole instanceof Pleasuregirl ||
-				currentRole instanceof Vampire ||
-				currentRole instanceof CrocodileAndy ||
-				currentRole instanceof OldVettel
-			) {
+			if (currentRole.canPoison) {
 				this.#addPlayerTarget(currentRole.targetText, targetSection);
 			}
-			else if (currentRole instanceof Witch) {
+		}
+		else if (currentRole instanceof Rioter) {
+			if (this.model.riot == 2) {
+				targetSection.innerHTML = "Bereits für Unruhe gesorgt.";
+				return;
+			}
+
+			var radioButtons = this.#generateRadioButtons(["Unruhe", "Keine Unruhe"], "causeRiot", ["yes", "no"], 1);
+
+			for (var element of radioButtons) {
+				targetSection.appendChild(element);
+			}
+		}
+		else if (currentRole instanceof Seer) {
+			var list = [];
+			for (var player of this.model.identifiedPlayers) {
+				if (!player.role || !player.role.evil) continue;
+				list.push(player.playerName + " (Rolle: " + player.role.roleName + ")");
+			}
+			super._generateUlFromArray(list, targetSection);
+		}
+		else if (
+			currentRole instanceof Bard ||
+			currentRole instanceof Constructor ||
+			currentRole instanceof ToughGuy
+		) { /*prevent the else warning from showing, but actually do nothing*/ }
+		else {
+			alert(currentRole.roleName + " noch nicht implementiert");
+		}
+
+		/*switch (currentRole.roleName) {
+			//Rollen, welche einfach nur identifiziert werden müssen
+			case "Barde":
+			case "Freimaurer":
+			case "Harter Bursche":
+				//Für die wurde das nötige bereits gemacht, weshalb bei denen einfach nur
+				//der default Case verhindert wird.
+				break;
+			//Rollen, welche ein ziel haben und nichts anderes:
+			case "Amor":
+				this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+				break;
+			case "Werwolf":
+				if (this.model.pupKilled == 1) {
+					this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
+				}
+			//TODO implement getting pup name
+			case "Priester":
+			case "Leibwächter":
+			case "Freudenmädchen":
+			case "Vampir":
+			case "Crocodile Andy":
+			case "Alte Vettel":
+				this.#addPlayerTarget(currentRole.targetText, targetSection);
+				break;
+			case "Hexe":
 				if (currentRole.canHeal) {
 					targetSection.innerText += "Wen heilen?";
 					targetSection.appendChild(document.createElement("br"));
@@ -389,131 +488,34 @@ class NightView extends View {
 				if (currentRole.canPoison) {
 					this.#addPlayerTarget(currentRole.targetText, targetSection);
 				}
-			}
-			else if (currentRole instanceof Rioter) {
+				break;
+			case "Unruhestifterin":
 				if (this.model.riot == 2) {
 					targetSection.innerHTML = "Bereits für Unruhe gesorgt.";
-					return;
+					break;
 				}
-
 				var radioButtons = this.#generateRadioButtons(["Unruhe", "Keine Unruhe"], "causeRiot", ["yes", "no"], 1);
 
 				for (var element of radioButtons) {
 					targetSection.appendChild(element);
 				}
-			}
-			else if (currentRole instanceof Seer) {
+				break;
+			case "Seherin":
 				var list = [];
 				for (var player of this.model.identifiedPlayers) {
 					if (!player.role || !player.role.evil) continue;
 					list.push(player.playerName + " (Rolle: " + player.role.roleName + ")");
 				}
 				super._generateUlFromArray(list, targetSection);
-			}
-			else if (
-				currentRole instanceof Bard ||
-				currentRole instanceof Constructor ||
-				currentRole instanceof ToughGuy
-			) { /*prevent the else warning from showing, but actually do nothing*/ }
-			else {
-				alert(currentRole.roleName + " noch nicht implementiert");
-			}
+				break;
+			default:
+				alert("noch nicht implementiert");
+		}*/
 
-			/*switch (currentRole.roleName) {
-				//Rollen, welche einfach nur identifiziert werden müssen
-				case "Barde":
-				case "Freimaurer":
-				case "Harter Bursche":
-					//Für die wurde das nötige bereits gemacht, weshalb bei denen einfach nur
-					//der default Case verhindert wird.
-					break;
-				//Rollen, welche ein ziel haben und nichts anderes:
-				case "Amor":
-					this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
-					break;
-				case "Werwolf":
-					if (this.model.pupKilled == 1) {
-						this.#addPlayerTarget(currentRole.targetText, targetSection, 2);
-					}
-				//TODO implement getting pup name
-				case "Priester":
-				case "Leibwächter":
-				case "Freudenmädchen":
-				case "Vampir":
-				case "Crocodile Andy":
-				case "Alte Vettel":
-					this.#addPlayerTarget(currentRole.targetText, targetSection);
-					break;
-				case "Hexe":
-					if (currentRole.canHeal) {
-						targetSection.innerText += "Wen heilen?";
-						targetSection.appendChild(document.createElement("br"));
-
-						var attackVictimLabels = ["Niemand"];
-						var attackVictimNames = ["Niemand"];
-						for (var target of this.model.targets) {
-							if (!(target[1] instanceof Werewolf) && !(target[1] instanceof Vampire) && !(target[1] instanceof ToughGuy) && !(target[1] instanceof CrocodileAndy)) {
-								continue;
-							}
-
-							var indexOfPlayerLabel = attackVictimNames.indexOf(target[0].playerName);
-							if (indexOfPlayerLabel != -1) {
-								attackVictimLabels[indexOfPlayerLabel] += " und " + target[1].roleName;
-								continue;
-							}
-
-							var attackLabel = target[0].playerName + " (Rolle: ";
-							if (target[0].role == null) {
-								attackLabel += "Unbekannt";
-							} else {
-								attackLabel += target[0].role.roleName;
-							}
-							attackLabel += ", Angreifer: " + target[1].roleName;
-							attackVictimLabels.push(attackLabel);
-							attackVictimNames.push(target[0].playerName);
-						}
-
-						for (var i = 1; i < attackVictimLabels.length; i++) {
-							attackVictimLabels[i] += ")";
-						}
-
-						var radioButtons = this.#generateRadioButtons(attackVictimLabels, "healTargets", attackVictimNames, 0);
-
-						for (var element of radioButtons) {
-							targetSection.appendChild(element);
-						}
-					}
-					if (currentRole.canPoison) {
-						this.#addPlayerTarget(currentRole.targetText, targetSection);
-					}
-					break;
-				case "Unruhestifterin":
-					if (this.model.riot == 2) {
-						targetSection.innerHTML = "Bereits für Unruhe gesorgt.";
-						break;
-					}
-					var radioButtons = this.#generateRadioButtons(["Unruhe", "Keine Unruhe"], "causeRiot", ["yes", "no"], 1);
-
-					for (var element of radioButtons) {
-						targetSection.appendChild(element);
-					}
-					break;
-				case "Seherin":
-					var list = [];
-					for (var player of this.model.identifiedPlayers) {
-						if (!player.role || !player.role.evil) continue;
-						list.push(player.playerName + " (Rolle: " + player.role.roleName + ")");
-					}
-					super._generateUlFromArray(list, targetSection);
-					break;
-				default:
-					alert("noch nicht implementiert");
-			}*/
-
-			if (firstDraw) {
-				identSection.getElementsByTagName("input")[0].focus();
-			}
+		if (firstDraw) {
+			identSection.getElementsByTagName("input")[0].focus();
 		}
+
 	}
 
 	#addPlayerIdent(currentRole, addTo) {
