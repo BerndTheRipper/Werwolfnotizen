@@ -117,6 +117,10 @@ class Controller {
 
 		for (var input of playerNameElements) {
 			if (input.value == "") continue;
+			if (input.getAttribute("role") == "Wolfsjunges") {
+				controller.model.identifyPlayers([input.value], [input.getAttribute("oldIndex")], controller.model.roles[controller.model.getRoleIndexByName("Wolfsjunges")]);
+				continue;
+			}
 			playerNames.push(input.value);
 			oldIndexes.push(input.getAttribute("oldIndex"));
 		}
