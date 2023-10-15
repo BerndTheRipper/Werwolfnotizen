@@ -83,11 +83,12 @@ class Werewolf extends Role {
 	}
 }
 
-class Puppy extends Werewolf {
+class Puppy extends Role {
 	roleName = "Wolfsjunges";
 	static onlyOneAllowed = true;
 	constructor(amount) {
-		super(amount);
+		// Gets called with werewolves, but not separately, also doesn't kill separately
+		super(amount, false, true, 0);
 	}
 }
 
