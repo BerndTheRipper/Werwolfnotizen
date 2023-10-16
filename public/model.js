@@ -407,7 +407,7 @@ class Model {
 
 			if (proposal.player.role instanceof Hunter) {
 				hunterInstance = proposal.player.role;
-				if (!proposal.protectionHolds()) hunterTargetsNeeded++;
+				if (!proposal.protectionHolds) hunterTargetsNeeded++;
 			}
 		}
 
