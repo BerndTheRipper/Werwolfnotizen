@@ -411,9 +411,10 @@ class Model {
 			}
 		}
 
-		for (var i = 0; i < hunterTargetsNeeded - hunterTargetsFound; i++) {
-			this.addKillerToProposal(null, hunterInstance);
-		}
+		// TODO show need for hunter targets on dayview screen
+		// for (var i = 0; i < hunterTargetsNeeded - hunterTargetsFound; i++) {
+		// 	this.addKillerToProposal(null, hunterInstance);
+		// }
 	}
 
 	processTargets() {
