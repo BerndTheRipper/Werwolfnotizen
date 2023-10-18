@@ -98,7 +98,12 @@ describe("Model functioning propoerly", () => {
 			expect(model.playerAmountByRolesSum).toBe(0);
 		});
 
-		test.todo("Adding role with wrong amount");
+		test("Adding role with wrong amount", () => {
+			let model = new Model();
+
+			expect(() => { model.addRole("Hexe", 3) }).toThrow("Diese Rolle Hexe darf es nur einmal geben");
+			//Todo add other roles maybe
+		});
 
 		describe("Adding roles with activatable abilities resets counter", () => {
 			let model = new Model();
