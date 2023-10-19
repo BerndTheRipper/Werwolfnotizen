@@ -100,9 +100,18 @@ describe("Model functioning propoerly", () => {
 
 		test("Adding role with wrong amount", () => {
 			let model = new Model();
+			let expectedTotal = 0;
 
-			expect(() => { model.addRole("Hexe", 3) }).toThrow("Diese Rolle Hexe darf es nur einmal geben");
-			//Todo add other roles maybe
+			for (roleName of Object.keys(Role.roleList)) {
+				if (Role.roleList[roleName].onlyOneAllowed) {
+					expect(() => { model.addRole(roleName, 3) }).toThrow("Diese Rolle " + roleName + " darf es nur einmal geben");
+					continue;
+				}
+				expect(() => { model.addRole(roleName, 3) }).not.toThrow();
+				expectedTotal += 3;
+			}
+
+			expect(model.playerAmountByRolesSum).toEqual(expectedTotal);
 		});
 
 		describe("Adding roles with activatable abilities resets counter", () => {
