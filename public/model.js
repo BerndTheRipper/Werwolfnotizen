@@ -72,7 +72,8 @@ class Model {
 	}
 
 
-	addRole(roleName, amount) {
+	addRole(roleName, amount = 1) {
+		if (isNaN(amount)) amount = 1;
 		for (var i in Object.keys(Role.roleList)) {
 			var iRoleName = Object.keys(Role.roleList)[i];
 			if (iRoleName != roleName) {
