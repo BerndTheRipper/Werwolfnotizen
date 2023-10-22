@@ -526,6 +526,11 @@ class Model {
 			}
 
 			proposal.player.role.amount--;
+
+			if (proposal.player.role.amount == 0) {
+				this.removeRole(proposal.player.role.roleName);
+			}
+
 			proposal.player.role = null;
 
 			if (this.pleasureGirlHost == proposal.player) {
