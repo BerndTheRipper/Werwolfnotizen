@@ -528,7 +528,11 @@ class Model {
 				// killed by humans or do killers like vampires also count
 				this.pupKilled = 1;
 			} else if (proposal.player.role instanceof Leper) {
-				this.leperKilled = 1;
+				for (var reason of proposal.getKillers) {
+					if (!(reason instanceof Werewolf)) continue;
+					this.leperKilled = 1;
+					break;
+				}
 			}
 
 			proposal.player.role.amount--;
