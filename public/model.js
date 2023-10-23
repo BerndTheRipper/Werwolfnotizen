@@ -514,12 +514,17 @@ class Model {
 				throw new Error(`The role of ${proposal.player.playerName} is not set.`);
 			}
 
+			//TODO: Add ignore of role-death-related variables
 			if (proposal.player.role instanceof Rioter) {
+				//TODO why did I do this? (Start a riot if rioter dies instead of when she decides it)
 				this.riot = 1;
-			} else if (proposal.player.role instanceof ToughGuy && this.toughGuyAttacked == 0) {
+				//QUESTION : If a werewolf attacks a tough guy, does the visiting hokker also die?
+				//Does she die if the pleasuregirl visits the night he bleeds out?
 				this.toughGuyAttacked += 1;
 				if (this.toughGuyAttacked == 1) return;
 			} else if (proposal.player.role instanceof Puppy) {
+				// QUESTION : Do the werewolves only kill two if puppy gets
+				// killed by humans or do killers like vampires also count
 				this.pupKilled = 1;
 			} else if (proposal.player.role instanceof Leper) {
 				this.leperKilled = 1;
