@@ -518,10 +518,11 @@ class Model {
 			if (proposal.player.role instanceof Rioter) {
 				//TODO why did I do this? (Start a riot if rioter dies instead of when she decides it)
 				this.riot = 1;
+			} else if (proposal.player.role instanceof ToughGuy) {
 				//QUESTION : If a werewolf attacks a tough guy, does the visiting hokker also die?
 				//Does she die if the pleasuregirl visits the night he bleeds out?
 				this.toughGuyAttacked += 1;
-				if (this.toughGuyAttacked == 1) return;
+				if (this.toughGuyAttacked == 1) continue;
 			} else if (proposal.player.role instanceof Puppy) {
 				// QUESTION : Do the werewolves only kill two if puppy gets
 				// killed by humans or do killers like vampires also count
