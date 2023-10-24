@@ -108,6 +108,10 @@ class Controller {
 			if (form.target0 && form.target0.value != "") {
 				controller.model.enterTarget(form.target0.value, false);
 			}
+		} else if (controller.model.roles[controller.model.currentRoleToWakeUp] instanceof Rioter) {
+			if (form.causeRiot.value == "yes") {
+				controller.model.riot = 1;
+			}
 		} else {
 			for (var element of targetElements) {
 				if (element.value == "") continue;
