@@ -124,7 +124,7 @@ class Model {
 
 	//Returns true if the role was found and removed
 	//Returns false if the role was never on the list
-	removeRole(roleName) {
+	removeRole(roleName, resetRoleVariable = true) {
 		for (var i in this.roles) {
 			if (this.roles[i] == null) continue;
 			if (this.roles[i].roleName != roleName) {
@@ -133,11 +133,18 @@ class Model {
 
 			this.playerAmountByRolesSum -= this.roles[i].amount;
 
+			if (!resetRoleVariable) {
+				this.roles[i] = null;
+				return true;
+			}
+
 			if (this.roles[i] instanceof Rioter) {
 				this.riot = 2;
 			} else if (this.roles[i] instanceof ToughGuy) {
 				this.toughGuyAttacked = 2;
-			} else if (this.roles[i] instanceof Puppy) {
+			}
+			//TODO: reconsider these two
+			else if (this.roles[i] instanceof Puppy) {
 				this.pupKilled = 2;
 			} else if (this.roles[i] instanceof Leper) {
 				this.leperKilled = 2;
@@ -538,7 +545,8 @@ class Model {
 			proposal.player.role.amount--;
 
 			if (proposal.player.role.amount == 0) {
-				this.removeRole(proposal.player.role.roleName);
+				let resetRoleVariable = !(proposal.player.role instanceof Puppy || proposal.player.role instanceof Leper);
+				this.removeRole(proposal.player.role.roleName, resetRoleVariable);
 			}
 
 			proposal.player.role = null;
