@@ -232,7 +232,7 @@ class Model {
 	getRolesWithoutPlayers() {
 		var output = [];
 		for (var role of this.roles) {
-			if (role.amountIdentified == role.amount) continue;
+			if (role == null || role.amountIdentified == role.amount) continue;
 			output.push(role);
 		}
 		return output;
