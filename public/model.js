@@ -521,6 +521,8 @@ class Model {
 				throw new Error(`The role of ${proposal.player.playerName} is not set.`);
 			}
 
+			let resetRoleVariable = !(proposal.player.role instanceof Puppy || proposal.player.role instanceof Leper);
+
 			//TODO: Add ignore of role-death-related variables
 			if (proposal.player.role instanceof Rioter) {
 				//TODO why did I do this? (Start a riot if rioter dies instead of when she decides it)
@@ -540,12 +542,18 @@ class Model {
 					this.leperKilled = 1;
 					break;
 				}
+
+				//TODO: test this
+				//If this.leper doesn't turn to 1, the leper still dies,
+				//so the variable related to him needs to be set straight.
+				if (!leperKilled) {
+					resetRoleVariable = true;
+				}
 			}
 
 			proposal.player.role.amount--;
 
 			if (proposal.player.role.amount == 0) {
-				let resetRoleVariable = !(proposal.player.role instanceof Puppy || proposal.player.role instanceof Leper);
 				this.removeRole(proposal.player.role.roleName, resetRoleVariable);
 			}
 
