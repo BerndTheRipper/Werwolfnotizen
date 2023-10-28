@@ -375,8 +375,9 @@ class Model {
 		var doneWithLovers = false;
 		var hunterTargetsNeeded = 0;
 		var hunterTargetsFound = 0;
+
 		//The instance of the hunter role that is used in game, for the killProposalReason
-		var hunterInstance;
+		// var hunterInstance;
 		for (var proposal of this.killProposals) {
 			for (var killer of proposal.getKillers()) {
 				if (!(killer instanceof Hunter)) continue;
@@ -404,6 +405,7 @@ class Model {
 				}
 			}
 
+			//TODO: Protection holds is not a function, re-write this
 			if (proposal.player == this.pleasureGirlHost) {
 				for (var player of this.identifiedPlayers) {
 					if (!(player.role instanceof Pleasuregirl)) continue;
@@ -685,6 +687,8 @@ class KillProposal {
 		return output;
 	}
 
+	//TODO: Redo this function, might not always need to set protectionHolds to false
+	//Where do I even use protectionHolds?
 	addProtector(protector) {
 		for (var killer of this.#killers) {
 			if (killer instanceof CrocodileAndy || !(killer instanceof Role) || protector == null) {
