@@ -393,7 +393,9 @@ class Model {
 				}
 			}
 
-			if (proposal.player.inLove && !doneWithLovers) {
+			//TODO: Check if this fixes lover getting killed when
+			//proposal.player is actually protected
+			if (proposal.player.inLove && !doneWithLovers && !proposal.isProtected()) {
 				for (var player of this.identifiedPlayers) {
 					if (!player.inLove || player == proposal.player) {
 						continue;
