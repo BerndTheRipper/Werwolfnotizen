@@ -393,8 +393,6 @@ class Model {
 				}
 			}
 
-			//TODO: Check if this fixes lover getting killed when
-			//proposal.player is actually protected
 			if (proposal.player.inLove && !doneWithLovers && !proposal.isProtected()) {
 				for (var player of this.identifiedPlayers) {
 					if (!player.inLove || player == proposal.player) {
@@ -534,6 +532,8 @@ class Model {
 				//QUESTION : If a werewolf attacks a tough guy, does the visiting hokker also die?
 				//Does she die if the pleasuregirl visits the night he bleeds out?
 				this.toughGuyAttacked += 1;
+				//If toughGuyAttacked has previously been 0, it is now 1, meaning that he doesn't die
+				//today, so the loop doesn't get to continue. If it turns it to two, the loop does continue.
 				if (this.toughGuyAttacked == 1) continue;
 			} else if (proposal.player.role instanceof Puppy) {
 				// QUESTION : Do the werewolves only kill two if puppy gets
@@ -546,10 +546,12 @@ class Model {
 					break;
 				}
 
-				//TODO: test this
-				//If this.leper doesn't turn to 1, the leper still dies,
-				//so the variable related to him needs to be set straight.
-				if (!leperKilled) {
+				if (!this.leperKilled) {
+					//TODO: test this
+					//This variable is set to false if the victim is either a leper or a puppy.
+					//If this.leper doesn't turn to 1, meaning that she wasn't killed by the
+					//werewolves, it would still be 0 and through her death, it gets set to 2
+					//(meaning dead or she never existed)
 					resetRoleVariable = true;
 				}
 			}
@@ -570,6 +572,7 @@ class Model {
 			}
 			if (this.bannedByOldVettel == proposal.player) {
 				this.bannedByOldVettel = null;
+				console.warn("The player that was killed by the vettel just died.");
 			}
 
 			var playerIndex = this.findPlayerIndexByName(proposal.player.playerName);
