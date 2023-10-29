@@ -199,14 +199,14 @@ class Model {
 				output = i;
 				break;
 			}
-
-			//Search has reached the end of the list without a result
-			if (i == this.roles.length - 1) {
-				throw new ReferenceError(roleName + " does not exist.");
-			}
 		}
 
-		return parseInt(output);
+		output = parseInt(output);
+		if (isNaN(output)) {
+			throw new ReferenceError(roleName + " does not exist.");
+		} else {
+			return parseInt(output);
+		}
 	}
 
 	getRoleData() {
