@@ -407,11 +407,10 @@ class Model {
 				}
 			}
 
-			//TODO: Protection holds is not a function, re-write this
 			if (proposal.player == this.pleasureGirlHost) {
 				for (var player of this.identifiedPlayers) {
 					if (!(player.role instanceof Pleasuregirl)) continue;
-					if (proposal.protectionHolds()) break;
+					if (proposal.isProtected()) break;
 					this.addKillerToProposal(player, "Freudenmädchen bei " + proposal.player.playerName);
 					break;
 				}
