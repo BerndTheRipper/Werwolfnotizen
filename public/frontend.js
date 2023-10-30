@@ -326,7 +326,14 @@ class NightView extends View {
 		}
 		else if (currentRole instanceof Werewolf) {
 			var targetAmount = 1;
-			targetAmount += this.model.pupKilled == 1;
+			if (this.model.pupKilled == 1) {
+				targetSection.innerHTML += "Das Wolfsjunge wurde getötet. Also heute sterben 2?<br>";
+				targetAmount = 2;
+			}
+
+			if (this.model.leperKilled == 1) {
+				targetSection.innerHTML += "Die Aussätzige wurde letzte Nacht von den Werwölfen getötet. Also heute keine Opfer?<br>";
+			}
 			this.#addPlayerTarget(currentRole.targetText, targetSection, targetAmount);
 			try {
 				var puppyRoleIndex = this.model.getRoleIndexByName("Wolfsjunges");
