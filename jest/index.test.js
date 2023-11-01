@@ -179,7 +179,10 @@ describe("Model functioning propoerly", () => {
 			expect(model.playerAmountByRolesSum).toBe(5);
 		});
 
-		test.todo("passing no argument to function");
+		test("passing no argument to function", () => {
+			let model = new Model();
+			expect(() => { model.addRole() }).toThrow("Ich kenne die Rolle undefined nicht.");
+		});
 	});
 
 	describe("removeRole function", () => {
