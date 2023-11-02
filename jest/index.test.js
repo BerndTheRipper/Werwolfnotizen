@@ -187,7 +187,7 @@ describe("Model functioning propoerly", () => {
 
 	describe("removeRole function", () => {
 		test("removing a role", () => {
-			let model = new Model;
+			let model = new Model();
 
 			model.addRole("Hexe", 1);
 			expect(model.playerAmountByRolesSum).toBe(1);
@@ -202,7 +202,11 @@ describe("Model functioning propoerly", () => {
 			expect(model.playerAmountByRolesSum).toBe(0);
 		});
 
-		test.todo("passing existing role that is not in the game to function");
+		test("passing existing role that is not in the game to function", () => {
+			let model = new Model();
+
+			expect(model.removeRole("Hexe")).toBe(false);
+		});
 
 		test.todo("passing non-existing role to function");
 
@@ -217,8 +221,6 @@ describe("Model functioning propoerly", () => {
 		test.todo("passing completely invalid role name");
 
 		test.todo("passing completely invalid type");
-
-		test.todo("passing no argument to function");
 
 		test.todo("passing no argument to function");
 	});
