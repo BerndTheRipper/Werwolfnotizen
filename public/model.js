@@ -67,6 +67,8 @@ class Model {
 	// moderator
 	falselyAssessedKillProposals = [];
 
+	hunterTargetsToday = 0;
+
 	constructor() {
 
 	}
@@ -380,7 +382,7 @@ class Model {
 		// var hunterInstance;
 		for (var proposal of this.killProposals) {
 			for (var killer of proposal.getKillers()) {
-				if (!(killer instanceof Hunter)) continue;
+				if (!(killer instanceof Hunter) || !(killer instanceof Player && killer.role instanceof Hunter)) continue;
 				hunterTargetsFound++;
 				break;
 			}
@@ -421,9 +423,7 @@ class Model {
 		}
 
 		// TODO show need for hunter targets on dayview screen
-		// for (var i = 0; i < hunterTargetsNeeded - hunterTargetsFound; i++) {
-		// 	this.addKillerToProposal(null, hunterInstance);
-		// }
+		hunterTargetsToday = hunterTargetsNeeded;
 	}
 
 	processTargets() {
