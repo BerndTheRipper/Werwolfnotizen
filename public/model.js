@@ -343,7 +343,7 @@ class Model {
 		return null;
 	}
 
-	addPlayer(name, role) {
+	addPlayer(name, role = null) {
 		var output;
 		for (var player of this.identifiedPlayers) {
 			if (player.playerName != name) {

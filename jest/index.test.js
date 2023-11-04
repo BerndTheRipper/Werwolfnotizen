@@ -314,7 +314,19 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("findPlayerByName", () => {
-		test.todo("find a correctly entered player");
+		test("find a correctly entered player", () => {
+			let model = new Model();
+
+			let searchedPlayer = model.addPlayer("Harri");
+			expect(searchedPlayer).toBeInstanceOf(Player);
+
+			let otherPlayers = [model.addPlayer("Garlenz"), model.addPlayer("Flegranz"), model.addPlayer("Rofldings")];
+			for (var player of otherPlayers) {
+				expect(player).toBeInstanceOf(Player);
+			}
+
+			expect(model.findPlayerByName("Harri")).toEqual(searchedPlayer);
+		});
 
 		test.todo("not find incorrectly entered player without adding");
 
