@@ -328,7 +328,21 @@ describe("Model functioning propoerly", () => {
 			expect(model.findPlayerByName("Harri")).toEqual(searchedPlayer);
 		});
 
-		test.todo("not find incorrectly entered player without adding");
+		test("not find incorrectly entered player without adding", () => {
+			let model = new Model();
+
+			let searchedPlayer = model.addPlayer("Harri");
+			expect(searchedPlayer).toBeInstanceOf(Player);
+
+			let otherPlayers = [model.addPlayer("Garlenz"), model.addPlayer("Flegranz"), model.addPlayer("Rofldings")];
+			for (var player of otherPlayers) {
+				expect(player).toBeInstanceOf(Player);
+			}
+
+			expect(model.findPlayerByName("Garlenzino", false)).toBeNull();
+			expect(model.findPlayerByName("Hargi", false)).toBeNull();
+			expect(model.findPlayerByName("Glegranz", false)).toBeNull();
+		});
 
 		test.todo("not find incorrectly entered player with adding");
 
