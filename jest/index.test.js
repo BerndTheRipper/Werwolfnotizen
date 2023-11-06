@@ -344,7 +344,14 @@ describe("Model functioning propoerly", () => {
 			expect(model.findPlayerByName("Glegranz", false)).toBeNull();
 		});
 
-		test.todo("not find incorrectly entered player with adding");
+		test("not find incorrectly entered player with adding", () => {
+			let model = new Model();
+
+			let username = "Harri";
+
+			expect(model.findPlayerByName(username, false, null)).toBeNull();
+			expect(model.findPlayerByName(username, true, null)).toBeInstanceOf(Player);
+		});
 
 		test.todo("find correctly entered player with adding role");
 
