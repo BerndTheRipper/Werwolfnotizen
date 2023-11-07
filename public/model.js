@@ -97,7 +97,7 @@ class Model {
 				var amountDifference = amount - role.amount;
 				role.amount = amount;
 				this.playerAmountByRolesSum += amountDifference;
-				return;
+				return role;
 			}
 			var newRole = new roleClass(amount);
 
@@ -118,7 +118,7 @@ class Model {
 			}
 
 			this.playerAmountByRolesSum += amount;
-			return;
+			return newRole;
 		}
 
 		throw new ReferenceError("Ich kenne die Rolle " + roleName + " nicht.");
