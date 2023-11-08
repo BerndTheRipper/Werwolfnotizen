@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const { Model, Player, KillProposal } = require("./../public/model");
-const { Bard } = require("./../public/roles")
+const { Role } = require('../public/roles');
 
 
 const timeout = 50000;
@@ -361,6 +361,7 @@ describe("Model functioning propoerly", () => {
 			expect(searchedPlayer).toBeInstanceOf(Player);
 
 			var wantedRole = model.addRole("Barde", 2);
+			expect(wantedRole).toBeInstanceOf(Role);
 
 			let otherPlayers = [model.addPlayer("Garlenz"), model.addPlayer("Flegranz"), model.addPlayer("Rofldings")];
 			for (var player of otherPlayers) {
@@ -368,7 +369,8 @@ describe("Model functioning propoerly", () => {
 			}
 
 			expect(model.findPlayerByName("Harri", false, wantedRole)).toBe(searchedPlayer);
-			expect(searchedPlayer.role).toBeInstanceOf(Bard);
+			expect(searchedPlayer.role).toBeInstanceOf(Role);
+			expect(searchedPlayer.role.roleName).toBe("Barde");
 		});
 
 		test.todo("not find incorrectly entered player with adding and role");
