@@ -316,13 +316,23 @@ class Model {
 		}
 	}
 
+	/**
+	 * 
+	 * @param {string} name the name of the player to find
+	 * @param {boolean} addIfNone whether the player should be added if he is not found
+	 * @param {Role | number | null} role If it is an instance of Role, gives that role to the player,
+	 * 	if it is -1, the role gets removed, if it is null, nothing changes
+	 * @returns The player that was found, or null if addIfNone is false and no player was found
+	 */
 	findPlayerByName(name, addIfNone = true, role = null) {
 		for (var player of this.identifiedPlayers) {
 			if (player.playerName != name) continue;
+			if (role == -1) player.role = null;
+			else if (role != null) player.role = role;
 			return player;
 		}
 		if (addIfNone) {
-			return this.addPlayer(name, null);
+			return this.addPlayer(name, role);
 		}
 		return null;
 	}
