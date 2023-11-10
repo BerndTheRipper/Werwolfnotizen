@@ -242,7 +242,7 @@ describe("Model functioning propoerly", () => {
 
 			expect(model.moveUpRole("Barde")).toBeUndefined();;
 
-			expect(model.useDefaultRoleSorting)();
+			expect(model.useDefaultRoleSorting).toBeFalsy();
 
 			expect(model.roles[0]).toBeInstanceOf(Role);
 			expect(model.roles[0].roleName).toBe("Barde");
@@ -251,7 +251,10 @@ describe("Model functioning propoerly", () => {
 			expect(model.roles[1].roleName).toBe("Werwolf");
 		});
 
-		test.todo("passing role thats not ingame");
+		test("passing role thats not ingame", () => {
+			let model = new Model();
+			expect(() => { model.moveUpRole("Barde") }).toThrow("Barde does not exist.");
+		});
 
 		test.todo("passing rolename thats unknown to the game");
 
