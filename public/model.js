@@ -672,6 +672,12 @@ class Player {
 	}
 }
 
+/**
+ * Class representing a proposal to kill a player on this day
+ * @property {Player} player The player whose fate is to be decided
+ * @property {boolean} protectionHolds true if the protection holds, false if something superceeds that protection
+ * @property {boolean} proposalAccepted Whether or not the moderator has decided that the proposal should be accepted
+ */
 class KillProposal {
 	// The player that is to be killed
 	player;
@@ -685,14 +691,26 @@ class KillProposal {
 	// Kill proposal is accepted
 	proposalAccepted = false;
 
+	/**
+	 * @class Creates a new KillProposal for a new player
+	 * @param {Player} player The whose death is proposed
+	 */
 	constructor(player) {
 		this.player = player;
 	}
 
+	/**
+	 * getKillers Gets the reasons why the player dies today
+	 * @returns {Array.<string|Role|Player>} The reasons why this player dies today. Either a string, the role that killed the player, or, if the role is a hunter, then the specific hunter that wants to kill the player
+	 */
 	getKillers() {
 		return this.#killers;
 	}
 
+	/**
+	 * Gets the reasons why the player dies today as a plain text string
+	 * @returns {Array.<string>} The reason why the players should die today as a string
+	 */
 	getKillersAsString() {
 		var output = [];
 		for (var killer of this.#killers) {
@@ -700,15 +718,27 @@ class KillProposal {
 				output.push(killer.roleName);
 				continue;
 			}
+			else if (killer instanceof Player) {
+				output.push(killer.playerName);
+				continue;
+			}
 			output.push(killer);
 		}
 		return output;
 	}
 
+	/**
+	 * Adds another reason to the list of why this player should die today
+	 * @param {string|Role|Player} killer The reason that should be added to the list
+	 */
 	addKiller(killer) {
 		this.#killers.push(killer);
 	}
 
+	/**
+	 * Gets the protectors of the player.
+	 * @returns {Array.<string>} The reasons why this player should not die today.
+	 */
 	getProtectorsAsString() {
 		var output = [];
 		for (var protector of this.#protectors) {
@@ -722,7 +752,12 @@ class KillProposal {
 	}
 
 	//TODO: Redo this function, might not always need to set protectionHolds to false
-	//Where do I even use protectionHolds?
+	//Where do I even use protectionHolds? To let the moderator know
+	/**
+	 * Adds a reason why the player should not die today and re-determines if the protection holds
+	 * @todo Re-do this function, this.protectionHolds does not always need to be set to false, just because no protector was passed, the player might still have protection from his existing protectors
+	 * @param {(Role|string)} protector The Role that protects the player or the reason why he should be protected
+	 */
 	addProtector(protector) {
 		for (var killer of this.#killers) {
 			if (killer instanceof CrocodileAndy || !(killer instanceof Role) || protector == null) {
@@ -735,11 +770,15 @@ class KillProposal {
 		this.#protectors.push(protector);
 	}
 
+	/**
+	 * Determines whether or not the player has any protection
+	 * @returns {boolean} Whether or not the player's protection holds up
+	 */
 	isProtected() {
 		if (this.#protectors.length == 0) return false;
 		//If Andy or Hunter are among the attackers or the attacker is no role, no protection holds up
 		for (var killer of this.#killers) {
-			if (killer instanceof CrocodileAndy || killer instanceof Hunter || !(killer instanceof Role)) {
+			if (killer instanceof CrocodileAndy || (killer instanceof Player && killer.role instanceof Hunter) || (!(killer instanceof Role) && !(killer instanceof Player))) {
 				return false;
 			}
 		}
@@ -748,15 +787,19 @@ class KillProposal {
 		return true;
 	}
 
+	/**
+	 * Sets this.proposal accepted to the default, which is basically the opposite of isProtected
+	 */
 	setProposalAcceptedToDefault() {
 		this.proposalAccepted = this.acceptByDefault();
 	}
 
+	/**
+	 * Whether or not the proposal should be accepted by default
+	 * @deprecated, just invert the value returned by isProtected
+	 * @returns {boolean} true if the proposal should be accepted by default, false if it shouldn't
+	 */
 	acceptByDefault() {
-		for (var killer of this.#killers) {
-			if (killer instanceof CrocodileAndy)
-				return false;
-		}
 		return !this.isProtected();
 	}
 }
