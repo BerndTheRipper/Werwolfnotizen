@@ -76,7 +76,6 @@ class Model {
 	/**
 	 * Adds a role to the game. If [useDefaultRoleSorting]{@link useDefaultRoleSorting} is true, it will be added to the spot where the
 	 * role can be found in [Role.roleList]{@link Role#roleList}, otherwise it will be added ad the end of the list.
-	 * @function addRole
 	 * @access public
 	 * @todo figure out if I did the above link right
 	 * @param {string} roleName the name of the role that is to be added
@@ -136,7 +135,6 @@ class Model {
 	}
 
 	/**
-	 * @function removeRole
 	 * 
 	 * @param {string} roleName the name of the role that should be removed
 	 * @param {boolean} [resetRoleVariable=true] Whether or not related variables like {@link leperKilled} for the {@link Leper} should be reset
