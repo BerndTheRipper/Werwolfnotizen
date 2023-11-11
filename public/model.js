@@ -73,7 +73,18 @@ class Model {
 
 	}
 
-
+	/**
+	 * Adds a role to the game. If [useDefaultRoleSorting]{@link useDefaultRoleSorting} is true, it will be added to the spot where the
+	 * role can be found in [Role.roleList]{@link Role#roleList}, otherwise it will be added ad the end of the list.
+	 * @function addRole
+	 * @access public
+	 * @todo figure out if I did the above link right
+	 * @param {string} roleName the name of the role that is to be added
+	 * @param {number} [amount=1] the amount of people that can have this role
+	 * @returns {Role} the role that was created
+	 * @throws {RangeError} When it is attempted to add a role with more than one member but it only allows one member
+	 * @throws {ReferenceError} When the role that is returned is unknown
+	 */
 	addRole(roleName, amount = 1) {
 		if (isNaN(amount)) amount = 1;
 		for (var i in Object.keys(Role.roleList)) {
@@ -124,8 +135,13 @@ class Model {
 		throw new ReferenceError("Ich kenne die Rolle " + roleName + " nicht.");
 	}
 
-	//Returns true if the role was found and removed
-	//Returns false if the role was never on the list
+	/**
+	 * @function removeRole
+	 * 
+	 * @param {string} roleName the name of the role that should be removed
+	 * @param {boolean} [resetRoleVariable=true] Whether or not related variables like {@link leperKilled} for the {@link Leper} should be reset
+	 * @returns true if the role was found and removed, false if the role was never on the list or doesn't exist
+	 */
 	removeRole(roleName, resetRoleVariable = true) {
 		for (var i in this.roles) {
 			if (this.roles[i] == null) continue;
@@ -158,6 +174,10 @@ class Model {
 		return false;
 	}
 
+	/**
+	 * Moves a role up or down on the list of roles. Also automatically disables {@link useDefaultRoleSorting}
+	 * @param {string} roleName the name of the role that should be moved up or down
+	 */
 	moveUpRole(roleName) {
 		//Setting this will clean up any empty spaces
 		this.useDefaultRoleSorting = false;
