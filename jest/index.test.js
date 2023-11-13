@@ -240,7 +240,7 @@ describe("Model functioning propoerly", () => {
 			expect(model.roles[13]).toBeInstanceOf(Role);
 			expect(model.roles[13].roleName).toBe("Barde");
 
-			expect(model.moveUpRole("Barde")).toBeUndefined();;
+			expect(model.moveUpRole("Barde")).toBeUndefined();
 
 			expect(model.useDefaultRoleSorting).toBeFalsy();
 
@@ -261,7 +261,27 @@ describe("Model functioning propoerly", () => {
 			expect(() => { model.moveUpRole("role unknown to game") }).toThrow("role unknown to game does not exist.");
 		});
 
-		test.todo("passing role that's already on top of the list");
+		test("passing role that's already on top of the list", () => {
+			let model = new Model();
+			expect(model.useDefaultRoleSorting).toBeTruthy();
+
+			expect(model.addRole("Barde", 2)).toBeInstanceOf(Role);
+			expect(model.addRole("Werwolf", 2)).toBeInstanceOf(Role);
+
+			expect(model.roles[6]).toBeInstanceOf(Role);
+			expect(model.roles[6].roleName).toBe("Werwolf");
+
+			expect(model.roles[13]).toBeInstanceOf(Role);
+			expect(model.roles[13].roleName).toBe("Barde");
+
+			expect(model.moveUpRole("Werwolf")).toBeUndefined();
+
+			expect(model.roles[1]).toBeInstanceOf(Role);
+			expect(model.roles[1].roleName).toBe("Barde");
+
+			expect(model.roles[0]).toBeInstanceOf(Role);
+			expect(model.roles[0].roleName).toBe("Werwolf");
+		});
 
 		test.todo("passing invalid argument to rolename");
 
