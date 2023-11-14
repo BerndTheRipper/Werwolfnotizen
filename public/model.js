@@ -451,7 +451,7 @@ class Model {
 		}
 
 		// TODO show need for hunter targets on dayview screen
-		hunterTargetsToday = hunterTargetsNeeded;
+		this.hunterTargetsToday = hunterTargetsNeeded;
 	}
 
 	processTargets() {
