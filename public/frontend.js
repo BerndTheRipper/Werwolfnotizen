@@ -582,14 +582,57 @@ class DayView extends View {
 
 		//Mayor section:
 		var mayorSection = element.getElementsByClassName("mayorSection")[0];
+		this.redrawMayorSection(mayorSection);
+
+		//New mayor section:
+		this.redrawNewMayorSection(mayorSection);
+
+		//Kill proposals section
+		var rolesWithoutPlayers = model.getRolesWithoutPlayers();
+		var killProposalSection = element.getElementsByClassName("killProposalSection")[0];
+		var killProposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
+		this.redrawKillProposalSection(killProposalTbody, rolesWithoutPlayers);
+
+		//Kill new player section
+		let killNewPlayerButton = element.querySelector(".killNewPlayerButton");
+		this.redrawKillNewPlayerButton(killNewPlayerButton);
+
+		//protected players section
+		var protectedPlayerSection = element.querySelector(".protectedPlayersSection");
+		var protectedPlayerTbody = protectedPlayerSection.querySelector("tbody");
+		this.redrawProtectedPlayersSection(protectedPlayerTbody, rolesWithoutPlayers);
+
+		//Player overview section
+		var playerListSection = element.querySelector(".playersInGame");
+		var playerListTbody = playerListSection.querySelector("tbody");
+		this.redrawPlayerOverviewSection(playerListTbody, rolesWithoutPlayers);
+
+		//Add player section
+		var playerButton = element.querySelector(".addPlayerButton");
+		this.redrawAddPlayerSection(playerButton);
+
+
+		//Unidentified roles section
+		var rolesListSection = element.querySelector(".unidentifiedRoles");
+		this.redrawUnidentifiedRolesSection(rolesListSection, rolesWithoutPlayers);
+
+		//Problems section
+		var problemsSection = element.querySelector(".problems");
+		var amountOfWarningsShown = this.redrawProblemsSection(problemsSection);
+
+		this.viewElement.querySelector(".submit > input[type=submit]").disabled = amountOfWarningsShown.length;
+	}
+
+	redrawMayorSection(mayorSection) {
 		if (this.model.mayor != null) {
 			mayorSection.querySelector(".mayorName").innerText = this.model.mayor.playerName;
 			if (this.model.mayor.role != null) {
 				mayorSection.querySelector(".mayorRole").innerText = this.model.mayor.role.roleName;
 			}
 		}
+	}
 
-		//New mayor section:
+	redrawNewMayorSection(mayorSection) {
 		var nonDefaultNames = [];
 		var defaultName = "Auswählen";
 		mayorSection.querySelector(".newMayorName").innerHTML = "";
@@ -622,28 +665,26 @@ class DayView extends View {
 		}
 
 		mayorSection.querySelector(".newMayorRole").innerText = newMayorRole;
+	}
 
-		//Kill proposals section
-		var killProposalSection = element.getElementsByClassName("killProposalSection")[0];
-		var killProposalTbody = killProposalSection.getElementsByTagName("tbody")[0];
-		var rolesWithoutPlayers = model.getRolesWithoutPlayers();
+	redrawKillProposalSection(killProposalTbody, rolesWithoutPlayers) {
 		var rolesWithoutPlayersNames = [];
 		killProposalTbody.innerHTML = "";
 
-		for (var role of rolesWithoutPlayers) {
+		for (let role of rolesWithoutPlayers) {
 			rolesWithoutPlayersNames.push(role.roleName);
 		}
 
-		for (var i in this.model.killProposals) {
-			var proposal = this.model.killProposals[i];
-			var tr = this._generateTableRows(7);
-			var trChildren = tr.children;
-			var proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
+		for (let i in this.model.killProposals) {
+			let proposal = this.model.killProposals[i];
+			let tr = this._generateTableRows(7);
+			let trChildren = tr.children;
+			let proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
 			proposalAcceptedCheckbox.addEventListener("change", this.eventHandlers[4]);
 
-			var playerIndex = this.model.findPlayerIndexByName(proposal.player.playerName, false);
+			let playerIndex = this.model.findPlayerIndexByName(proposal.player.playerName, false);
 
-			var inputElement = this._generatePlayerNameInput(playerIndex);
+			let inputElement = this._generatePlayerNameInput(playerIndex);
 			inputElement.placeholder = "Spieler " + playerIndex;
 			inputElement.required = true;
 			inputElement.addEventListener("focusout", this.eventHandlers[3]);
@@ -651,28 +692,28 @@ class DayView extends View {
 
 			this.#generateRoleSelector(rolesWithoutPlayers, proposal.player, trChildren[2], this.eventHandlers[2]);
 
-			for (var killer of proposal.getKillersAsString()) {
+			for (let killer of proposal.getKillersAsString()) {
 				trChildren[3].innerText += killer + "; ";
 			}
 
-			for (var protector of proposal.getProtectorsAsString()) {
+			for (let protector of proposal.getProtectorsAsString()) {
 				trChildren[4].innerText += protector + "; ";
 			}
 
-			var protectedCheckbox = this.#generateCheckbox(proposal.isProtected(), true);
+			let protectedCheckbox = this.#generateCheckbox(proposal.isProtected(), true);
 			trChildren[5].appendChild(protectedCheckbox);
 
-			var acceptCheckbox = this.#generateCheckbox(proposal.acceptByDefault(), true, null);
+			let acceptCheckbox = this.#generateCheckbox(proposal.acceptByDefault(), true, null);
 			trChildren[6].appendChild(acceptCheckbox);
 
 			killProposalTbody.appendChild(tr);
 		}
+	}
 
-		//Kill new player section
-		var killNewPlayerButton = element.querySelector(".killNewPlayerButton");
-		var lockKillPlayerButton = false;
+	redrawKillNewPlayerButton(killNewPlayerButton) {
+		let lockKillPlayerButton = false;
 
-		for (var player of this.model.identifiedPlayers) {
+		for (let player of this.model.identifiedPlayers) {
 			if (player.playerName != "") continue;
 			lockKillPlayerButton = true;
 			break;
@@ -684,25 +725,24 @@ class DayView extends View {
 			killNewPlayerButton.disabled = false;
 			killNewPlayerButton.addEventListener("click", this.eventHandlers[6]);
 		}
+	}
 
-		//protected players section
-		var protectedPlayerSection = element.querySelector(".protectedPlayersSection");
-		var protectedPlayerTbody = protectedPlayerSection.querySelector("tbody");
+	redrawProtectedPlayersSection(protectedPlayerTbody, rolesWithoutPlayers) {
 		protectedPlayerTbody.innerHTML = "";
 		var playersWithProtection = [];
 
 		//Finding players that have protection;
-		for (var i in this.model.protectedPlayers) {
-			var player = this.model.protectedPlayers[i];
-			var playerIndex = this.model.identifiedPlayers.indexOf(player);
-			var protectedPlayersIndex;
-			var tr;
+		for (let i in this.model.protectedPlayers) {
+			let player = this.model.protectedPlayers[i];
+			let playerIndex = this.model.identifiedPlayers.indexOf(player);
+			let protectedPlayersIndex;
+			let tr;
 			if (!playersWithProtection.includes(player)) {
 				protectedPlayersIndex = playersWithProtection.length;
 				playersWithProtection.push(player);
 				tr = this._generateTableRows(3);
 
-				var inputElement = this._generatePlayerNameInput(playerIndex);
+				let inputElement = this._generatePlayerNameInput(playerIndex);
 				inputElement.placeholder = "Spieler " + i;
 				inputElement.required = true;
 				inputElement.addEventListener("focusout", this.eventHandlers[3]);
@@ -720,20 +760,19 @@ class DayView extends View {
 
 			tr.children[2].innerText += (this.model.protectionReasons[i] instanceof Role ? this.model.protectionReasons[i].roleName : this.model.protectionReasons[i]) + "; ";
 		}
+	}
 
-		//Player overview section
-		var playerListSection = element.querySelector(".playersInGame");
-		var playerListTbody = playerListSection.querySelector("tbody");
+	redrawPlayerOverviewSection(playerListTbody, rolesWithoutPlayers) {
 		playerListTbody.innerHTML = "";
 
-		for (var i in this.model.identifiedPlayers) {
-			var player = this.model.identifiedPlayers[i];
+		for (let i in this.model.identifiedPlayers) {
+			let player = this.model.identifiedPlayers[i];
 
-			var tr = this._generateTableRows(3);
-			var trChildren = tr.children;
+			let tr = this._generateTableRows(3);
+			let trChildren = tr.children;
 
 
-			var inputElement = this._generatePlayerNameInput(i);
+			let inputElement = this._generatePlayerNameInput(i);
 			inputElement.placeholder = "Spieler " + i;
 			inputElement.required = true;
 			inputElement.addEventListener("focusout", this.eventHandlers[3]);
@@ -742,10 +781,10 @@ class DayView extends View {
 
 			this.#generateRoleSelector(rolesWithoutPlayers, player, trChildren[1], this.eventHandlers[2]);
 
-			var killPlayerButton = this.#generateButton("Töten");
+			let killPlayerButton = this.#generateButton("Töten");
 			killPlayerButton.classList.add("killButton");
 
-			for (var proposal of this.model.killProposals) {
+			for (let proposal of this.model.killProposals) {
 				if (proposal.player != player) continue;
 				killPlayerButton.disabled = true;
 			}
@@ -754,9 +793,9 @@ class DayView extends View {
 
 			playerListTbody.appendChild(tr);
 		}
+	}
 
-		//Add player section
-		var playerButton = element.querySelector(".addPlayerButton");
+	redrawAddPlayerSection(playerButton) {
 		var lockPlayerButton = false;
 
 		for (var player of this.model.identifiedPlayers) {
@@ -771,10 +810,9 @@ class DayView extends View {
 			playerButton.disabled = false;
 			playerButton.addEventListener("click", this.eventHandlers[5]);
 		}
+	}
 
-
-		//Unidentified roles section
-		var rolesListSection = element.querySelector(".unidentifiedRoles");
+	redrawUnidentifiedRolesSection(rolesListSection, rolesWithoutPlayers) {
 		rolesListSection.innerHTML = document.querySelector(".unidentifiedRoles").innerHTML;
 		var stringsForList = [];
 
@@ -783,9 +821,9 @@ class DayView extends View {
 		}
 
 		super._generateUlFromArray(stringsForList, rolesListSection);
+	}
 
-		//Problems section
-		var problemsSection = element.querySelector(".problems");
+	redrawProblemsSection(problemsSection) {
 		problemsSection.innerHTML = document.querySelector(".problems").innerHTML;
 
 		//Current problems that get listed:
@@ -850,8 +888,7 @@ class DayView extends View {
 
 		var problemsUL = this._generateUlFromArray(listOfWarningsToShow, problemsSection);
 		problemsUL.class = "listOfProblems";
-
-		this.viewElement.querySelector(".submit > input[type=submit]").disabled = listOfWarningsToShow.length;
+		return listOfWarningsToShow.length;
 	}
 
 	#generateCheckbox(checked, disabled, onchange = null) {
