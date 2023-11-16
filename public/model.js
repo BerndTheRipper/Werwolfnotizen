@@ -675,6 +675,7 @@ class Player {
  * @property {Player} player The player whose fate is to be decided
  * @property {boolean} protectionHolds true if the protection holds, false if something superceeds that protection
  * @property {boolean} proposalAccepted Whether or not the moderator has decided that the proposal should be accepted
+ * @todo account for hunter proposal being rejected, hence coming kills being removed
  */
 class KillProposal {
 	// The player that is to be killed
@@ -742,6 +743,14 @@ class KillProposal {
 		for (var protector of this.#protectors) {
 			if (protector instanceof Role) {
 				output.push(protector.roleName);
+				continue;
+			}
+			if (protector instanceof Player) {
+				let pushing = protector.playerName + " (Rolle: ";
+				if (protector.role != null) pushing += protector.role.roleName;
+				else pushing += "Unbekannt";
+				pushing += ")";
+				output.push(pushing);
 				continue;
 			}
 			output.push(protector);
