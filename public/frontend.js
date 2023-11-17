@@ -795,6 +795,18 @@ class DayView extends View {
 				killingHunters[killer.playerName] = proposal.player.playerName;
 			}
 		}
+
+		for (let hunter of dyingHunters) {
+			var tr = this._generateTableRows(2);
+			let trChildren = tr.children;
+			let hunterIndex = this.model.findPlayerIndexByName(hunter.playerName);
+
+			let inputElement = this._generatePlayerNameInput(playerIndex);
+			inputElement.required = true;
+			inputElement.addEventListener("focusout", this.eventHandlers[3]);
+
+			//TODO continue here
+		}
 	}
 
 	redrawPlayerOverviewSection(playerListTbody, rolesWithoutPlayers) {
