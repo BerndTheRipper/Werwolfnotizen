@@ -797,15 +797,33 @@ class DayView extends View {
 		}
 
 		for (let hunter of dyingHunters) {
-			var tr = this._generateTableRows(2);
+			let tr = this._generateTableRows(2);
 			let trChildren = tr.children;
 			let hunterIndex = this.model.findPlayerIndexByName(hunter.playerName);
 
-			let inputElement = this._generatePlayerNameInput(playerIndex);
+			let inputElement = this._generatePlayerNameInput(hunterIndex);
 			inputElement.required = true;
 			inputElement.addEventListener("focusout", this.eventHandlers[3]);
+			trChildren[0].appendChild(inputElement);
 
-			//TODO continue here
+			let namesForList = [];
+			let defaultName = killingHunters[hunter.playerName];
+			if (defaultName == null) defaultName = "Auswählen";
+
+			for (let player of this.model.identifiedPlayers) {
+				if (player.playerName == null) continue;
+				if (dyingHunters.includes(player)) continue;
+				if (player.playerName == defaultName) continue;
+				namesForList.push(player.playerName);
+				//TODO figure out reasons why the player does not need to be listed for being killed by hunter
+				// for (let proposal of this.model.killProposals) {
+				// 	if (proposal.player != player) continue;
+				// 	if (proposal.proposalAccepted && (proposal.getKillers().includes(Werewolf) || proposal.getKillers().includes(Vampire)))
+				// }
+			}
+
+			namesForList = [defaultName].concat(namesForList);
+			tbody.appendChild(tr);
 		}
 	}
 
