@@ -285,7 +285,10 @@ describe("Model functioning propoerly", () => {
 
 		test.todo("passing invalid argument to rolename");
 
-		test.todo("passing no argument to function");
+		test("passing no argument to function", () => {
+			let model = new Model();
+			expect(() => { model.moveUpRole() }).toThrow(" does not exist.");
+		});
 	});
 
 	describe("moveDownRole function", () => {
