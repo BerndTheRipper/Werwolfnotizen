@@ -283,11 +283,12 @@ describe("Model functioning propoerly", () => {
 			expect(model.roles[0].roleName).toBe("Werwolf");
 		});
 
-		test.todo("passing invalid argument to rolename");
-
-		test("passing no argument to function", () => {
+		test("passing invalid argument to rolename", () => {
 			let model = new Model();
 			expect(() => { model.moveUpRole() }).toThrow(" does not exist.");
+			expect(() => { model.moveUpRole(2) }).toThrow("2 does not exist.");
+			expect(() => { model.moveUpRole(true) }).toThrow("true does not exist.");
+			expect(() => { model.moveUpRole(model) }).toThrow("[object Object] does not exist.");
 		});
 	});
 
