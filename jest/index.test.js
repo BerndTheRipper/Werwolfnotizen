@@ -293,7 +293,29 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("moveDownRole function", () => {
-		test.todo("moving down a role");
+		test("moving down a role", () => {
+			let model = new Model();
+			expect(model.useDefaultRoleSorting).toBeTruthy();
+
+			expect(model.addRole("Barde", 2)).toBeInstanceOf(Role);
+			expect(model.addRole("Werwolf", 2)).toBeInstanceOf(Role);
+
+			expect(model.roles[6]).toBeInstanceOf(Role);
+			expect(model.roles[6].roleName).toBe("Werwolf");
+
+			expect(model.roles[13]).toBeInstanceOf(Role);
+			expect(model.roles[13].roleName).toBe("Barde");
+
+			expect(model.moveDownRole("Werwolf")).toBeUndefined();
+
+			expect(model.useDefaultRoleSorting).toBeFalsy();
+
+			expect(model.roles[0]).toBeInstanceOf(Role);
+			expect(model.roles[0].roleName).toBe("Barde");
+
+			expect(model.roles[1]).toBeInstanceOf(Role);
+			expect(model.roles[1].roleName).toBe("Werwolf");
+		});
 
 		test.todo("passing role thats not ingame");
 
