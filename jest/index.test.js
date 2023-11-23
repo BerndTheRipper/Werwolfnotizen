@@ -322,7 +322,10 @@ describe("Model functioning propoerly", () => {
 			expect(() => { model.moveDownRole("Barde") }).toThrow("Barde does not exist.");
 		});
 
-		test.todo("passing rolename thats unknown to the game");
+		test("passing rolename thats unknown to the game", () => {
+			let model = new Model();
+			expect(() => { model.moveUpRole("role unknown to game") }).toThrow("role unknown to game does not exist.");
+		});
 
 		test.todo("passing role that's already on bottom of the list");
 
