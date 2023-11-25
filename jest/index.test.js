@@ -349,9 +349,13 @@ describe("Model functioning propoerly", () => {
 			expect(model.roles[0].roleName).toBe("Werwolf");
 		});
 
-		test.todo("passing invalid argument to rolename");
-
-		test.todo("passing no argument to function");
+		test("passing invalid argument to rolename", () => {
+			let model = new Model();
+			expect(() => { model.moveDownRole() }).toThrow(" does not exist.");
+			expect(() => { model.moveDownRole(2) }).toThrow("2 does not exist.");
+			expect(() => { model.moveDownRole(true) }).toThrow("true does not exist.");
+			expect(() => { model.moveDownRole(model) }).toThrow("[object Object] does not exist.");
+		});
 	});
 
 	describe("getRoleData function", () => {
