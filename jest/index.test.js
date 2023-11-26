@@ -359,7 +359,12 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("getRoleData function", () => {
-		test.todo("returns proper list leaving out nulls");
+		test("returns proper list leaving out nulls", () => {
+			let model = new Model();
+			model.addRole("Barde", 2);
+			model.addRole("Werwolf", 2);
+			expect(model.getRoleData()).toStrictEqual([["Werwolf", 2], ["Barde", 2]]);
+		});
 	});
 
 	describe("getRoleNamesInGame function", () => {
