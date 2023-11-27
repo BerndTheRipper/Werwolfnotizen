@@ -368,7 +368,12 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("getRoleNamesInGame function", () => {
-		test.todo("get proper list of names leaving out nulls");
+		test("get proper list of names leaving out nulls", () => {
+			let model = new Model();
+			model.addRole("Barde", 2);
+			model.addRole("Werwolf", 2);
+			expect(model.getRoleNamesInGame()).toStrictEqual(["Werwolf", "Barde"]);
+		});
 	});
 
 	describe("startFirstNight and startNight", () => {
