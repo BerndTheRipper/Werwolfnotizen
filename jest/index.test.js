@@ -487,18 +487,31 @@ describe("Model functioning propoerly", () => {
 			expect(searchedPlayer.role.roleName).toBe("Barde");
 		});
 
-		test("not find incorrectly entered player with adding and role", () => {
+		test("incorrectly entered player with adding and role", () => {
 			let model = new Model();
-
+			let wantedRole = model.addRole("Barde", 2);
 			let otherPlayers = [model.addPlayer("Garlenz"), model.addPlayer("Flegranz"), model.addPlayer("Rofldings")];
 			for (var player of otherPlayers) {
 				expect(player).toBeInstanceOf(Player);
 			}
 
-			expect(model.findPlayerByName("Harri", false, null)).toBeNull();
+			let newPlayer = model.findPlayerByName("Harri", true, wantedRole);
+			expect(newPlayer).toBeInstanceOf(Player);
+			console.log(newPlayer.role);
+			expect(newPlayer.role.roleName).toBe("Barde");
 		});
 
-		test.todo("not find incorrectly entered player without adding but entering role");
+		test("not find incorrectly entered player without adding but entering role", () => {
+			let model = new Model();
+			var wantedRole = model.addRole("Barde", 2);
+			let otherPlayers = [model.addPlayer("Garlenz"), model.addPlayer("Flegranz"), model.addPlayer("Rofldings")];
+			for (var player of otherPlayers) {
+				expect(player).toBeInstanceOf(Player);
+			}
+
+			let newPlayer = model.findPlayerByName("Harri", false, wantedRole);
+			expect(newPlayer).toBeNull();
+		});
 	});
 
 
