@@ -209,7 +209,11 @@ describe("Model functioning propoerly", () => {
 			expect(model.removeRole("Hexe")).toBe(false);
 		});
 
-		test.todo("passing non-existing role to function");
+		test("passing non-existing role to function", () => {
+			let model = new Model();
+
+			expect(model.removeRole("Diese Rolle gibt es nicht")).toBe(false);
+		});
 
 		test.todo("passing no argument to function");
 	});
