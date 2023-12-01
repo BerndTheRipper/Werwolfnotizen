@@ -215,7 +215,11 @@ describe("Model functioning propoerly", () => {
 			expect(model.removeRole("Diese Rolle gibt es nicht")).toBe(false);
 		});
 
-		test.todo("passing no argument to function");
+		test("passing no argument to function", () => {
+			let model = new Model();
+
+			expect(model.removeRole()).toBe(false);
+		});
 	});
 
 	describe("getRoleIndexByName", () => {
