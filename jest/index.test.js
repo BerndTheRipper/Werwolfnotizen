@@ -225,7 +225,13 @@ describe("Model functioning propoerly", () => {
 	describe("getRoleIndexByName", () => {
 		test.todo("getting role indexes for each role");
 
-		test.todo("passing role name that's not ingame");
+		test("passing role name that's not ingame", () => {
+			let model = new Model();
+
+			model.addRole("Barde");
+
+			expect(() => { model.getRoleIndexByName("Hexe") }).toThrow("Hexe does not exist.");
+		});
 
 		test.todo("passing completely invalid role name");
 
