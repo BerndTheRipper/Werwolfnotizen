@@ -233,7 +233,10 @@ describe("Model functioning propoerly", () => {
 			expect(() => { model.getRoleIndexByName("Hexe") }).toThrow("Hexe does not exist.");
 		});
 
-		test.todo("passing completely invalid role name");
+		test("passing completely invalid role name", () => {
+			let model = new Model();
+			expect(() => { model.getRoleIndexByName("Rolle, die nicht existiert") }).toThrow("Rolle, die nicht existiert does not exist.");
+		});
 
 		test.todo("passing completely invalid type");
 
