@@ -238,7 +238,11 @@ describe("Model functioning propoerly", () => {
 			expect(() => { model.getRoleIndexByName("Rolle, die nicht existiert") }).toThrow("Rolle, die nicht existiert does not exist.");
 		});
 
-		test.todo("passing completely invalid type");
+		test("passing completely invalid type", () => {
+			let model = new Model();
+
+			expect(() => { model.getRoleIndexByName(2) }).toThrow("does not exist.");
+		});
 
 		test.todo("passing no argument to function");
 	});
