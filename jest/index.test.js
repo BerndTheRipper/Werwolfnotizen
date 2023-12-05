@@ -244,7 +244,11 @@ describe("Model functioning propoerly", () => {
 			expect(() => { model.getRoleIndexByName(2) }).toThrow("does not exist.");
 		});
 
-		test.todo("passing no argument to function");
+		test("passing no argument to function", () => {
+			let model = new Model();
+
+			expect(() => { model.getRoleIndexByName() }).toThrow("does not exist.");
+		});
 	});
 
 	describe("moveUpRole function", () => {
