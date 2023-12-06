@@ -223,7 +223,15 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("getRoleIndexByName", () => {
-		test.todo("getting role indexes for each role");
+		test("getting role indexes some roles", () => {
+			let model = new Model();
+
+			model.addRole("Barde");
+			model.addRole("Hexe");
+
+			expect(model.getRoleIndexByName("Barde")).toBe(13);
+			expect(model.getRoleIndexByName("Hexe")).toBe(10);
+		});
 
 		test("passing role name that's not ingame", () => {
 			let model = new Model();
