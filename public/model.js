@@ -766,6 +766,7 @@ class KillProposal {
 	 * @param {(Role|string)} protector The Role that protects the player or the reason why he should be protected
 	 */
 	addProtector(protector) {
+		this.#protectors.push(protector);
 		for (var killer of this.#killers) {
 			if (killer instanceof CrocodileAndy || !(killer instanceof Role) || protector == null) {
 				this.protectionHolds = false;
@@ -773,8 +774,6 @@ class KillProposal {
 			}
 			this.protectionHolds = true;
 		}
-
-		this.#protectors.push(protector);
 	}
 
 	/**
@@ -798,7 +797,7 @@ class KillProposal {
 	 * Sets this.proposal accepted to the default, which is basically the opposite of isProtected
 	 */
 	setProposalAcceptedToDefault() {
-		this.proposalAccepted = this.acceptByDefault();
+		this.proposalAccepted = !this.isProtected();
 	}
 
 	/**
