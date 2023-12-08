@@ -72,7 +72,12 @@ describe(
 
 		}, timeout);
 
-		test.todo("Removing roles");
+		test("Removing roles", async () => {
+			await addAllRolesOnce();
+			let roleNameToRemove = "Barde";
+			let searchResult = await page.evaluate((roleNameToRemove) => model.getRoleIndexByName(roleNameToRemove), roleNameToRemove);
+			expect(searchResult).toBe(13);
+		});
 
 		test.todo("Changing role order");
 
