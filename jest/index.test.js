@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const { Model, Player, KillProposal } = require("./../public/model");
-const { Role } = require('../public/roles');
+const { Role, Bard } = require('../public/roles');
 
 
 const timeout = 50000;
@@ -443,7 +443,19 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("identifyPlayers", () => {
-		test.todo("identifying valid list of players");
+		test("identifying valid list of players", () => {
+			let model = new Model();
+			let newRole = model.addRole("Barde", 3);
+			let playerNames = ["Gobbel", "Ormun", "Lamenz"];
+
+			model.identifyPlayers(playerNames, [0, 1, 2], newRole);
+
+			for (let i = 0; i < playerNames.length; i++) {
+				expect(model.identifiedPlayers[i]).toBeInstanceOf(Player);
+				expect(model.identifiedPlayers[i].playerName).toBe(playerNames[i]);
+				expect(model.identifiedPlayers[i].role.roleName).toBe("Barde");
+			}
+		});
 
 		test.todo("renaming valid list of players and indexes");
 
