@@ -457,7 +457,28 @@ describe("Model functioning propoerly", () => {
 			}
 		});
 
-		test.todo("renaming valid list of players and indexes");
+		test("renaming valid list of players and indexes", () => {
+			let model = new Model();
+			let newRole = model.addRole("Barde", 3);
+			let playerNames = ["Gobbel", "Ormun", "Lamenz"];
+			let newPlayerNames = ["Flegrantz", "Glegum", "Regmaus"];
+
+			model.identifyPlayers(playerNames, [0, 1, 2], newRole);
+
+			for (let i = 0; i < playerNames.length; i++) {
+				expect(model.identifiedPlayers[i]).toBeInstanceOf(Player);
+				expect(model.identifiedPlayers[i].playerName).toBe(playerNames[i]);
+				expect(model.identifiedPlayers[i].role.roleName).toBe("Barde");
+			}
+
+			model.identifyPlayers(newPlayerNames, [0, 1, 2], newRole);
+
+			for (let i = 0; i < playerNames.length; i++) {
+				expect(model.identifiedPlayers[i]).toBeInstanceOf(Player);
+				expect(model.identifiedPlayers[i].playerName).toBe(newPlayerNames[i]);
+				expect(model.identifiedPlayers[i].role.roleName).toBe("Barde");
+			}
+		});
 
 		test.todo("identifying single player");
 

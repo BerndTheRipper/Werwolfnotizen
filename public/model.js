@@ -314,6 +314,9 @@ class Model {
 	identifyPlayers(names, indexes, currentRole = this.roles[this.currentRoleToWakeUp]) {
 		for (var i = 0; i < indexes.length; i++) {
 			indexes[i] = parseInt(indexes[i]);
+			if (this.identifiedPlayers[indexes[i]] instanceof Player) {
+				this.identifiedPlayers[indexes[i]].playerName = names[i];
+			}
 		}
 
 		for (var i in names) {
