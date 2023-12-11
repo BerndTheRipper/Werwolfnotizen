@@ -480,7 +480,17 @@ describe("Model functioning propoerly", () => {
 			}
 		});
 
-		test.todo("identifying single player");
+		test("identifying single player", () => {
+			let model = new Model();
+			let newRole = model.addRole("Barde", 3);
+			let playerName = "Lagunz";
+
+			model.identifyPlayers([playerName], [0], newRole);
+
+			expect(model.identifiedPlayers[0]).toBeInstanceOf(Player);
+			expect(model.identifiedPlayers[0].playerName).toBe(playerName);
+			expect(model.identifiedPlayers[0].role.roleName).toBe("Barde");
+		});
 
 		test.todo("currentRole default detected properly");
 
