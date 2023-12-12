@@ -492,7 +492,19 @@ describe("Model functioning propoerly", () => {
 			expect(model.identifiedPlayers[0].role.roleName).toBe("Barde");
 		});
 
-		test.todo("currentRole default detected properly");
+		test("currentRole default detected properly", () => {
+			let model = new Model();
+			model.currentRole = model.addRole("Barde", 3);
+			let playerNames = ["Gobbel", "Ormun", "Lamenz"];
+			model.currentRoleToWakeUp = 13;
+			model.identifyPlayers(playerNames, [0, 1, 2]);
+
+			for (let i = 0; i < playerNames.length; i++) {
+				expect(model.identifiedPlayers[i]).toBeInstanceOf(Player);
+				expect(model.identifiedPlayers[i].playerName).toBe(playerNames[i]);
+				expect(model.identifiedPlayers[i].role.roleName).toBe("Barde");
+			}
+		});
 
 		test.todo("currentRole as alternative detected properly");
 	});
