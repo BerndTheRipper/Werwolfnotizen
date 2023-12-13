@@ -41,8 +41,8 @@ class Model {
 	leperKilled = 2; // Aussätzige
 
 	// The two people who are in love.
-	// TODO test if this is really needed and insert into finishProposals if it is
-	lovers = [];
+	// TODO test if it works without this
+	// lovers = [];
 
 	// The player the pleasuregirl stays at
 	pleasureGirlHost = null;
@@ -464,7 +464,7 @@ class Model {
 				this.addKillerToProposal(target[0], target[1]);
 			}
 			else if (target[1] instanceof Amor) {
-				this.lovers.push(target[0]);
+				// this.lovers.push(target[0]);
 				target[0].inLove = true;
 			}
 			else if (target[1] instanceof Priest) {
