@@ -14,6 +14,10 @@ describe('Entering roles', () => {
 	it("Does submit when trying known role with number", () => {
 		enterRoleWithTesting("Hexe", "1", true);
 	});
+
+	it("Entering a fake role", () => {
+		enterRoleWithTesting("Seherin", "0", true);
+	});
 });
 
 describe("Removing roles and editing their order", () => {
