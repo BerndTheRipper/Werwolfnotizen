@@ -396,6 +396,25 @@ describe("Model functioning propoerly", () => {
 		});
 	});
 
+	describe("getRolesWithoutPlayers", () => {
+		test("Getting all roles without players", () => {
+			let model = new Model();
+
+			let werewolfRole = model.addRole("Werwolf", 2);
+			let witchRole = model.addRole("Hexe");
+			let bardRole = model.addRole("Barde", 2);
+
+			model.addPlayer("Dlogrent", bardRole);
+			model.addPlayer("Karnfett", bardRole);
+
+			let roles = model.getRolesWithoutPlayers();
+
+			expect(roles.length).toBe(2);
+			expect(roles[0]).toBe(werewolfRole);
+			expect(roles[1]).toBe(witchRole);
+		});
+	});
+
 	describe("getRoleData function", () => {
 		test("returns proper list leaving out nulls", () => {
 			let model = new Model();
