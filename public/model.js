@@ -327,6 +327,7 @@ class Model {
 	enterTarget(...names) {
 		var currentRole = this.roles[this.currentRoleToWakeUp];
 		if (currentRole instanceof Witch) {
+			//TODO why +2? Why even a loop? how is this not going wrong miserably? test this further
 			for (var i = 0; i < names.length; i += 2) {
 				this.targets.push([this.findPlayerByName(names[i]), currentRole, names[i + 1]]);
 			}
@@ -344,6 +345,7 @@ class Model {
 	 * @param {Role | number | null} role If it is an instance of Role, gives that role to the player,
 	 * 	if it is -1, the role gets removed, if it is null, nothing changes
 	 * @returns The player that was found, or null if addIfNone is false and no player was found
+	 * @todo make this throw an exception if no one was found, otherwise enterTarget might have unexpected results
 	 */
 	findPlayerByName(name, addIfNone = true, role = null) {
 		for (var player of this.identifiedPlayers) {

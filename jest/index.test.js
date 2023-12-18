@@ -415,6 +415,16 @@ describe("Model functioning propoerly", () => {
 		});
 	});
 
+	describe("enterTarget function", () => {
+		test.todo("enters targets properly"); // , () => {
+		// 	let model = new Model();
+		// 	let playerNames = ["Flupgant", "Lapwenz", "Flenglik", "Lauwenz", "Grabgunt", "Lebwink", "Klafou"];
+		// 	let targetNames = ["Flupgant", "Flenglik", "Grabgunt", "Klafou"];
+
+		// 	let werewolfRole = model.addRole
+		// });
+	});
+
 	describe("getRoleData function", () => {
 		test("returns proper list leaving out nulls", () => {
 			let model = new Model();
