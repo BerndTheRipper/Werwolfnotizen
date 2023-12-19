@@ -328,6 +328,7 @@ class Model {
 		var currentRole = this.roles[this.currentRoleToWakeUp];
 		if (currentRole instanceof Witch) {
 			//TODO why +2? Why even a loop? how is this not going wrong miserably? test this further
+			//ANSWER: because there is always a name being passed and then whether it is healing or not
 			for (var i = 0; i < names.length; i += 2) {
 				this.targets.push([this.findPlayerByName(names[i]), currentRole, names[i + 1]]);
 			}
