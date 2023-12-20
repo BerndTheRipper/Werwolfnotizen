@@ -416,13 +416,26 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("enterTarget function", () => {
-		test.todo("enters targets properly"); // , () => {
-		// 	let model = new Model();
-		// 	let playerNames = ["Flupgant", "Lapwenz", "Flenglik", "Lauwenz", "Grabgunt", "Lebwink", "Klafou"];
-		// 	let targetNames = ["Flupgant", "Flenglik", "Grabgunt", "Klafou"];
+		test.todo("Enters werewolf targets properly");
+		//TODO complete this test
+		test("enters witch targets properly", () => {
+			let model = new Model();
+			let playerNames = ["Flupgant", "Lapwenz", "Flenglik", "Lauwenz", "Grabgunt", "Lebwink", "Klafou"];
+			let targetNames = ["Flupgant", "Flenglik", "Grabgunt", "Klafou"];
 
-		// 	let werewolfRole = model.addRole
-		// });
+			let witchRole = model.addRole("Hexe", 1);
+			let bardRole = model.addRole("Barde", 6);
+
+			model.addPlayer(playerNames[0], witchRole);
+			for (let i = 1; i < playerNames.length; i++) {
+				model.addPlayer(playerNames[i], bardRole);
+			}
+
+			let targetAddition = [];
+			for (let i = 0; i < targetNames.length; i++) {
+
+			}
+		});
 	});
 
 	describe("getRoleData function", () => {
