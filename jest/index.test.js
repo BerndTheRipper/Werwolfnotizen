@@ -417,14 +417,17 @@ describe("Model functioning propoerly", () => {
 
 	describe("enterTarget function", () => {
 		test.todo("Enters werewolf targets properly");
-		//TODO complete this test
+
 		test("enters witch targets properly", () => {
 			let model = new Model();
 			let playerNames = ["Flupgant", "Lapwenz", "Flenglik", "Lauwenz", "Grabgunt", "Lebwink", "Klafou"];
-			let targetNames = ["Flupgant", "Flenglik", "Grabgunt", "Klafou"];
+			let targetNames = ["Flupgant", "Klafou"];
+			let isHealed = [true, false];
+			expect(targetNames.length).toEqual(isHealed.length);
 
 			let witchRole = model.addRole("Hexe", 1);
 			let bardRole = model.addRole("Barde", 6);
+			model.currentRoleToWakeUp = model.roles.indexOf(witchRole);
 
 			model.addPlayer(playerNames[0], witchRole);
 			for (let i = 1; i < playerNames.length; i++) {
@@ -433,7 +436,17 @@ describe("Model functioning propoerly", () => {
 
 			let targetAddition = [];
 			for (let i = 0; i < targetNames.length; i++) {
+				targetAddition.push(targetNames[i]);
+				targetAddition.push(isHealed[i]);
+			}
 
+			model.enterTarget.apply(model, targetAddition);
+
+			expect(model.targets.length).toEqual(targetNames.length);
+			for (let i = 0; i < model.targets.length; i++) {
+				expect(model.targets[i][0].playerName).toBe(targetNames[i]);
+				expect(model.targets[i][1]).toBeInstanceOf(witchRole.constructor);
+				expect(model.targets[i][2]).toBe(isHealed[i]);
 			}
 		});
 	});
@@ -632,7 +645,6 @@ describe("Model functioning propoerly", () => {
 
 			let newPlayer = model.findPlayerByName("Harri", true, wantedRole);
 			expect(newPlayer).toBeInstanceOf(Player);
-			console.log(newPlayer.role);
 			expect(newPlayer.role.roleName).toBe("Barde");
 		});
 
