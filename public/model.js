@@ -348,7 +348,6 @@ class Model {
 	 * @param {Role | number | null} role If it is an instance of Role, gives that role to the player,
 	 * 	if it is -1, the role gets removed, if it is null, nothing changes
 	 * @returns The player that was found, or null if addIfNone is false and no player was found
-	 * @todo make this throw an exception if no one was found, otherwise enterTarget might have unexpected results
 	 */
 	findPlayerByName(name, addIfNone = true, role = null) {
 		for (var player of this.identifiedPlayers) {
@@ -360,7 +359,7 @@ class Model {
 		if (addIfNone) {
 			return this.addPlayer(name, role);
 		}
-		return null;
+		throw new ReferenceError(name + " is not ingame and could not be added because addIfNone is false");
 	}
 
 

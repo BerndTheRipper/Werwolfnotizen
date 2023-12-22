@@ -602,9 +602,9 @@ describe("Model functioning propoerly", () => {
 				expect(player).toBeInstanceOf(Player);
 			}
 
-			expect(model.findPlayerByName("Garlenzino", false)).toBeNull();
-			expect(model.findPlayerByName("Hargi", false)).toBeNull();
-			expect(model.findPlayerByName("Glegranz", false)).toBeNull();
+			expect(() => { model.findPlayerByName("Garlenzino", false) }).toThrow(ReferenceError);
+			expect(() => { model.findPlayerByName("Hagri", false) }).toThrow(ReferenceError);
+			expect(() => { model.findPlayerByName("Glegranz", false) }).toThrow(ReferenceError);
 		});
 
 		test("not find incorrectly entered player with adding", () => {
@@ -612,7 +612,7 @@ describe("Model functioning propoerly", () => {
 
 			let username = "Harri";
 
-			expect(model.findPlayerByName(username, false, null)).toBeNull();
+			expect(() => { model.findPlayerByName(username, false, null) }).toThrow(ReferenceError);
 			expect(model.findPlayerByName(username, true, null)).toBeInstanceOf(Player);
 		});
 
@@ -656,8 +656,7 @@ describe("Model functioning propoerly", () => {
 				expect(player).toBeInstanceOf(Player);
 			}
 
-			let newPlayer = model.findPlayerByName("Harri", false, wantedRole);
-			expect(newPlayer).toBeNull();
+			expect(() => { model.findPlayerByName("Harri", false, wantedRole) }).toThrow(ReferenceError);
 		});
 	});
 
