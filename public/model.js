@@ -560,10 +560,11 @@ class Model {
 			let resetRoleVariable = !(proposal.player.role instanceof Puppy || proposal.player.role instanceof Leper);
 
 			//TODO: Add ignore of role-death-related variables
-			if (proposal.player.role instanceof Rioter) {
-				//TODO why did I do this? (Start a riot if rioter dies instead of when she decides it)
-				this.riot = 1;
-			} else if (proposal.player.role instanceof ToughGuy) {
+			// if (proposal.player.role instanceof Rioter) {
+			//TODO why did I do this? (Start a riot if rioter dies instead of when she decides it)
+			// 	this.riot = 1;
+			// } else 
+			if (proposal.player.role instanceof ToughGuy) {
 				//QUESTION : If a werewolf attacks a tough guy, does the visiting hokker also die?
 				//Does she die if the pleasuregirl visits the night he bleeds out?
 				this.toughGuyAttacked += 1;
