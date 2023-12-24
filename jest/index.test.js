@@ -416,12 +416,36 @@ describe("Model functioning propoerly", () => {
 	});
 
 	describe("enterTarget function", () => {
-		test.todo("Enters werewolf targets properly");
+		test("Enters werewolf targets properly", () => {
+			let model = new Model();
+			let playerNames = ["Flupgant", "Lapwenz", "Flenglik", "Lauwenz", "Grabgunt", "Lebwink", "Klafou"];
+			let targetNames = ["Flupgant", "Klafou"];
+
+			let werewolfRole = model.addRole("Werwolf", 1);
+			let bardRole = model.addRole("Barde", 6);
+			model.currentRoleToWakeUp = model.roles.indexOf(werewolfRole);
+
+			model.addPlayer(playerNames[0], werewolfRole);
+			for (let i = 1; i < playerNames.length; i++) {
+				model.addPlayer(playerNames[i], bardRole);
+			}
+
+			//TODO figure out why this makes the this object the list of names and the one in the next test
+			//makes it the model object
+			model.enterTarget.apply(targetNames);
+
+			expect(model.targets.length).toEqual(targetNames.length);
+			for (let i = 0; i < model.targets.length; i++) {
+				expect(model.targets[i].length).toBe(2);
+				expect(model.targets[i][0].playerName).toBe(targetNames[i]);
+				expect(model.targets[i][1]).toBeInstanceOf(werewolfRole.constructor);
+			}
+		});
 
 		test("enters witch targets properly", () => {
 			let model = new Model();
 			let playerNames = ["Flupgant", "Lapwenz", "Flenglik", "Lauwenz", "Grabgunt", "Lebwink", "Klafou"];
-			let targetNames = ["Flupgant", "Klafou"];
+			let targetNames = ["Lapwenz", "Klafou"];
 			let isHealed = [true, false];
 			expect(targetNames.length).toEqual(isHealed.length);
 
@@ -444,6 +468,7 @@ describe("Model functioning propoerly", () => {
 
 			expect(model.targets.length).toEqual(targetNames.length);
 			for (let i = 0; i < model.targets.length; i++) {
+				expect(model.targets[i].length).toBe(3);
 				expect(model.targets[i][0].playerName).toBe(targetNames[i]);
 				expect(model.targets[i][1]).toBeInstanceOf(witchRole.constructor);
 				expect(model.targets[i][2]).toBe(isHealed[i]);
