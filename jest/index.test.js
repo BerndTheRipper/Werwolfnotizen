@@ -432,7 +432,7 @@ describe("Model functioning propoerly", () => {
 
 			//TODO figure out why this makes the this object the list of names and the one in the next test
 			//makes it the model object
-			model.enterTarget.apply(targetNames);
+			model.enterTarget.apply(model, targetNames);
 
 			expect(model.targets.length).toEqual(targetNames.length);
 			for (let i = 0; i < model.targets.length; i++) {
