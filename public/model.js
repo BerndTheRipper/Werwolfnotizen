@@ -159,7 +159,7 @@ class Model {
 			} else if (this.roles[i] instanceof ToughGuy) {
 				this.toughGuyAttacked = 2;
 			}
-			//TODO: reconsider these two
+			//TODO: reconsider these two why again?
 			else if (this.roles[i] instanceof Puppy) {
 				this.pupKilled = 2;
 			} else if (this.roles[i] instanceof Leper) {
@@ -767,7 +767,7 @@ class KillProposal {
 	}
 
 	//TODO: Redo this function, might not always need to set protectionHolds to false
-	//Where do I even use protectionHolds? To let the moderator know
+	//Where do I even use protectionHolds? ANSWER: To let the moderator know
 	/**
 	 * Adds a reason why the player should not die today and re-determines if the protection holds
 	 * @todo Re-do this function, this.protectionHolds does not always need to be set to false, just because no protector was passed, the player might still have protection from his existing protectors
@@ -775,8 +775,12 @@ class KillProposal {
 	 */
 	addProtector(protector) {
 		this.#protectors.push(protector);
+		//No protector was passed, so protectionHolds remains unchanged
+		if (protector == null) {
+			return;
+		}
 		for (var killer of this.#killers) {
-			if (killer instanceof CrocodileAndy || !(killer instanceof Role) || protector == null) {
+			if (killer instanceof CrocodileAndy || !(killer instanceof Role)) {
 				this.protectionHolds = false;
 				break;
 			}
