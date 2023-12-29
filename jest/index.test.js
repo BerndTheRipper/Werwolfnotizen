@@ -500,7 +500,19 @@ describe("Model functioning propoerly", () => {
 
 	describe("wakeUpNextRole", () => {
 		describe("first night", () => {
-			test.todo("calling with no wakeup gaps");
+			test("calling with no wakeup gaps", () => {
+				let model = new Model();
+
+				model.useDefaultRoleSorting = false;
+
+				model.addRole("Barde", 2);
+				model.addRole("Werwolf", 3);
+
+				model.startFirstNight();
+				expect(model.currentRoleToWakeUp).toBe(0);
+				model.wakeUpNextRole();
+				expect(model.currentRoleToWakeUp).toBe(1);
+			});
 
 			test.todo("calling with first night wakeup gaps");
 
