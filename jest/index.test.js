@@ -508,13 +508,31 @@ describe("Model functioning propoerly", () => {
 				model.addRole("Barde", 2);
 				model.addRole("Werwolf", 3);
 
+				expect(model.roles).not.toContain(null);
+
 				model.startFirstNight();
 				expect(model.currentRoleToWakeUp).toBe(0);
 				model.wakeUpNextRole();
 				expect(model.currentRoleToWakeUp).toBe(1);
 			});
 
-			test.todo("calling with first night wakeup gaps");
+			//TODO move this into startFirstNight since it seems to remove null gaps
+			test("calling with first night wakeup gaps", () => {
+				let model = new Model();
+				let bardRole = model.addRole("Barde", 2);
+				let werewolfRole = model.addRole("Werwolf", 3);
+
+				expect(model.roles[0]).toBeUndefined();
+				expect(model.roles[6]).toBe(werewolfRole);
+				expect(model.roles[7]).toBeUndefined();
+				expect(model.roles[13]).toBe(bardRole);
+				expect(model.roles.length).toBe(14);
+				model.startFirstNight();
+				expect(model.currentRoleToWakeUp).toBe(0);
+				model.wakeUpNextRole();
+				expect(model.currentRoleToWakeUp).toBe(6);
+
+			});
 
 			test.todo("Calling with null gaps");
 
