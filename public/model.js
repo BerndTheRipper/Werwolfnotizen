@@ -265,8 +265,11 @@ class Model {
 	}
 
 	startNight() {
-		this.mayor = this.nextMayor;
-		this.nextMayor = null;
+		//TODO test if this fixes it and also was this even a bug?
+		if (this.nextMayor instanceof Player) {
+			this.mayor = this.nextMayor;
+			this.nextMayor = null;
+		}
 		this.bannedByOldVettel = null;
 		this.pleasureGirlHost = null;
 
