@@ -266,10 +266,10 @@ class Model {
 
 	startNight() {
 		//TODO test if this fixes it and also was this even a bug?
-		if (this.nextMayor instanceof Player) {
-			this.mayor = this.nextMayor;
-			this.nextMayor = null;
-		}
+		// if (this.nextMayor instanceof Player) {
+		this.mayor = this.nextMayor;
+		this.nextMayor = null;
+		// }
 		this.bannedByOldVettel = null;
 		this.pleasureGirlHost = null;
 
@@ -350,9 +350,11 @@ class Model {
 	 * @param {boolean} addIfNone whether the player should be added if he is not found
 	 * @param {Role | number | null} role If it is an instance of Role, gives that role to the player,
 	 * 	if it is -1, the role gets removed, if it is null, nothing changes
-	 * @returns The player that was found, or null if addIfNone is false and no player was found
+	 * @param {boolean} [throwIfNone=true] How to handle if no player was found and none should be added. Returns null if that's the case and throwIfNone is false
+	 * @throws {ReferenceError} if the player was not found, addIfNone is false and throwIfNone is true
+	 * @returns The player that was found/added, or null if no player found and if addIfNone and throwIfNone are false
 	 */
-	findPlayerByName(name, addIfNone = true, role = null) {
+	findPlayerByName(name, addIfNone = true, role = null, throwIfNone = true) {
 		for (var player of this.identifiedPlayers) {
 			if (player.playerName != name) continue;
 			if (role == -1) player.role = null;
@@ -362,7 +364,10 @@ class Model {
 		if (addIfNone) {
 			return this.addPlayer(name, role);
 		}
-		throw new ReferenceError(name + " is not ingame and could not be added because addIfNone is false");
+		if (throwIfNone) {
+			throw new ReferenceError(name + " is not ingame and could not be added because addIfNone is false");
+		}
+		return null;
 	}
 
 
