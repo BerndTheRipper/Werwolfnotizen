@@ -656,7 +656,7 @@ class DayView extends View {
 		}
 
 		var newMayorName = mayorSection.querySelector(".newMayorName").value;
-		var newMayorPlayer = this.model.findPlayerByName(newMayorName, false);
+		var newMayorPlayer = this.model.findPlayerByName(newMayorName, false, null, false);
 
 		var newMayorRole = "Unbekannt";
 
