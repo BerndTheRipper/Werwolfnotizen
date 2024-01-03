@@ -505,6 +505,7 @@ describe("Model functioning propoerly", () => {
 			expect(model.roles.length).toBe(14);
 			model.startFirstNight();
 			expect(model.roles.length).toBe(2);
+			expect(model.nightNumber).toBe(1);
 		});
 
 		test.todo("starting nth night");
@@ -611,7 +612,24 @@ describe("Model functioning propoerly", () => {
 			}
 		});
 
-		test.todo("currentRole as alternative detected properly");
+		test("currentRole as alternative detected properly", () => {
+			let model = new Model();
+			let bardRole = model.addRole("Barde", 3);
+			let werewolfRole = model.addRole("Werwolf", 1);
+			let playerName = "Lagunz";
+
+			model.addPlayer(playerName, bardRole);
+
+			expect(model.identifiedPlayers[0]).toBeInstanceOf(Player);
+			expect(model.identifiedPlayers[0].playerName).toBe(playerName);
+			expect(model.identifiedPlayers[0].role).toBeInstanceOf(bardRole.constructor);
+			model.currentRoleToWakeUp = model.roles.indexOf(werewolfRole);
+			model.identifyPlayers([playerName], [0]);
+			//TODO fix this
+			expect(model.identifiedPlayers[0]).toBeInstanceOf(Player);
+			expect(model.identifiedPlayers[0].playerName).toBe(playerName);
+			expect(model.identifiedPlayers[i].role).toBeInstanceOf(werewolfRole.constructor);
+		});
 	});
 
 	describe("enterTarget", () => {
