@@ -625,10 +625,9 @@ describe("Model functioning propoerly", () => {
 			expect(model.identifiedPlayers[0].role).toBeInstanceOf(bardRole.constructor);
 			model.currentRoleToWakeUp = model.roles.indexOf(werewolfRole);
 			model.identifyPlayers([playerName], [0]);
-			//TODO fix this
 			expect(model.identifiedPlayers[0]).toBeInstanceOf(Player);
 			expect(model.identifiedPlayers[0].playerName).toBe(playerName);
-			expect(model.identifiedPlayers[i].role).toBeInstanceOf(werewolfRole.constructor);
+			expect(model.identifiedPlayers[0].role).toBeInstanceOf(werewolfRole.constructor);
 		});
 	});
 
