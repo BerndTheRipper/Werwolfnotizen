@@ -328,6 +328,9 @@ class Model {
 	}
 
 	enterTarget(...names) {
+		for (name in names) {
+			if (typeof name != "string") throw new TypeError("One of the items in the list of names is not a string!");
+		}
 		var currentRole = this.roles[this.currentRoleToWakeUp];
 		if (currentRole instanceof Witch) {
 			//TODO why +2? Why even a loop? how is this not going wrong miserably? test this further
