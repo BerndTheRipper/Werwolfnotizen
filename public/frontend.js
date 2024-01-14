@@ -620,7 +620,7 @@ class DayView extends View {
 		var problemsSection = element.querySelector(".problems");
 		var amountOfWarningsShown = this.redrawProblemsSection(problemsSection);
 
-		this.viewElement.querySelector(".submit > input[type=submit]").disabled = amountOfWarningsShown.length;
+		this.viewElement.querySelector(".submit > input[type=submit]").disabled = amountOfWarningsShown;
 	}
 
 	redrawMayorSection(mayorSection) {
