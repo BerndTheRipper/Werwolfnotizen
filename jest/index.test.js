@@ -528,13 +528,6 @@ describe("Model functioning propoerly", () => {
 				model.wakeUpNextRole();
 				expect(model.currentRoleToWakeUp).toBe(1);
 			});
-
-			//TODO reconsider if this test is really needed
-			test.todo("calling with first night wakeup gaps");
-
-			test.todo("Calling with null gaps");
-
-			test.todo("calling with invalid role objects");
 		});
 
 		describe("other nights", () => {
