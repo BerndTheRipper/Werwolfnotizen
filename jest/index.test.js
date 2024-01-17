@@ -532,12 +532,6 @@ describe("Model functioning propoerly", () => {
 
 		describe("other nights", () => {
 			test.todo("calling with no wakeup gaps");
-
-			test.todo("calling with first night wakeup gaps");
-
-			test.todo("Calling with null gaps");
-
-			test.todo("calling with invalid role objects");
 		});
 	});
 
