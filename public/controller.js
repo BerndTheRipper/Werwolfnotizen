@@ -239,6 +239,17 @@ class Controller {
 			if (proposal.player.playerName != playerName) continue;
 
 			proposal.proposalAccepted = checkbox.checked;
+
+			if (proposal.player.inLove) {
+				for (let loveProposal of controller.model.killProposals) {
+					if (!loveProposal.player.inLove || loveProposal.player == proposal.player) continue;
+					let killers = loveProposal.getKillers();
+					if (killers.length == 1 && typeof killers[0] == "string" && killers[0].startsWith("Verliebt in")) {
+						loveProposal.proposalAccepted = checkbox.checked;
+					}
+					break;
+				}
+			}
 			break;
 		}
 
