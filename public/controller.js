@@ -234,7 +234,6 @@ class Controller {
 
 		var playerName = checkbox.parentElement.nextElementSibling.children[0].value;
 
-		//TODO make separate function
 		for (var proposal of controller.model.killProposals) {
 			if (proposal.player.playerName != playerName) continue;
 
@@ -253,7 +252,6 @@ class Controller {
 			break;
 		}
 
-		//TODO Check if this is really necessary
 		controller.view.redraw();
 	}
 
