@@ -280,8 +280,4 @@ class Controller {
 
 		controller.view.loadView(NightView, controller.eventHandlers[1]);
 	}
-
-	amountIdentifiedChanged() {
-		//Redraw if current view is daytime
-	}
 }

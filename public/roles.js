@@ -3,7 +3,6 @@ class Role {
 	calledAtNight;
 	amount;
 	#amountIdentified = 0;
-	amountIdentifiedChangedHandlers = [];
 	evil;
 	//0 Can't, 1 once, 2 anytime morning, 3 anytime evening, 4 andy
 	canKill;
@@ -27,9 +26,6 @@ class Role {
 
 	set amountIdentified(value) {
 		this.#amountIdentified = value;
-		for (var handler of this.amountIdentifiedChangedHandlers) {
-			handler(this);
-		}
 	}
 }
 
