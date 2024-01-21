@@ -777,11 +777,9 @@ class KillProposal {
 		return output;
 	}
 
-	//TODO: Redo this function, might not always need to set protectionHolds to false
-	//Where do I even use protectionHolds? ANSWER: To let the moderator know
+	//I use protectionHolds to inform the moderator
 	/**
 	 * Adds a reason why the player should not die today and re-determines if the protection holds
-	 * @todo Re-do this function, this.protectionHolds does not always need to be set to false, just because no protector was passed, the player might still have protection from his existing protectors
 	 * @param {(Role|string)} protector The Role that protects the player or the reason why he should be protected
 	 */
 	addProtector(protector) {
@@ -821,15 +819,6 @@ class KillProposal {
 	 */
 	setProposalAcceptedToDefault() {
 		this.proposalAccepted = !this.isProtected();
-	}
-
-	/**
-	 * Whether or not the proposal should be accepted by default
-	 * @deprecated, just invert the value returned by isProtected
-	 * @returns {boolean} true if the proposal should be accepted by default, false if it shouldn't
-	 */
-	acceptByDefault() {
-		return !this.isProtected();
 	}
 }
 

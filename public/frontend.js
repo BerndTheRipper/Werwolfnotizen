@@ -703,7 +703,7 @@ class DayView extends View {
 			let protectedCheckbox = this.#generateCheckbox(proposal.isProtected(), true);
 			trChildren[5].appendChild(protectedCheckbox);
 
-			let acceptCheckbox = this.#generateCheckbox(proposal.acceptByDefault(), true, null);
+			let acceptCheckbox = this.#generateCheckbox(!proposal.isProtected(), true, null);
 			trChildren[6].appendChild(acceptCheckbox);
 
 			killProposalTbody.appendChild(tr);
