@@ -602,6 +602,10 @@ class DayView extends View {
 		var protectedPlayerTbody = protectedPlayerSection.querySelector("tbody");
 		this.redrawProtectedPlayersSection(protectedPlayerTbody, rolesWithoutPlayers);
 
+		//Hunter target section
+		var hunterTargetSection = element.querySelector(".hunterTargetSection");
+		this.redrawHunterTargetSection(hunterTargetSection);
+
 		//Player overview section
 		var playerListSection = element.querySelector(".playersInGame");
 		var playerListTbody = playerListSection.querySelector("tbody");
@@ -764,7 +768,7 @@ class DayView extends View {
 
 	/**
 	 * Redraws the hunter target section
-	 * @todo test this
+	 * @todo test this (hiding this field certainly works)
 	 * @param {Element} hunterTargetSection The section in which the hunter target section should be placed
 	 */
 	redrawHunterTargetSection(hunterTargetSection) {
