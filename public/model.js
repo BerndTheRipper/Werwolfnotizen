@@ -351,7 +351,7 @@ class Model {
 	 * 
 	 * @param {string} name the name of the player to find
 	 * @param {boolean} addIfNone whether the player should be added if he is not found
-	 * @param {Role | number | null} role If it is an instance of Role, gives that role to the player,
+	 * @param {Role|number|null} role If it is an instance of Role, gives that role to the player,
 	 * 	if it is -1, the role gets removed, if it is null, nothing changes
 	 * @param {boolean} [throwIfNone=true] How to handle if no player was found and none should be added. Returns null if that's the case and throwIfNone is false
 	 * @throws {ReferenceError} if the player was not found, addIfNone is false and throwIfNone is true
@@ -373,7 +373,13 @@ class Model {
 		return null;
 	}
 
-
+	/**
+	 * 
+	 * @param {string} name The name of the wanted player
+	 * @param {boolean} addIfNone Whether or not to add the player if no player is found. Will add the player if true.
+	 * @param {Role|null} role If set, will assign this role to the player that was found
+	 * @returns The index of the player that was found/added, or null if no player was found and addIfNone is false
+	 */
 	findPlayerIndexByName(name, addIfNone = true, role = null) {
 		for (var index in this.identifiedPlayers) {
 			var player = this.identifiedPlayers[index];
