@@ -426,9 +426,16 @@ class Model {
 		this.calculatePermanentProtections();
 
 		//Find protected players from the killProposals, handle lovers and pleasureGirlHost
+		this.processSubsequentTargets();
+
+		// TODO show need for hunter targets on dayview screen
+		this.hunterTargetsToday = hunterTargetsNeeded;
+	}
+
+	processSubsequentTargets() {
 		var doneWithLovers = false;
 		var hunterTargetsNeeded = 0;
-		var hunterTargetsFound = 0;
+		let hunterTargetsFound = 0;
 
 		//The instance of the hunter role that is used in game, for the killProposalReason
 		// var hunterInstance;
@@ -473,8 +480,6 @@ class Model {
 				if (!proposal.protectionHolds) hunterTargetsNeeded++;
 			}
 		}
-
-		// TODO show need for hunter targets on dayview screen
 		this.hunterTargetsToday = hunterTargetsNeeded;
 	}
 
