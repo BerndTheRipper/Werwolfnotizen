@@ -436,6 +436,7 @@ class Model {
 		var doneWithLovers = false;
 		var hunterTargetsNeeded = 0;
 		let hunterTargetsFound = 0;
+		let killerAdded = false;
 
 		//The instance of the hunter role that is used in game, for the killProposalReason
 		// var hunterInstance;
@@ -459,8 +460,11 @@ class Model {
 					if (!player.inLove || player == proposal.player) {
 						continue;
 					}
-
-					this.addKillerToProposal(player, "Verliebt in " + proposal.player.playerName);
+					let killerToAdd = "Verliebt in " + proposal.player.playerName;
+					if (!this.getKillers().includes(killerToAdd)) {
+						this.addKillerToProposal(player, killerToAdd);
+						killerAdded = true;
+					}
 					doneWithLovers = true;
 					break;
 				}
@@ -470,7 +474,11 @@ class Model {
 				for (var player of this.identifiedPlayers) {
 					if (!(player.role instanceof Pleasuregirl)) continue;
 					if (proposal.isProtected()) break;
-					this.addKillerToProposal(player, "Freudenmädchen bei " + proposal.player.playerName);
+					let killerToAdd = "Freudenmädchen bei " + proposal.player.playerName;
+					if (!this.getKillers().includes(killerToAdd)) {
+						this.addKillerToProposal(player, killerToAdd);
+						killerAdded = true;
+					}
 					break;
 				}
 			}
@@ -548,7 +556,6 @@ class Model {
 	}
 
 	//TODO add hunter target proposals
-
 	addKillerToProposal(player, killer) {
 		var proposal;
 
