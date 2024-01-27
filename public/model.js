@@ -429,7 +429,6 @@ class Model {
 		this.processSubsequentTargets();
 
 		// TODO show need for hunter targets on dayview screen
-		this.hunterTargetsToday = hunterTargetsNeeded;
 	}
 
 	processSubsequentTargets() {
