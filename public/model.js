@@ -460,7 +460,7 @@ class Model {
 						continue;
 					}
 					let killerToAdd = "Verliebt in " + proposal.player.playerName;
-					if (!this.getKillers().includes(killerToAdd)) {
+					if (!proposal.getKillers().includes(killerToAdd)) {
 						this.addKillerToProposal(player, killerToAdd);
 						killerAdded = true;
 					}
@@ -474,7 +474,7 @@ class Model {
 					if (!(player.role instanceof Pleasuregirl)) continue;
 					if (proposal.isProtected()) break;
 					let killerToAdd = "Freudenmädchen bei " + proposal.player.playerName;
-					if (!this.getKillers().includes(killerToAdd)) {
+					if (!proposal.getKillers().includes(killerToAdd)) {
 						this.addKillerToProposal(player, killerToAdd);
 						killerAdded = true;
 					}
