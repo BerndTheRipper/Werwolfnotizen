@@ -483,7 +483,7 @@ class Model {
 			}
 
 			if (proposal.player.role instanceof Hunter) {
-				hunterInstance = proposal.player.role;
+				// hunterInstance = proposal.player.role;
 				if (!proposal.protectionHolds) hunterTargetsNeeded++;
 			}
 		}

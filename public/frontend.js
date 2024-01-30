@@ -778,9 +778,9 @@ class DayView extends View {
 		}
 
 		//No check if hunterTargetsToday == 0 because if it is, the above check would have ended the function
-		if (hunterTargetSection.innerHTML == "") {
-			hunterTargetSection.innerHTML = document.querySelector(".hunterTargetSection").innerHTML;
-		}
+		// if (hunterTargetSection.innerHTML == "") {
+		hunterTargetSection.innerHTML = document.querySelector(".hunterTargetSection").innerHTML;
+		// }
 
 		let tbody = hunterTargetSection.querySelector("tbody");
 
@@ -826,7 +826,9 @@ class DayView extends View {
 				// }
 			}
 
-			namesForList = [defaultName].concat(namesForList);
+			// namesForList = [defaultName].concat(namesForList);
+
+			super._generateDropDownFromArray(namesForList, trChildren[1], defaultName);
 			tbody.appendChild(tr);
 		}
 	}
