@@ -454,7 +454,7 @@ class Model {
 				}
 			}
 
-			if (proposal.player.inLove && !doneWithLovers && !proposal.isProtected() && proposal.proposalAccepted) {
+			if (proposal.player.inLove && !doneWithLovers && !proposal.isProtected() && (proposal.proposalAccepted || !proposal.isProtected())) {
 				for (var player of this.identifiedPlayers) {
 					if (!player.inLove || player == proposal.player) {
 						continue;
