@@ -772,16 +772,6 @@ class DayView extends View {
 	 * @param {Element} hunterTargetSection The section in which the hunter target section should be placed
 	 */
 	redrawHunterTargetSection(hunterTargetSection) {
-		if (this.model.hunterTargetsToday == 0) {
-			hunterTargetSection.innerHTML = "";
-			return;
-		}
-
-		//No check if hunterTargetsToday == 0 because if it is, the above check would have ended the function
-		// if (hunterTargetSection.innerHTML == "") {
-		hunterTargetSection.innerHTML = document.querySelector(".hunterTargetSection").innerHTML;
-		// }
-
 		let tbody = hunterTargetSection.querySelector("tbody");
 
 		let dyingHunters = [];
@@ -799,6 +789,12 @@ class DayView extends View {
 				killingHunters[killer.playerName] = proposal.player.playerName;
 			}
 		}
+
+		if (dyingHunters.length == 0) {
+			hunterTargetSection.innerHTML = "";
+			return;
+		}
+		hunterTargetSection.innerHTML = document.querySelector(".hunterTargetSection").innerHTML;
 
 		for (let hunter of dyingHunters) {
 			let tr = this._generateTableRows(2);
