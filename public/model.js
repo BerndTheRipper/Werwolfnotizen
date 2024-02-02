@@ -67,7 +67,7 @@ class Model {
 	// moderator
 	falselyAssessedKillProposals = [];
 
-	hunterTargetsToday = 0;
+	// hunterTargetsToday = 0;
 
 	constructor() {
 
@@ -487,7 +487,7 @@ class Model {
 				if (!proposal.protectionHolds) hunterTargetsNeeded++;
 			}
 		}
-		this.hunterTargetsToday = hunterTargetsNeeded;
+		// this.hunterTargetsToday = hunterTargetsNeeded;
 	}
 
 	processTargets() {
