@@ -814,6 +814,7 @@ class DayView extends View {
 				if (player.playerName == null) continue;
 				if (dyingHunters.includes(player)) continue;
 				if (player.playerName == defaultName) continue;
+				if (Object.values(killingHunters).includes(player.playerName)) continue;
 				namesForList.push(player.playerName);
 				//TODO figure out reasons why the player does not need to be listed for being killed by hunter
 				// for (let proposal of this.model.killProposals) {
