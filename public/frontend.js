@@ -772,7 +772,6 @@ class DayView extends View {
 	 * @param {Element} hunterTargetSection The section in which the hunter target section should be placed
 	 */
 	redrawHunterTargetSection(hunterTargetSection) {
-		let tbody = hunterTargetSection.querySelector("tbody");
 
 		let dyingHunters = [];
 		//key: killer's name, value: victim's name
@@ -795,6 +794,7 @@ class DayView extends View {
 			return;
 		}
 		hunterTargetSection.innerHTML = document.querySelector(".hunterTargetSection").innerHTML;
+		let tbody = hunterTargetSection.querySelector("tbody");
 
 		for (let hunter of dyingHunters) {
 			let tr = this._generateTableRows(2);
