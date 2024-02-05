@@ -26,7 +26,8 @@ class Controller {
             /*4*/ this.proposalAcceptanceChanged,
             /*5*/ this.addingNewPlayer,
             /*6*/ this.killingNewPlayer,
-				/*7*/ this.dayOver
+				/*7*/ this.dayOver,
+				/*8*/ this.hunterTargetChanged
 		]
 	];
 
@@ -279,5 +280,10 @@ class Controller {
 		controller.model.startNight();
 
 		controller.view.loadView(NightView, controller.eventHandlers[1]);
+	}
+
+	hunterTargetChanged(e) {
+		let hunterName = e.target.parentElement.parentElement.querySelector("input");
+		console.log(e.target);
 	}
 }

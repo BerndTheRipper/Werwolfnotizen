@@ -825,7 +825,8 @@ class DayView extends View {
 
 			// namesForList = [defaultName].concat(namesForList);
 
-			super._generateDropDownFromArray(namesForList, trChildren[1], defaultName);
+			let dropdown = super._generateDropDownFromArray(namesForList, trChildren[1], defaultName);
+			dropdown.onchange = this.eventHandlers[8];
 			tbody.appendChild(tr);
 		}
 	}
