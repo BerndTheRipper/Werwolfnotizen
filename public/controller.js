@@ -284,6 +284,21 @@ class Controller {
 
 	hunterTargetChanged(e) {
 		let hunterName = e.target.parentElement.parentElement.querySelector("input");
+		let targetName = e.target.value;
+
+		//TODO optimize if new target was entered and old one is out
+		for (let proposal of controller.model.killProposals) {
+			let killers = proposal.getKillers();
+			for (let i in killers.length) {
+				let killer = killers[i];
+				if (!(killer instanceof Player)) continue;
+				if (!(killer.role instanceof Hunter)) continue;
+				//A hunter can only kill one player, so if it's not the one, this is not out killProposal
+				if (!killer.playerName == hunterName) break;
+				if (targetName != proposal.player.playerName) proposal.removeKillerByIndex(i);
+			}
+
+		}
 		console.log(e.target);
 	}
 }
