@@ -770,6 +770,10 @@ class KillProposal {
 		this.#killers.push(killer);
 	}
 
+	removeKillerByIndex(index) {
+		this.#killers.splice(index, 1);
+	}
+
 	/**
 	 * Gets the protectors of the player.
 	 * @returns {Array.<string>} The reasons why this player should not die today.
