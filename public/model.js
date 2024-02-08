@@ -572,7 +572,23 @@ class Model {
 		}
 
 		proposal.addKiller(killer);
+	}
 
+	//TODO test this
+	removeKillerFromProposal(player, killer) {
+		let proposal;
+
+		if (player != null) {
+			for (let proposalEntry of this.killProposals) {
+				if (proposalEntry.player != player) continue;
+				proposal = proposalEntry;
+
+				let killerIndex = proposal.getKillers().indexOf(killer);
+				if (killerIndex != -1) {
+					proposal.removeKillerByIndex(killerINdex);
+				}
+			}
+		}
 	}
 
 	finishProposals() {
