@@ -788,6 +788,7 @@ class KillProposal {
 
 	removeKillerByIndex(index) {
 		this.#killers.splice(index, 1);
+		if (this.#killers.length == 0) this.proposalAccepted = false;
 	}
 
 	/**
