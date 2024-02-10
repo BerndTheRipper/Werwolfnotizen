@@ -286,7 +286,7 @@ class Controller {
 		let hunterName = e.target.parentElement.parentElement.querySelector("input");
 		let targetName = e.target.value;
 
-		//TODO optimize if new target was entered and old one is out
+		//TODO optimize if new target was entered and old one is out what did I want me to optimize exactly?
 		for (let proposal of controller.model.killProposals) {
 			let killers = proposal.getKillers();
 			for (let i in killers.length) {
@@ -294,10 +294,9 @@ class Controller {
 				if (!(killer instanceof Player)) continue;
 				if (!(killer.role instanceof Hunter)) continue;
 				//A hunter can only kill one player, so if it's not the one, this is not out killProposal
-				if (!killer.playerName == hunterName) break;
-				if (targetName != proposal.player.playerName) proposal.removeKillerByIndex(i);
+				if (!killer.playerName == hunterName || targetName == proposal.player.playerName) break;
+				proposal.removeKillerByIndex(i);
 			}
-
 		}
 		console.log(e.target);
 	}
