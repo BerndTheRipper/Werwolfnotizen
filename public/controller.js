@@ -286,6 +286,8 @@ class Controller {
 		let hunterName = e.target.parentElement.parentElement.querySelector("input");
 		let targetName = e.target.value;
 
+		let killerRemoved = false;
+		let victimAdded = false;
 		//TODO optimize if new target was entered and old one is out what did I want me to optimize exactly?
 		for (let proposal of controller.model.killProposals) {
 			let killers = proposal.getKillers();
@@ -297,6 +299,8 @@ class Controller {
 				if (!killer.playerName == hunterName || targetName == proposal.player.playerName) break;
 				proposal.removeKillerByIndex(i);
 			}
+
+			if (killerRemoved && victimAdded) break;
 		}
 		console.log(e.target);
 	}
