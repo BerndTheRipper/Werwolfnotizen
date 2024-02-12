@@ -286,6 +286,9 @@ class Controller {
 		let hunterName = e.target.parentElement.parentElement.querySelector("input");
 		let targetName = e.target.value;
 
+		let hunterPlayer = controller.model.findPlayerByName(hunterName, false, null, true);
+		let targetPlayer = controller.model.findPlayerByName(targetName, false, null, true);
+
 		let killerRemoved = false;
 		let victimAdded = false;
 		//TODO optimize if new target was entered and old one is out what did I want me to optimize exactly?
@@ -293,12 +296,15 @@ class Controller {
 			let killers = proposal.getKillers();
 			for (let i in killers.length) {
 				let killer = killers[i];
-				if (!(killer instanceof Player)) continue;
-				if (!(killer.role instanceof Hunter)) continue;
+				if (killer != hunterPlayer) continue;
 				//A hunter can only kill one player, so if it's not the one, this is not out killProposal
-				if (!killer.playerName == hunterName || targetName == proposal.player.playerName) break;
+				if (killer.playerName != hunterName) break;
+				// If this turns out to be true, the hunter is already a killer on the player's killProposal, so no further action is needed
+				if (targetName == proposal.player.playerName) break;
 				proposal.removeKillerByIndex(i);
+				killerRemoved = true;
 			}
+
 
 			if (killerRemoved && victimAdded) break;
 		}
