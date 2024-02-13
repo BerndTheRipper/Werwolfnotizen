@@ -297,8 +297,6 @@ class Controller {
 			for (let i in killers.length) {
 				let killer = killers[i];
 				if (killer != hunterPlayer) continue;
-				//A hunter can only kill one player, so if it's not the one, this is not out killProposal
-				if (killer.playerName != hunterName) break;
 				// If this turns out to be true, the hunter is already a killer on the player's killProposal, so no further action is needed
 				if (targetName == proposal.player.playerName) break;
 				proposal.removeKillerByIndex(i);
