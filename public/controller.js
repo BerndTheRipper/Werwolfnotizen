@@ -291,21 +291,38 @@ class Controller {
 
 		let killerRemoved = false;
 		let victimAdded = false;
+		let doneWithLoop = false;
 		//TODO optimize if new target was entered and old one is out what did I want me to optimize exactly?
 		for (let proposal of controller.model.killProposals) {
 			let killers = proposal.getKillers();
 			for (let i in killers.length) {
 				let killer = killers[i];
-				if (killer != hunterPlayer) continue;
-				// If this turns out to be true, the hunter is already a killer on the player's killProposal, so no further action is needed
-				if (targetName == proposal.player.playerName) break;
-				proposal.removeKillerByIndex(i);
-				killerRemoved = true;
+				if (killer == hunterPlayer) {
+					if (targetPlayer == proposal.player) {
+						doneWithLoop = true;
+						break;
+					}
+					else {
+						proposal.removeKillerByIndex(i);
+						killerRemoved = true;
+						break;
+					}
+				}
 			}
 
+			if (doneWithLoop) break;
 
-			if (killerRemoved && victimAdded) break;
+			if (proposal.player == targetPlayer) {
+				proposal.addKiller(hunterPlayer);
+				victimAdded = true;
+				break;
+			}
 		}
+
+		if (!victimAdded) {
+			controller.model.addKillerToProposal(targetPlayer, hunterPlayer);
+		}
+
 		console.log(e.target);
 	}
 }
