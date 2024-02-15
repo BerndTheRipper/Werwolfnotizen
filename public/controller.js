@@ -283,7 +283,7 @@ class Controller {
 	}
 
 	hunterTargetChanged(e) {
-		let hunterName = e.target.parentElement.parentElement.querySelector("input");
+		let hunterName = e.target.parentElement.parentElement.querySelector("input").value;
 		let targetName = e.target.value;
 
 		let hunterPlayer = controller.model.findPlayerByName(hunterName, false, null, true);
