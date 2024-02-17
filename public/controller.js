@@ -322,6 +322,6 @@ class Controller {
 		if (!victimAdded) {
 			controller.model.addKillerToProposal(targetPlayer, hunterPlayer);
 		}
-		frontend.reload();
+		frontend.redraw();
 	}
 }
