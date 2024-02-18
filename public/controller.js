@@ -295,7 +295,7 @@ class Controller {
 		//TODO optimize if new target was entered and old one is out what did I want me to optimize exactly?
 		for (let proposal of controller.model.killProposals) {
 			let killers = proposal.getKillers();
-			for (let i in killers.length) {
+			for (let i in killers) {
 				let killer = killers[i];
 				if (killer == hunterPlayer) {
 					if (targetPlayer == proposal.player) {
@@ -315,7 +315,7 @@ class Controller {
 			if (proposal.player == targetPlayer) {
 				proposal.addKiller(hunterPlayer);
 				victimAdded = true;
-				break;
+				continue;
 			}
 		}
 
