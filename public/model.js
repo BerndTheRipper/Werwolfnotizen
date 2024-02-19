@@ -572,6 +572,8 @@ class Model {
 		}
 
 		proposal.addKiller(killer);
+
+		return proposal;
 	}
 
 	//TODO test this
