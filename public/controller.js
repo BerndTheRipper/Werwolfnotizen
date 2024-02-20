@@ -320,7 +320,8 @@ class Controller {
 		}
 
 		if (!victimAdded) {
-			controller.model.addKillerToProposal(targetPlayer, hunterPlayer);
+			let newProposal = controller.model.addKillerToProposal(targetPlayer, hunterPlayer);
+			newProposal.setProposalAcceptedToDefault();
 		}
 		frontend.redraw();
 	}
