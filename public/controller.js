@@ -314,6 +314,7 @@ class Controller {
 
 			if (proposal.player == targetPlayer) {
 				proposal.addKiller(hunterPlayer);
+				proposal.proposalAccepted = true;
 				victimAdded = true;
 				continue;
 			}
