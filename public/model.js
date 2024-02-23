@@ -702,6 +702,13 @@ class Player {
 	#role;
 	inLove = false;
 	dead = false;
+	attackers = [];
+	// Protections that last the whole game
+	generalProtectors = [];
+	// Protections that will last during the whole day
+	todaysProtectors = [];
+	dyingTonight = false;
+
 	static totalPlayersIdentified = 0;
 	constructor(playerName, role) {
 		this.playerName = playerName;
@@ -729,6 +736,7 @@ class Player {
  * @property {Player} player The player whose fate is to be decided
  * @property {boolean} protectionHolds true if the protection holds, false if something superceeds that protection
  * @property {boolean} proposalAccepted Whether or not the moderator has decided that the proposal should be accepted
+ * @deprecated This class' functionality is being moved to the Player class. Once that process is complete, the KillProposal class gets removed.
  * @todo account for hunter proposal being rejected, hence coming kills being removed
  */
 class KillProposal {
