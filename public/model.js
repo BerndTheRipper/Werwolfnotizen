@@ -702,6 +702,7 @@ class Player {
 	#role;
 	inLove = false;
 	dead = false;
+	//TODO add converter for this to string
 	attackers = [];
 	// Protections that last the whole game
 	generalProtectors = [];

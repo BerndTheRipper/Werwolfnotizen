@@ -679,14 +679,15 @@ class DayView extends View {
 			rolesWithoutPlayersNames.push(role.roleName);
 		}
 
-		for (let i in this.model.killProposals) {
-			let proposal = this.model.killProposals[i];
+		for (let i in this.model.identifiedPlayers) {
+			let player = this.model.identifiedPlayers[i];
 			let tr = this._generateTableRows(7);
 			let trChildren = tr.children;
-			let proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(proposal.proposalAccepted, false));
+			let proposalAcceptedCheckbox = trChildren[0].appendChild(this.#generateCheckbox(player.dyingTonight, false));
 			proposalAcceptedCheckbox.addEventListener("change", this.eventHandlers[4]);
 
-			let playerIndex = this.model.findPlayerIndexByName(proposal.player.playerName, false);
+			// let playerIndex = this.model.findPlayerIndexByName(player.player.playerName, false);
+			let playerIndex = i;
 
 			let inputElement = this._generatePlayerNameInput(playerIndex);
 			inputElement.placeholder = "Spieler " + playerIndex;
@@ -694,20 +695,21 @@ class DayView extends View {
 			inputElement.addEventListener("focusout", this.eventHandlers[3]);
 			trChildren[1].appendChild(inputElement);
 
-			this.#generateRoleSelector(rolesWithoutPlayers, proposal.player, trChildren[2], this.eventHandlers[2]);
+			this.#generateRoleSelector(rolesWithoutPlayers, player, trChildren[2], this.eventHandlers[2]);
 
-			for (let killer of proposal.getKillersAsString()) {
+			//TODO continue here
+			for (let killer of player.getKillersAsString()) {
 				trChildren[3].innerText += killer + "; ";
 			}
 
-			for (let protector of proposal.getProtectorsAsString()) {
+			for (let protector of player.getProtectorsAsString()) {
 				trChildren[4].innerText += protector + "; ";
 			}
 
-			let protectedCheckbox = this.#generateCheckbox(proposal.isProtected(), true);
+			let protectedCheckbox = this.#generateCheckbox(player.isProtected(), true);
 			trChildren[5].appendChild(protectedCheckbox);
 
-			let acceptCheckbox = this.#generateCheckbox(!proposal.isProtected(), true, null);
+			let acceptCheckbox = this.#generateCheckbox(!player.isProtected(), true, null);
 			trChildren[6].appendChild(acceptCheckbox);
 
 			killProposalTbody.appendChild(tr);
