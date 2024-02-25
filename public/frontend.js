@@ -697,7 +697,6 @@ class DayView extends View {
 
 			this.#generateRoleSelector(rolesWithoutPlayers, player, trChildren[2], this.eventHandlers[2]);
 
-			//TODO continue here
 			for (let killer of player.getKillersAsString()) {
 				trChildren[3].innerText += killer + "; ";
 			}
@@ -706,6 +705,7 @@ class DayView extends View {
 				trChildren[4].innerText += protector + "; ";
 			}
 
+			//TODO continue here
 			let protectedCheckbox = this.#generateCheckbox(player.isProtected(), true);
 			trChildren[5].appendChild(protectedCheckbox);
 

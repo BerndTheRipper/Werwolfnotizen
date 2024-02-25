@@ -717,6 +717,42 @@ class Player {
 		this.constructor.totalPlayers++;
 	}
 
+	getKillersAsString() {
+		var output = [];
+		for (var killer of this.attackers) {
+			if (killer instanceof Role) {
+				output.push(killer.roleName);
+				continue;
+			}
+			else if (killer instanceof Player) {
+				output.push(killer.playerName);
+				continue;
+			}
+			output.push(killer);
+		}
+		return output;
+	}
+
+	getProtectorsAsString() {
+		var output = [];
+		for (var protector of this.generalProtectors.concat(this.todaysProtectors)) {
+			if (protector instanceof Role) {
+				output.push(protector.roleName);
+				continue;
+			}
+			if (protector instanceof Player) {
+				let pushing = protector.playerName + " (Rolle: ";
+				if (protector.role != null) pushing += protector.role.roleName;
+				else pushing += "Unbekannt";
+				pushing += ")";
+				output.push(pushing);
+				continue;
+			}
+			output.push(protector);
+		}
+		return output;
+	}
+
 	get role() {
 		return this.#role;
 	}
