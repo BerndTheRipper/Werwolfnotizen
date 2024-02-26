@@ -703,11 +703,11 @@ class Player {
 	inLove = false;
 	dead = false;
 	//TODO add converter for this to string
-	attackers = [];
+	#attackers = [];
 	// Protections that last the whole game
-	generalProtectors = [];
+	#generalProtectors = [];
 	// Protections that will last during the whole day
-	todaysProtectors = [];
+	#todaysProtectors = [];
 	dyingTonight = false;
 
 	static totalPlayersIdentified = 0;
@@ -719,7 +719,7 @@ class Player {
 
 	getKillersAsString() {
 		var output = [];
-		for (var killer of this.attackers) {
+		for (var killer of this.#attackers) {
 			if (killer instanceof Role) {
 				output.push(killer.roleName);
 				continue;
@@ -735,7 +735,7 @@ class Player {
 
 	getProtectorsAsString() {
 		var output = [];
-		for (var protector of this.generalProtectors.concat(this.todaysProtectors)) {
+		for (var protector of this.#generalProtectors.concat(this.#todaysProtectors)) {
 			if (protector instanceof Role) {
 				output.push(protector.roleName);
 				continue;
@@ -751,6 +751,29 @@ class Player {
 			output.push(protector);
 		}
 		return output;
+	}
+
+	addProtector(protector, forWholeGame = false) {
+		if (forWholeGame) {
+			return this.#generalProtectors.push(protector);
+		}
+		return this.#todaysProtectors.push(protector);
+	}
+
+	removeProtector(protector) {
+		for (let i in this.#todaysProtectors) {
+			if (this.#todaysProtectors[i] == protector) {
+				this.#todaysProtectors.splice(i, 1);
+				return;
+			}
+		}
+		for (let i in this.#generalProtectors) {
+			if (this.#generalProtectors[i] == protector) {
+				this.#generalProtectors.splice(i, 1);
+				return;
+			}
+		}
+		throw new ReferenceError("Given protector was not found.");
 	}
 
 	get role() {
