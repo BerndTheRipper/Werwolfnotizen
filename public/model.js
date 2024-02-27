@@ -717,6 +717,10 @@ class Player {
 		this.constructor.totalPlayers++;
 	}
 
+	getKillers() {
+		return this.#attackers;
+	}
+
 	getKillersAsString() {
 		var output = [];
 		for (var killer of this.#attackers) {
