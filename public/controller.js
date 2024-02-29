@@ -234,23 +234,21 @@ class Controller {
 		var checkbox = e.target;
 
 		var playerName = checkbox.parentElement.nextElementSibling.children[0].value;
+		let player = controller.model.findPlayerByName(playerName);
+		player.dyingTonight = checkbox.checked;
 
-		for (var proposal of controller.model.killProposals) {
-			if (proposal.player.playerName != playerName) continue;
-
-			proposal.proposalAccepted = checkbox.checked;
-
-			if (proposal.player.inLove) {
-				for (let loveProposal of controller.model.killProposals) {
-					if (!loveProposal.player.inLove || loveProposal.player == proposal.player) continue;
-					let killers = loveProposal.getKillers();
-					if (killers.length == 1 && typeof killers[0] == "string" && killers[0].startsWith("Verliebt in")) {
-						loveProposal.proposalAccepted = checkbox.checked;
-					}
+		if (player.inLove) {
+			for (let lover of controller.model.identifiedPlayers) {
+				if (!lover.inLove) continue;
+				if (lover == player) continue;
+				if (!checkbox.checked && lover.getKillers().length == 1) {
+					player.diesTonight = checkbox.checked;
 					break;
 				}
+
+				player.diesTonight = checkbox.checked;
+				break;
 			}
-			break;
 		}
 
 		controller.view.redraw();
