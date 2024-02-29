@@ -554,6 +554,12 @@ class Model {
 		}
 	}
 
+	/**
+	 * @deprecated as it's closely related to killProposal
+	 * @param {*} player 
+	 * @param {*} killer 
+	 * @returns 
+	*/
 	//TODO add hunter target proposals
 	addKillerToProposal(player, killer) {
 		var proposal;
@@ -576,6 +582,12 @@ class Model {
 		return proposal;
 	}
 
+	/**
+	 * @deprecated as it's closely related to killProposal
+	 * @param {*} player 
+	 * @param {*} killer 
+	 * @returns 
+	*/
 	//TODO test this
 	removeKillerFromProposal(player, killer) {
 		let proposal;
