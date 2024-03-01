@@ -462,6 +462,7 @@ class Model {
 					let killerToAdd = "Verliebt in " + proposal.player.playerName;
 					if (!proposal.getKillers().includes(killerToAdd)) {
 						this.addKillerToProposal(player, killerToAdd);
+
 						killerAdded = true;
 					}
 					doneWithLovers = true;
@@ -747,6 +748,10 @@ class Player {
 			output.push(killer);
 		}
 		return output;
+	}
+
+	addKiller(killer) {
+		return this.#attackers.push(killer);
 	}
 
 	getProtectorsAsString() {
