@@ -754,6 +754,11 @@ class Player {
 		return this.#attackers.push(killer);
 	}
 
+	removeKillerByIndex(index) {
+		this.#attackers.splice(index, 1);
+		if (this.#attackers.length == 0) this.dyingTonight = false;
+	}
+
 	getProtectorsAsString() {
 		var output = [];
 		for (var protector of this.#generalProtectors.concat(this.#todaysProtectors)) {
@@ -795,6 +800,20 @@ class Player {
 			}
 		}
 		throw new ReferenceError("Given protector was not found.");
+	}
+
+	isProtected() {
+		if (this.#generalProtectors.length == 0 && this.#todaysProtectors.length == 0) return false;
+
+		for (let killer of this.#attackers) {
+			if (killer instanceof CrocodileAndy || (killer instanceof Player && killer.role instanceof Hunter) || (!(killer instanceof Role) && !(killer instanceof Player))) {
+				return false;
+			}
+		}
+	}
+
+	setDyingTonightToDefault() {
+		this.dyingTonight = !this.isProtected();
 	}
 
 	get role() {
