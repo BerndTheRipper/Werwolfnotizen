@@ -894,10 +894,12 @@ class KillProposal {
 	 */
 	addKiller(killer) {
 		this.#killers.push(killer);
+		this.player.addKiller(killer);
 	}
 
 	removeKillerByIndex(index) {
 		this.#killers.splice(index, 1);
+		this.player.removeKillerByIndex(index);
 		if (this.#killers.length == 0) this.proposalAccepted = false;
 	}
 
@@ -932,6 +934,7 @@ class KillProposal {
 	 */
 	addProtector(protector) {
 		this.#protectors.push(protector);
+		this.player.addProtector(protector, protector instanceof Role);
 		//No protector was passed, so protectionHolds remains unchanged
 		if (protector == null) {
 			return;
@@ -967,6 +970,7 @@ class KillProposal {
 	 */
 	setProposalAcceptedToDefault() {
 		this.proposalAccepted = !this.isProtected();
+		this.player.setDyingTonightToDefault();
 	}
 }
 
