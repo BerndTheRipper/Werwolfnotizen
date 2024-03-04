@@ -439,13 +439,17 @@ class Model {
 
 		//The instance of the hunter role that is used in game, for the killProposalReason
 		// var hunterInstance;
-		for (var proposal of this.killProposals) {
-			for (var killer of proposal.getKillers()) {
+		for (let player of this.identifiedPlayers) {
+			let killers = player();
+			if (killers.length == 0) continue;
+			for (let killer of killers) {
 				if (!(killer instanceof Hunter) || !(killer instanceof Player && killer.role instanceof Hunter)) continue;
 				hunterTargetsFound++;
 				break;
 			}
+		}
 
+		for (var proposal of this.killProposals) {
 			if (proposal.player == null) continue;
 
 			for (var i in this.protectedPlayers) {
