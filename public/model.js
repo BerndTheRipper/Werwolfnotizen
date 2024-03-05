@@ -574,7 +574,9 @@ class Model {
 			for (var proposalEntry of this.killProposals) {
 				if (proposalEntry.player != player) continue;
 				proposal = proposalEntry;
+				break;
 			}
+			player.addKiller(killer);
 		}
 
 		if (proposal == null) {
@@ -585,6 +587,11 @@ class Model {
 		proposal.addKiller(killer);
 
 		return proposal;
+	}
+
+	addKillerToPlayer(player, attacker) {
+		this.addKillerToProposal(player, attacker);
+		player.addKiller(attacker);
 	}
 
 	/**
