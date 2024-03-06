@@ -452,12 +452,6 @@ class Model {
 		for (var proposal of this.killProposals) {
 			if (proposal.player == null) continue;
 
-			for (var i in this.protectedPlayers) {
-				if (this.protectedPlayers[i] == proposal.player) {
-					proposal.addProtector(this.protectionReasons[i]);
-				}
-			}
-
 			if (proposal.player.inLove && !doneWithLovers && !proposal.isProtected() && (proposal.proposalAccepted || !proposal.isProtected())) {
 				for (var player of this.identifiedPlayers) {
 					if (!player.inLove || player == proposal.player) {
