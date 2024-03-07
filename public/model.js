@@ -447,6 +447,14 @@ class Model {
 				hunterTargetsFound++;
 				break;
 			}
+
+			if (player == this.pleasureGirlHost && player.diesTonight) {
+				for (let pleasureGirl of this.identifiedPlayers) {
+					if (pleasureGirl == null) continue;
+					if (!(pleasureGirl.role instanceof Pleasuregirl)) continue;
+					this.addKillerToPlayer(pleasureGirl, "Freudenmädchen bei " + player.playerName);
+				}
+			}
 		}
 
 		for (var proposal of this.killProposals) {
