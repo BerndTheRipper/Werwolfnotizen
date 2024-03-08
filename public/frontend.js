@@ -832,39 +832,7 @@ class DayView extends View {
 			tbody.appendChild(tr);
 		}
 	}
-
-	redrawPlayerOverviewSection(playerListTbody, rolesWithoutPlayers) {
-		playerListTbody.innerHTML = "";
-
-		for (let i in this.model.identifiedPlayers) {
-			let player = this.model.identifiedPlayers[i];
-
-			let tr = this._generateTableRows(3);
-			let trChildren = tr.children;
-
-
-			let inputElement = this._generatePlayerNameInput(i);
-			inputElement.placeholder = "Spieler " + i;
-			inputElement.required = true;
-			inputElement.addEventListener("focusout", this.eventHandlers[3]);
-			trChildren[0].appendChild(inputElement);
-
-
-			this.#generateRoleSelector(rolesWithoutPlayers, player, trChildren[1], this.eventHandlers[2]);
-
-			let killPlayerButton = this.#generateButton("Töten");
-			killPlayerButton.classList.add("killButton");
-
-			for (let proposal of this.model.killProposals) {
-				if (proposal.player != player) continue;
-				killPlayerButton.disabled = true;
-			}
-
-			trChildren[2].appendChild(killPlayerButton);
-
-			playerListTbody.appendChild(tr);
-		}
-	}
+		
 
 	redrawAddPlayerSection(playerButton) {
 		var lockPlayerButton = false;
