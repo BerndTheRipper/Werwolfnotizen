@@ -607,13 +607,13 @@ class DayView extends View {
 		this.redrawHunterTargetSection(hunterTargetSection);
 
 		//Player overview section
-		var playerListSection = element.querySelector(".playersInGame");
-		var playerListTbody = playerListSection.querySelector("tbody");
-		this.redrawPlayerOverviewSection(playerListTbody, rolesWithoutPlayers);
+		// var playerListSection = element.querySelector(".playersInGame");
+		// var playerListTbody = playerListSection.querySelector("tbody");
+		// this.redrawPlayerOverviewSection(playerListTbody, rolesWithoutPlayers);
 
 		//Add player section
-		var playerButton = element.querySelector(".addPlayerButton");
-		this.redrawAddPlayerSection(playerButton);
+		// var playerButton = element.querySelector(".addPlayerButton");
+		// this.redrawAddPlayerSection(playerButton);
 
 
 		//Unidentified roles section
@@ -830,24 +830,6 @@ class DayView extends View {
 			let dropdown = super._generateDropDownFromArray(namesForList, trChildren[1], defaultName);
 			dropdown.onchange = this.eventHandlers[8];
 			tbody.appendChild(tr);
-		}
-	}
-		
-
-	redrawAddPlayerSection(playerButton) {
-		var lockPlayerButton = false;
-
-		for (var player of this.model.identifiedPlayers) {
-			if (player.playerName != "") continue;
-			lockPlayerButton = true;
-			break;
-		}
-
-		if (this.model.playerAmountByRolesSum == this.model.identifiedPlayers.length || lockPlayerButton) {
-			playerButton.disabled = true;
-		} else {
-			playerButton.disabled = false;
-			playerButton.addEventListener("click", this.eventHandlers[5]);
 		}
 	}
 
