@@ -453,28 +453,30 @@ class Model {
 					if (pleasureGirl == null) continue;
 					if (!(pleasureGirl.role instanceof Pleasuregirl)) continue;
 					this.addKillerToPlayer(pleasureGirl, "Freudenmädchen bei " + player.playerName);
+					break;
+				}
+			}
+
+			if (player.inLove && !doneWithLovers && !player.isProtected() && (player.diesTonight || !player.isProtected())) {
+				for (let lover of this.identifiedPlayers) {
+					if (!lover.inLove || lover == player) continue;
+					let killerToAdd = "Verliebt in " + player.playerName;
+
+					if (!player.getKillers().includes(killerToAdd)) {
+						player.addKiller(killerToAdd);
+
+						//TODO figure out why we have this
+						killerAdded = true;
+					}
+
+					doneWithLovers = true;
+					break;
 				}
 			}
 		}
 
 		for (var proposal of this.killProposals) {
 			if (proposal.player == null) continue;
-
-			if (proposal.player.inLove && !doneWithLovers && !proposal.isProtected() && (proposal.proposalAccepted || !proposal.isProtected())) {
-				for (var player of this.identifiedPlayers) {
-					if (!player.inLove || player == proposal.player) {
-						continue;
-					}
-					let killerToAdd = "Verliebt in " + proposal.player.playerName;
-					if (!proposal.getKillers().includes(killerToAdd)) {
-						this.addKillerToProposal(player, killerToAdd);
-
-						killerAdded = true;
-					}
-					doneWithLovers = true;
-					break;
-				}
-			}
 
 			if (proposal.player == this.pleasureGirlHost) {
 				for (var player of this.identifiedPlayers) {
