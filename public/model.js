@@ -473,27 +473,9 @@ class Model {
 					break;
 				}
 			}
-		}
 
-		for (var proposal of this.killProposals) {
-			if (proposal.player == null) continue;
-
-			if (proposal.player == this.pleasureGirlHost) {
-				for (var player of this.identifiedPlayers) {
-					if (!(player.role instanceof Pleasuregirl)) continue;
-					if (proposal.isProtected()) break;
-					let killerToAdd = "Freudenmädchen bei " + proposal.player.playerName;
-					if (!proposal.getKillers().includes(killerToAdd)) {
-						this.addKillerToProposal(player, killerToAdd);
-						killerAdded = true;
-					}
-					break;
-				}
-			}
-
-			if (proposal.player.role instanceof Hunter) {
-				// hunterInstance = proposal.player.role;
-				if (!proposal.protectionHolds) hunterTargetsNeeded++;
+			if (player.role instanceof Hunter) {
+				if (!player.isProtected) hunterTargetsNeeded++;
 			}
 		}
 		// this.hunterTargetsToday = hunterTargetsNeeded;
