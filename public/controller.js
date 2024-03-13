@@ -168,7 +168,7 @@ class Controller {
 		if (e.submitter.classList.contains("killButton")) {
 			var playerName = e.submitter.parentElement.parentElement.querySelector("td > input").value;
 			var playerObject = controller.model.findPlayerByName(playerName, false);
-			controller.model.addKillerToProposal(playerObject, "Moderator");
+			playerObject.addKiller("Moderator");
 			controller.view.redraw();
 		} else {
 			controller.dayOver(e);
@@ -261,7 +261,7 @@ class Controller {
 
 	killingNewPlayer(e) {
 		var newPlayer = controller.model.addPlayer("", null);
-		controller.model.addKillerToProposal(newPlayer, "Moderator");
+		newPlayer.addKiller("Moderator");
 		controller.view.redraw();
 	}
 

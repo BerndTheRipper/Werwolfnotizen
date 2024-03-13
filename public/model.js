@@ -545,36 +545,6 @@ class Model {
 		}
 	}
 
-	/**
-	 * @deprecated as it's closely related to killProposal
-	 * @param {*} player 
-	 * @param {*} killer 
-	 * @returns 
-	*/
-	//TODO add hunter target proposals
-	addKillerToProposal(player, killer) {
-		var proposal;
-
-
-		if (player != null) {
-			for (var proposalEntry of this.killProposals) {
-				if (proposalEntry.player != player) continue;
-				proposal = proposalEntry;
-				break;
-			}
-			player.addKiller(killer);
-		}
-
-		if (proposal == null) {
-			proposal = new KillProposal(player);
-			this.killProposals.push(proposal);
-		}
-
-		proposal.addKiller(killer);
-
-		return proposal;
-	}
-
 	addKillerToPlayer(player, attacker) {
 		this.addKillerToProposal(player, attacker);
 		player.addKiller(attacker);
