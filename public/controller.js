@@ -308,31 +308,12 @@ class Controller {
 					}
 				}
 			}
-		}
-
-		//TODO optimize if new target was entered and old one is out what did I want me to optimize exactly?
-		for (let proposal of controller.model.killProposals) {
-			let killers = proposal.getKillers();
-			// for (let i in killers) {
-			// 	let killer = killers[i];
-			// 	if (killer == hunterPlayer) {
-			// 		if (targetPlayer == proposal.player) {
-			// 			doneWithLoop = true;
-			// 			break;
-			// 		}
-			// 		else {
-			// 			proposal.removeKillerByIndex(i);
-			// 			killerRemoved = true;
-			// 			break;
-			// 		}
-			// 	}
-			// }
 
 			if (doneWithLoop) break;
 
-			if (proposal.player == targetPlayer) {
-				proposal.addKiller(hunterPlayer);
-				proposal.proposalAccepted = true;
+			if (player == targetPlayer) {
+				player.addKiller(hunterPlayer);
+				player.dyingTonight = true;
 				victimAdded = true;
 				continue;
 			}
