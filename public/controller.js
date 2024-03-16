@@ -288,7 +288,6 @@ class Controller {
 		let targetPlayer = controller.model.findPlayerByName(targetName, false, null, true);
 
 		let killerRemoved = false;
-		let victimAdded = false;
 		let doneWithLoop = false;
 
 		for (let player of controller.model.identifiedPlayers) {
@@ -314,15 +313,10 @@ class Controller {
 			if (player == targetPlayer) {
 				player.addKiller(hunterPlayer);
 				player.dyingTonight = true;
-				victimAdded = true;
 				continue;
 			}
 		}
 
-		if (!victimAdded) {
-			let newProposal = controller.model.addKillerToProposal(targetPlayer, hunterPlayer);
-			newProposal.setProposalAcceptedToDefault();
-		}
 		frontend.redraw();
 	}
 }
