@@ -779,15 +779,14 @@ class DayView extends View {
 		//key: killer's name, value: victim's name
 		let killingHunters = {};
 
-		for (let proposal of this.model.killProposals) {
-			if (proposal.player == null) continue;
-			if (proposal.player.role instanceof Hunter && proposal.proposalAccepted) {
-				dyingHunters.push(proposal.player);
+		for (let player of this.modell.identifiedPlayers) {
+			if (player.role instanceof Hunter && player.dyingTonight) {
+				dyingHunters.push(player);
 			}
-			for (let killer of proposal.getKillers()) {
+			for (let killer of player.getKillers()) {
 				if (!(killer instanceof Player)) continue;
 				if (!(killer.role instanceof Hunter)) continue;
-				killingHunters[killer.playerName] = proposal.player.playerName;
+				killingHunters[killer.playerName] = player.playerName;
 			}
 		}
 
