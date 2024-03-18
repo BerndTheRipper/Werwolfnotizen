@@ -871,19 +871,9 @@ class DayView extends View {
 		];
 
 		if (!this.model.nextMayor) {
-			for (var proposal of this.model.killProposals) {
-				if (proposal.player != this.model.mayor) continue;
-				if (!proposal.proposalAccepted) break;
-				listOfWarningBooleans[1] = true;
-				break;
-			}
+			listOfWarningBooleans[1] = this.model.mayor.dyingTonight;
 		} else {
-			for (var proposal of this.model.killProposals) {
-				if (proposal.player != this.model.nextMayor) continue;
-				if (!proposal.proposalAccepted) break;
-				listOfWarningBooleans[2] = true;
-				break;
-			}
+			listOfWarningBooleans[2] = this.model.nextMayor.dyingTonight;
 		}
 
 		for (var player of this.model.identifiedPlayers) {
@@ -892,8 +882,9 @@ class DayView extends View {
 			break;
 		}
 
-		for (var proposal of this.model.killProposals) {
-			if (proposal.player.role) continue;
+		for (let player of this.model.identifiedPlayers) {
+			if (!player.dyingTonight) continue;
+			if (player.role) continue;
 			listOfWarningBooleans[4] = true;
 			break;
 		}
