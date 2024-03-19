@@ -780,7 +780,12 @@ class Player {
 	}
 
 	setDyingTonightToDefault() {
-		this.dyingTonight = !this.isProtected();
+		if (this.getKillers().length > 0) {
+			this.dyingTonight = !this.isProtected();
+		}
+		else {
+			this.dyingTonight = false;
+		}
 	}
 
 	get role() {
