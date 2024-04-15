@@ -779,7 +779,7 @@ class DayView extends View {
 		//key: killer's name, value: victim's name
 		let killingHunters = {};
 
-		for (let player of this.modell.identifiedPlayers) {
+		for (let player of this.model.identifiedPlayers) {
 			if (player.role instanceof Hunter && player.dyingTonight) {
 				dyingHunters.push(player);
 			}
@@ -870,9 +870,9 @@ class DayView extends View {
 			"Die Rolle von einem toten Spieler ist noch nicht bekannt."
 		];
 
-		if (!this.model.nextMayor) {
+		if (this.model.mayor && !this.model.nextMayor) {
 			listOfWarningBooleans[1] = this.model.mayor.dyingTonight;
-		} else {
+		} else if (this.model.nextMayor) {
 			listOfWarningBooleans[2] = this.model.nextMayor.dyingTonight;
 		}
 
