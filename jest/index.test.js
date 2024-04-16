@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { Model, Player, KillProposal } = require("./../public/model");
+const { Model, Player } = require("./../public/model");
 const { Role, Bard } = require('../public/roles');
 
 
