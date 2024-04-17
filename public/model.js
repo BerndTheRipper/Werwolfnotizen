@@ -546,31 +546,7 @@ class Model {
 	}
 
 	addKillerToPlayer(player, attacker) {
-		this.addKillerToProposal(player, attacker);
 		player.addKiller(attacker);
-	}
-
-	/**
-	 * @deprecated as it's closely related to killProposal
-	 * @param {*} player 
-	 * @param {*} killer 
-	 * @returns 
-	*/
-	//TODO test this
-	removeKillerFromProposal(player, killer) {
-		let proposal;
-
-		if (player != null) {
-			for (let proposalEntry of this.killProposals) {
-				if (proposalEntry.player != player) continue;
-				proposal = proposalEntry;
-
-				let killerIndex = proposal.getKillers().indexOf(killer);
-				if (killerIndex != -1) {
-					proposal.removeKillerByIndex(killerINdex);
-				}
-			}
-		}
 	}
 
 	finishProposals() {
@@ -806,7 +782,6 @@ class Player {
 try {
 	module.exports.Model = Model;
 	module.exports.Player = Player;
-	module.exports.KillProposal = KillProposal;
 }
 catch (e) {
 	if (!(e instanceof ReferenceError) || e.message != "module is not defined") throw e;
